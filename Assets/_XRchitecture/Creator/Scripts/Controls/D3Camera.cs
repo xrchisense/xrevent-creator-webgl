@@ -88,6 +88,16 @@ public class D3Camera : MonoBehaviour
         }
     }
 
+    public void Zoom(InputAction.CallbackContext context)
+    {
+        Vector3 oldPosition = Camera.localPosition;
+        oldPosition[2] += (context.ReadValue<Vector2>().y/100);
+        if (oldPosition[2] > -1) {return;}
+        Camera.localPosition = oldPosition;
+
+        
+    }
+
     public void setRotationOnGizmoClick()
     {
         CameraBase.rotation = Quaternion.Euler(90,0,0);

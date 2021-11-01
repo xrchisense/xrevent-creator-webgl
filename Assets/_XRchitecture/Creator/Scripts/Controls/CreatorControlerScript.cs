@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -7,7 +8,7 @@ public class CreatorControlerScript : MonoBehaviour
     public Texture2D randomtexture = null;
     public GameObject selectedObject;
 
-    /*[SerializeField]
+    [SerializeField]
     private GameObject Gizmo;
     [SerializeField]
     private Transform XEmpty;
@@ -16,21 +17,20 @@ public class CreatorControlerScript : MonoBehaviour
     [SerializeField]
     private Transform ZEmpty;
 
-    */public Rect XRect;/*
-    public RectTransform YRect;
-    public RectTransform ZRect;*/
-
     public bool movingObject = false;
+    public float movingObjectDirection;
+
+    private Vector2 _previousMousePosition;
     // Start is called before the first frame update
     void Start()
     {
-        XRect = new Rect(0,0,200,200);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        //UpdateGizmoPosition();
+        UpdateGizmoPosition();
 
         if (movingObject)
         {
@@ -50,25 +50,43 @@ public class CreatorControlerScript : MonoBehaviour
     {
         Vector3 mouseposition = Mouse.current.position.ReadValue();
         mouseposition.z = 20;
-        Vector3 MouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseposition);
-        MouseWorldPosition.z = 0;
+        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseposition);
         Vector3 oldObjectPosition = selectedObject.transform.position;
-        Vector3 newObjectPosition = new Vector3(MouseWorldPosition.x, oldObjectPosition.y, oldObjectPosition.z);
-
+        Vector3 newObjectPosition;
+        Debug.Log(movingObjectDirection);
+        movingObjectDirection = (int)Math.Round(movingObjectDirection);
+        switch (movingObjectDirection)
+        {
+            case 45:
+                Debug.Log("HitX");
+                newObjectPosition = new Vector3(mouseWorldPosition.x, oldObjectPosition.y, oldObjectPosition.z);
+                break;
+            case 90:
+                Debug.Log("HitZ");
+                newObjectPosition = new Vector3(oldObjectPosition.x, oldObjectPosition.y, mouseWorldPosition.z);
+                break;
+            case 0:
+                newObjectPosition = new Vector3(oldObjectPosition.x, mouseWorldPosition.y, oldObjectPosition.z);
+                break;
+            default:
+                Debug.Log("default");
+                newObjectPosition = new Vector3(oldObjectPosition.x, oldObjectPosition.y, oldObjectPosition.z);
+                break;
+        }
+        
         selectedObject.transform.position = newObjectPosition;
 
     }
-    /*public void UpdateGizmoPosition()
+    public void UpdateGizmoPosition()
     {
         if (selectedObject != null)
         {
             Gizmo.transform.position = selectedObject.transform.position;
-            UpdateGizmoUI();
         }
         
     }
 
-    public void UpdateGizmoUI()
+    /*public void UpdateGizmoUI()
     {
         Vector3 screenCalc = new Vector3(Screen.width / 2, Screen.height / 2,0);
         Vector3 centerposition = Camera.main.WorldToScreenPoint(Gizmo.transform.position);
@@ -76,8 +94,8 @@ public class CreatorControlerScript : MonoBehaviour
         Vector3 Yposition = Camera.main.WorldToScreenPoint(YEmpty.position);
         Vector3 Zposition = Camera.main.WorldToScreenPoint(ZEmpty.position);
 
-  //      Debug.Log("Center: " + centerposition);
-//        Debug.Log("X: " + Xposition);
+        Debug.Log("Center: " + centerposition);
+        Debug.Log("X: " + Xposition);
 
         
         XRect.x = centerposition[0];
@@ -90,36 +108,37 @@ public class CreatorControlerScript : MonoBehaviour
 
     }*/
 
-    void OnGUI()
+    /*void OnGUI()
     {
         GUI.color = Color.black;
         GUI.DrawTexture(XRect,randomtexture);
-    }
+    }*/
 
     public void leftClicktoSelect(InputAction.CallbackContext context)
     {
-        //TODO check if infront of ui object
-        if (EventSystem.current.IsPointerOverGameObject()) return;
+        if(context.phase == InputActionPhase.Performed){return;} //ignore "performed" status
         
-        if (movingObject)
+        if (context.phase == InputActionPhase.Canceled) //check if mouse is let go, if movign drop the item, else do nothing
         {
-            movingObject = false;
-            return;
-        };
-        
-        
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        RaycastHit hit;
-        //Check if Gizmoclicked
-        int layerMask = 1 << 8;
-        if (Physics.Raycast(ray, out hit, 100,layerMask))
-        {
-            Debug.Log("hit the gizmo");
-
-            movingObject = true;
+            if (movingObject) { movingObject = false;};
             return;
         }
         
+        if (EventSystem.current.IsPointerOverGameObject()) return;  //check if infront of ui object
+        
+        //Check if Gizmoclicked
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        RaycastHit hit;
+        int layerMask = 1 << 8;
+        if (Physics.Raycast(ray, out hit, 300,layerMask))
+        {
+            Debug.Log("hit the gizmo");
+            if (selectedObject !=null) {
+                movingObject = true;
+                movingObjectDirection = hit.transform.gameObject.transform.rotation.eulerAngles.x;
+            }
+            return;
+        }
         
         
         if (selectedObject != null)
@@ -140,7 +159,7 @@ public class CreatorControlerScript : MonoBehaviour
                 outline.OutlineWidth = 9f;
             }
             //gizmo
-            /*Gizmo.transform.position = Camera.main.WorldToScreenPoint(selectedObject.transform.position);*/
+            Gizmo.transform.position = Camera.main.WorldToScreenPoint(selectedObject.transform.position);
             //Gizmo.GetComponent<SceneGizmoRenderer>().ReferenceTransform = selectedObject.transform;
 
         }

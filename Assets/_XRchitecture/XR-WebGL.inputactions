@@ -1,5 +1,5 @@
 {
-    "name": "XR-WebGL-Tom-Test",
+    "name": "XR-WebGL",
     "maps": [
         {
             "name": "Player",
@@ -9,7 +9,7 @@
                     "name": "WASD-Move",
                     "type": "Value",
                     "id": "99192ac2-488b-47b8-ba0b-dc21eec6282f",
-                    "expectedControlType": "Vector2",
+                    "expectedControlType": "Vector3",
                     "processors": "",
                     "interactions": ""
                 },
@@ -23,7 +23,7 @@
                 },
                 {
                     "name": "LeftClick",
-                    "type": "Button",
+                    "type": "Value",
                     "id": "a98faa3d-8caa-4ad2-9957-bebc17c21942",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -65,6 +65,14 @@
                     "name": "MousePosition",
                     "type": "Value",
                     "id": "a8e7b6a5-27bc-4225-81c6-5754158d8efc",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ScrollWheel",
+                    "type": "Value",
+                    "id": "05710a01-c339-4772-a782-89f095e93628",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
@@ -343,6 +351,17 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "MousePosition",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "87dd2b6a-b7f8-48ad-a3e8-35ca1056e99c",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "ScrollWheel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
