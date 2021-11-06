@@ -1,4 +1,3 @@
-
 ## Installation (Developer Toolchain)
 
 ### Unity
@@ -9,7 +8,7 @@
 4. In Unity Hub "Sign In" on the upper right with your Unity ID you just created.
 5. Get a (personal) license and activate it by clicking "Activate new license". If the server is unresponsive use "Manual Activation".
 6. Click "Installs" on the left menu, then "ADD" at the upper right to add a Unity version.
-7. <b>Important</b> Select Unity 2020.3.22f1 (LTS) and click "Next".
+7. <b>Important:</b> Select Unity 2020.3.22f1 (LTS) and click "Next".
 8. Select the following modules to install:
    - WebGL Build Support
 9. Click "Next" and agree to license terms and "Done".
