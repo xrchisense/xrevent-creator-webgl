@@ -24,24 +24,20 @@ public class D3Camera : MonoBehaviour
     public void rightClick(InputAction.CallbackContext context)
     {
         rightclickPressed = context.ReadValueAsButton();
-        Debug.Log(rightclickPressed);
     }
     public void middleClick(InputAction.CallbackContext context)
     {
         middleclickPressed = context.ReadValueAsButton();
-        Debug.Log(middleclickPressed);
     }
     
     public void altClick(InputAction.CallbackContext context)
     {
         altPressed = context.ReadValueAsButton();
         LevelManager.movingObject = false;
-        Debug.Log(shiftPressed);
     }
     public void shiftClick(InputAction.CallbackContext context)
     {
         shiftPressed = context.ReadValueAsButton();
-        Debug.Log(shiftPressed);
     }
 
     public void lookAround(InputAction.CallbackContext context)
