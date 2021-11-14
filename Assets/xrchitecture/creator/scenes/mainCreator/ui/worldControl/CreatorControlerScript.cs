@@ -10,12 +10,12 @@ public class CreatorControlerScript : MonoBehaviour
 
     [SerializeField]
     private GameObject Gizmo;
-    [SerializeField]
+    /*[SerializeField]
     private Transform XEmpty;
     [SerializeField]
     private Transform YEmpty;
     [SerializeField]
-    private Transform ZEmpty;
+    private Transform ZEmpty;*/
 
     public bool movingObject = false;
     public float movingObjectDirection;
@@ -24,7 +24,7 @@ public class CreatorControlerScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        Gizmo = Instantiate(Gizmo);
     }
 
     // Update is called once per frame
@@ -54,7 +54,8 @@ public class CreatorControlerScript : MonoBehaviour
         Vector3 oldObjectPosition = selectedObject.transform.position;
         Vector3 newObjectPosition;
         movingObjectDirection = (int)Math.Round(movingObjectDirection);
-        switch (movingObjectDirection)
+        if (selectedObject.GetComponent<Rigidbody>()){Debug.Log("uff");}
+            switch (movingObjectDirection)
         {
             case 45:
                 newObjectPosition = new Vector3(mouseWorldPosition.x, oldObjectPosition.y, oldObjectPosition.z);
@@ -112,6 +113,8 @@ public class CreatorControlerScript : MonoBehaviour
 
     public void leftClicktoSelect(InputAction.CallbackContext context)
     {
+        
+        Debug.Log(context);
         if(context.phase == InputActionPhase.Performed){return;} //ignore "performed" status
         
         if (context.phase == InputActionPhase.Canceled) //check if mouse is let go, if movign drop the item, else do nothing
@@ -119,9 +122,9 @@ public class CreatorControlerScript : MonoBehaviour
             if (movingObject) { movingObject = false;};
             return;
         }
-        
-        if (EventSystem.current.IsPointerOverGameObject()) return;  //check if infront of ui object
-        
+
+        if (FindObjectOfType<EventSystem>()) {if (EventSystem.current.IsPointerOverGameObject()){return;}} //check if infront of ui object
+
         //Check if Gizmoclicked
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         RaycastHit hit;

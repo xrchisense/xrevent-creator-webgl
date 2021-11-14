@@ -2,13 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class WegGLConnection : MonoBehaviour
 {
+    [SerializeField] private GameObject cubePrefab;
+    [SerializeField] private GameObject spherePrefab;
+    [SerializeField] private GameObject pointLight;
+    [SerializeField] private Material defaultMaterial;
     
     
     public void SpawnItemEvent (string type) {
-        GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        switch (type)
+        {
+            case "Cube":
+                GameObject cube = Instantiate(cubePrefab);
+                cube.GetComponent<Renderer>().material = defaultMaterial;
+                break;
+            case "Sphere":
+                GameObject sphere = Instantiate(spherePrefab);
+                sphere.GetComponent<Renderer>().material = defaultMaterial;
+                break;
+            case "Lamp":
+                GameObject light = Instantiate(pointLight);
+                break;
+            default:
+                Debug.Log("no Object specified");
+                break;
+        }
         Debug.Log ($"Spawning {type}!");
     }
 
