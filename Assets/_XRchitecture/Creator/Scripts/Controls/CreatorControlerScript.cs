@@ -53,23 +53,19 @@ public class CreatorControlerScript : MonoBehaviour
         Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseposition);
         Vector3 oldObjectPosition = selectedObject.transform.position;
         Vector3 newObjectPosition;
-        Debug.Log(movingObjectDirection);
         movingObjectDirection = (int)Math.Round(movingObjectDirection);
         switch (movingObjectDirection)
         {
             case 45:
-                Debug.Log("HitX");
                 newObjectPosition = new Vector3(mouseWorldPosition.x, oldObjectPosition.y, oldObjectPosition.z);
                 break;
             case 90:
-                Debug.Log("HitZ");
                 newObjectPosition = new Vector3(oldObjectPosition.x, oldObjectPosition.y, mouseWorldPosition.z);
                 break;
             case 0:
                 newObjectPosition = new Vector3(oldObjectPosition.x, mouseWorldPosition.y, oldObjectPosition.z);
                 break;
             default:
-                Debug.Log("default");
                 newObjectPosition = new Vector3(oldObjectPosition.x, oldObjectPosition.y, oldObjectPosition.z);
                 break;
         }
@@ -164,4 +160,6 @@ public class CreatorControlerScript : MonoBehaviour
 
         }
     }
+    
+    
 }
