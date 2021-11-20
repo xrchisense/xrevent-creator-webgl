@@ -9,14 +9,13 @@ public class WebGLConnectorUI:Editor
     {
         DrawDefaultInspector();
         WegGLConnection myTarget = (WegGLConnection) target;
-        
-        if(GUILayout.Button("Spawn Sphere"))
+
+        foreach (var x in myTarget.PrefabList)
         {
-            myTarget.SpawnItemEvent("Sphere");
-        }
-        if(GUILayout.Button("Spawn Light"))
-        {
-            myTarget.SpawnItemEvent("Lamp");
+            if(GUILayout.Button($"Spawn {x.name}"))
+            {
+                myTarget.SpawnPrefab(x.name);
+            }
         }
     }
 }

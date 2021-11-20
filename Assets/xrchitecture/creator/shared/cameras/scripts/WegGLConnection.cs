@@ -6,37 +6,32 @@ using UnityEngine.Rendering;
 
 public class WegGLConnection : MonoBehaviour
 {
-    [SerializeField] private GameObject cubePrefab;
-    [SerializeField] private GameObject spherePrefab;
-    [SerializeField] private GameObject pointLight;
+    [SerializeField] public List<GameObject> PrefabList;
+
+    
+    
     [SerializeField] private Material defaultMaterial;
     
     
-    public void SpawnItemEvent (string type) {
-        switch (type)
-        {
-            case "Cube":
-                GameObject cube = Instantiate(cubePrefab);
-                cube.GetComponent<Renderer>().material = defaultMaterial;
-                break;
-            case "Sphere":
-                GameObject sphere = Instantiate(spherePrefab);
-                sphere.GetComponent<Renderer>().material = defaultMaterial;
-                break;
-            case "Lamp":
-                GameObject light = Instantiate(pointLight);
-                break;
-            default:
-                Debug.Log("no Object specified");
-                break;
-        }
+    public void SpawnPrefab (string type)
+    {
+        Debug.Log(type);
+        GameObject gO = Instantiate(PrefabList.Find(x => x.name == type));
+        Renderer y = new Renderer();
+        if (gO.TryGetComponent<Renderer>(out y))y.material = defaultMaterial;
         Debug.Log ($"Spawning {type}!");
     }
-
     void Awake()
     {
         this.transform.position = new Vector3(0f, 0f, 0f); 
     }
+    
+    
+    
+    
+    
+    
+    
 
 
     [DllImport("__Internal")]
