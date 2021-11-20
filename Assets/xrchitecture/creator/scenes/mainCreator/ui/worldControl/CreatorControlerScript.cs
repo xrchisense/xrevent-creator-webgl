@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -19,8 +20,10 @@ public class CreatorControlerScript : MonoBehaviour
 
     public bool movingObject = false;
     public float movingObjectDirection;
-
-    private Vector2 _previousMousePosition;
+    
+    private Vector3 initMouseOffset;
+    private Plane m_plane;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -48,31 +51,28 @@ public class CreatorControlerScript : MonoBehaviour
 
     public void MoveObjectToMousePosition()
     {
-        Vector3 mouseposition = Mouse.current.position.ReadValue();
-        mouseposition.z = 20;
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseposition);
-        Vector3 oldObjectPosition = selectedObject.transform.position;
-        Vector3 newObjectPosition;
-        movingObjectDirection = (int)Math.Round(movingObjectDirection);
-        if (selectedObject.GetComponent<Rigidbody>()){Debug.Log("uff");}
-            switch (movingObjectDirection)
+        Vector3 mousePosition = Mouse.current.position.ReadValue();
+        mousePosition -= initMouseOffset;
+        //create a movement plane
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+        float zdistance = 0.0f;
+        if (m_plane.Raycast(ray, out zdistance))
         {
-            case 45:
-                newObjectPosition = new Vector3(mouseWorldPosition.x, oldObjectPosition.y, oldObjectPosition.z);
-                break;
-            case 90:
-                newObjectPosition = new Vector3(oldObjectPosition.x, oldObjectPosition.y, mouseWorldPosition.z);
-                break;
-            case 0:
-                newObjectPosition = new Vector3(oldObjectPosition.x, mouseWorldPosition.y, oldObjectPosition.z);
-                break;
-            default:
-                newObjectPosition = new Vector3(oldObjectPosition.x, oldObjectPosition.y, oldObjectPosition.z);
-                break;
-        }
-        
-        selectedObject.transform.position = newObjectPosition;
+            Vector3 mouseWorldPosition = ray.GetPoint(zdistance);
+            Debug.Log(mouseWorldPosition);
+            Vector3 oldObjectPosition = selectedObject.transform.position;
+            movingObjectDirection = (int) Math.Round(movingObjectDirection);
 
+            Vector3 newObjectPosition = movingObjectDirection switch
+            {
+                45 => new Vector3(mouseWorldPosition.x, oldObjectPosition.y, oldObjectPosition.z),
+                90 => new Vector3(oldObjectPosition.x, oldObjectPosition.y, mouseWorldPosition.z),
+                0 => new Vector3(oldObjectPosition.x, mouseWorldPosition.y, oldObjectPosition.z),
+                _ => new Vector3(mouseWorldPosition.x, mouseWorldPosition.y, mouseWorldPosition.z)
+            };
+
+            selectedObject.transform.position = newObjectPosition;
+        }
     }
     public void UpdateGizmoPosition()
     {
@@ -135,6 +135,9 @@ public class CreatorControlerScript : MonoBehaviour
             if (selectedObject !=null) {
                 movingObject = true;
                 movingObjectDirection = hit.transform.gameObject.transform.rotation.eulerAngles.x;
+                m_plane = new Plane(hit.transform.gameObject.GetComponent<GizmoArrow>().PlaneNormalDirection, selectedObject.transform.position);
+                Vector3 mouseposition = Mouse.current.position.ReadValue();
+                initMouseOffset = mouseposition - Camera.main.WorldToScreenPoint(selectedObject.transform.position);
             }
             return;
         }
