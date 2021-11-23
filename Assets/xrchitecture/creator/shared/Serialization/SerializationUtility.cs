@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Xrchitecture.Serialization
+namespace Xrchitecture.Creator.Common.Data
 {
     public static class SerializationUtility
     {
