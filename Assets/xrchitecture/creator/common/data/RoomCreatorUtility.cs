@@ -14,50 +14,46 @@ namespace Xrchitecture.Creator.Common.Data
 
             roomRoot.name = roomToCreate.Name;
 
-            foreach (ItemContainer itemToCreate in roomToCreate.Items)
+            foreach (ItemContainer itemContainer in roomToCreate.Items)
             {
-                GameObject itemRoot = CreateItem(itemToCreate);
+                CreatorItem creatorItem;
+                GameObject itemRoot = CreateItem(itemContainer, out creatorItem);
 
                 if (itemRoot != null)
                 {
                     itemRoot.transform.SetParent(roomRoot);
 
-                    itemRoot.GetComponent<CreatorItem>().Initialize(itemToCreate.ItemCustomArgs);
+                    creatorItem.Initialize(itemContainer);
                 }
             }
         }
 
-        private static GameObject CreateItem(ItemContainer itemContainerToCreate)
+        private static GameObject CreateItem(ItemContainer itemContainerToCreate, out CreatorItem creatorItem)
         {
             GameObject itemRoot = new GameObject();
-            itemRoot.AddComponent<CreatorItem>();
             itemRoot.name = itemContainerToCreate.ResourceName + "-ROOT";
-
+            creatorItem = itemRoot.AddComponent<CreatorItem>();
 
             GameObject createdObject = null;
 
             if (itemContainerToCreate.ItemType == "user-defined")
             {
-                createdObject = CreateUserItemGameObject(itemContainerToCreate);
+                createdObject = CreateUserGameObject(itemContainerToCreate);
             }
             else if (itemContainerToCreate.ItemType == "pre-defined")
             {
-                createdObject =
-                    CreatePredefinedItemGameObject(itemContainerToCreate);
+                createdObject = CreatePredefinedGameObject(itemContainerToCreate);
             }
 
             if (createdObject != null)
             {
                 createdObject.transform.SetParent(itemRoot.transform);
-                itemRoot.transform.SetPositionAndRotation(
-                    itemContainerToCreate.Position,
-                    itemContainerToCreate.Rotation);
             }
 
             return itemRoot;
         }
 
-        private static GameObject CreateUserItemGameObject(ItemContainer userItemContainerToCreate)
+        private static GameObject CreateUserGameObject(ItemContainer userItemContainerToCreate)
         {
             GameObject createdUserObject = null;
 
@@ -73,7 +69,7 @@ namespace Xrchitecture.Creator.Common.Data
             return createdUserObject;
         }
 
-        private static GameObject CreatePredefinedItemGameObject(
+        private static GameObject CreatePredefinedGameObject(
             ItemContainer predefinedItemContainerToCreate)
         {
             // Using Resources right now, might switch to AssetBundles at some point. 
