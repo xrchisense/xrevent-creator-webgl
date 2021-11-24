@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.InputSystem.Interactions;
@@ -7,72 +8,81 @@ namespace Xrchitecture.Creator.Common.Data
 {
     internal static class RoomCreatorUtility
     {
-        public static void CreateRoomGameObject(Room roomToCreate)
+        public static void CreateRoomGameObject(RoomContainer roomToCreate)
         {
-            Transform
-                roomRoot =
-                    new GameObject()
-                        .transform; // creates a gameobject at (0,0,0) with identity rotation
+            Transform roomRoot = new GameObject().transform; 
 
             roomRoot.name = roomToCreate.Name;
 
-            foreach (Item itemToCreate in roomToCreate.Items)
+            foreach (ItemContainer itemToCreate in roomToCreate.Items)
             {
-                GameObject item = null;
+                GameObject itemRoot = CreateItem(itemToCreate);
 
-                try
+                if (itemRoot != null)
                 {
-                    item = CreateItem(itemToCreate);
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError(e.Message);
-                }
-                
-                if (item != null)
-                {
-                    Transform itemRoot = new GameObject().transform;
-                    itemRoot.name = itemToCreate.ResourceName + "-ROOT";
-                    
-                    item.transform.SetParent(itemRoot);
+                    itemRoot.transform.SetParent(roomRoot);
 
-                    itemRoot.SetPositionAndRotation(itemToCreate.Position, itemToCreate.Rotation);
-                    itemRoot.SetParent(roomRoot.transform);
+                    itemRoot.GetComponent<CreatorItem>().Initialize(itemToCreate.ItemCustomArgs);
                 }
             }
         }
 
-        [CanBeNull]
-        private static GameObject CreateItem(Item itemToCreate)
+        private static GameObject CreateItem(ItemContainer itemContainerToCreate)
         {
+            GameObject itemRoot = new GameObject();
+            itemRoot.AddComponent<CreatorItem>();
+            itemRoot.name = itemContainerToCreate.ResourceName + "-ROOT";
+
+
             GameObject createdObject = null;
 
-            if (itemToCreate.ItemType == "user-defined")
+            if (itemContainerToCreate.ItemType == "user-defined")
             {
-                createdObject = CreateUserObject(itemToCreate);
+                createdObject = CreateUserItemGameObject(itemContainerToCreate);
             }
-            else if (itemToCreate.ItemType == "pre-defined")
+            else if (itemContainerToCreate.ItemType == "pre-defined")
             {
-                createdObject = CreatePredefinedObject(itemToCreate);
+                createdObject =
+                    CreatePredefinedItemGameObject(itemContainerToCreate);
             }
 
-            return createdObject;
+            if (createdObject != null)
+            {
+                createdObject.transform.SetParent(itemRoot.transform);
+                itemRoot.transform.SetPositionAndRotation(
+                    itemContainerToCreate.Position,
+                    itemContainerToCreate.Rotation);
+            }
+
+            return itemRoot;
         }
 
-        private static GameObject CreateUserObject(Item userItemToCreate)
+        private static GameObject CreateUserItemGameObject(ItemContainer userItemContainerToCreate)
         {
-            return null;
+            GameObject createdUserObject = null;
+
+            string? extension = System.IO.Path.GetExtension(userItemContainerToCreate.ResourceName);
+
+            if (extension == ".glb" || extension == ".gltf")
+            {
+                createdUserObject = GLTFLoader.CreateModelFromAddress(
+                    TestConfigHelper.UserDataFolder + TestConfigHelper.UserId +
+                    "/Items/" + userItemContainerToCreate.ResourceName);
+            }
+
+            return createdUserObject;
         }
 
-        private static GameObject CreatePredefinedObject(Item predefinedItemToCreate)
+        private static GameObject CreatePredefinedItemGameObject(
+            ItemContainer predefinedItemContainerToCreate)
         {
             // Using Resources right now, might switch to AssetBundles at some point. 
             // https://docs.unity3d.com/Manual/webgl-embeddedresources.html
             // -> Needs to be enabled for WebGL Embedded Resources
-            
+
             GameObject itemPrefab = Resources.Load(
                 TestConfigHelper.PredefinedItemsResourcePath +
-                predefinedItemToCreate.ResourceName) as GameObject;
+                predefinedItemContainerToCreate.ResourceName) as GameObject;
 
             GameObject createdObject = GameObject.Instantiate(itemPrefab);
 

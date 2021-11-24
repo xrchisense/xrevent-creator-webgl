@@ -19,7 +19,7 @@ namespace Xrchitecture.Creator.Common.Data
             //string jsonGo = JsonUtility.ToJson(rot);
             string roomJson = GetRoomJson("ExampleRoom");
 
-            Room roomToBuild = ParseRoomFromJson(roomJson);
+            RoomContainer roomToBuild = ParseRoomFromJson(roomJson);
             
             RoomCreatorUtility.CreateRoomGameObject(roomToBuild);
         }
@@ -39,10 +39,10 @@ namespace Xrchitecture.Creator.Common.Data
             return roomJson;
         }
 
-        private Room ParseRoomFromJson(string roomString)
+        private RoomContainer ParseRoomFromJson(string roomString)
         {
-            Room room = JsonConvert.DeserializeObject<Room>(roomString);
-            return room;
+            RoomContainer roomContainer = JsonConvert.DeserializeObject<RoomContainer>(roomString);
+            return roomContainer;
         }
     }
 }
