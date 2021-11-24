@@ -4,14 +4,14 @@ using Newtonsoft.Json;
 
 namespace Xrchitecture.Creator.Common.Data
 {
-    internal class Room
+    internal class RoomContainer
     {
         [JsonProperty("name")]
         public string Name;
         [JsonProperty("jsonversion")]
         public float JsonVersion;
         [JsonProperty("items")]
-        public List<Item> Items;
+        public List<ItemContainer> Items;
 
         public override string ToString()
         {

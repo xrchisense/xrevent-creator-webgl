@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Xrchitecture.Creator.Common.Data
 {
-    internal class Item
+    internal class ItemContainer
     {
         [JsonProperty("position")]
         public Vector3 Position;

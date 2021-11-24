@@ -6,9 +6,9 @@ namespace Xrchitecture.Creator.Common.Data
     internal class ItemCustomArgs
     {
         [JsonProperty("argument")]
-        string Argument;
+        public string Argument;
         [JsonProperty("value")]
-        string Value;
+        public string Value;
     }
 }
 

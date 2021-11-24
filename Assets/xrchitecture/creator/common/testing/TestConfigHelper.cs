@@ -6,15 +6,13 @@ using UnityEngine;
 
 public static class TestConfigHelper 
 {
-    public static string UserId = "TestUser";
 
-    public static string UserDataFolder =
-        "https://www.studiomonstrum.com/WebGLBuilds/TestData/Users/";
+    public static string UserDataFolder = "https://www.studiomonstrum.com/WebGLBuilds/TestData/Users/";
     
     public static string PredefinedItemsResourcePath = "predefined/";
+    
+    public static string UserId = "TestUser";
 
-
-    public static NetworkCredential FtpCredentials =
-        new NetworkCredential("", "");
+    public static NetworkCredential FtpCredentials = new NetworkCredential("", "");
     
 }
