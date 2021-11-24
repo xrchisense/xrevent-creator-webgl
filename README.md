@@ -2,6 +2,9 @@
 
 ### Dependencies
 - https://github.com/Siccity/GLTFUtility
+**Hint:** ArgumentNullException: Value cannot be null in build but not in editor. This is most likely due to shaders being stripped from the build. To fix this, add the GLTFUtility shaders to the Always Included Shaders list in Graphic Settings.
+
+
 
 
 
