@@ -2,8 +2,7 @@
 
 ### Dependencies
 - https://github.com/Siccity/GLTFUtility
-- Newtonsoft Json
-- https://github.com/atteneder/DracoUnity
+
 
 
 ### Unity
