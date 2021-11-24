@@ -1,5 +1,11 @@
 ## Installation (Developer Toolchain)
 
+### Dependencies
+- https://github.com/Siccity/GLTFUtility
+- Newtonsoft Json
+- https://github.com/atteneder/DracoUnity
+
+
 ### Unity
 
 1. Download Unity Hub: https://unity.com/de/download
