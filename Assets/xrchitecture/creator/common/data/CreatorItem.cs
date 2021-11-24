@@ -1,18 +1,21 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Xrchitecture.Creator.Common.Data
 {
     internal class CreatorItem : MonoBehaviour
     {
-        public void Initialize(List<ItemCustomArgs> args = null)
-        {
-            ACustomItemBehaviour customItemBehaviour = GetComponentInChildren<ACustomItemBehaviour>();
+        public ItemContainer ItemContainer { get; private set; }
 
-            if (customItemBehaviour != null)
+        public void Initialize(ItemContainer itemContainer)
+        {
+            ItemContainer = itemContainer;
+            
+            transform.SetPositionAndRotation(itemContainer.Position, itemContainer.Rotation);
+            
+            if (itemContainer.ItemCustomArgs != null)
             {
-                customItemBehaviour.Initialize(args);
+                GetComponentInChildren<ACustomItemBehaviour>().Initialize(itemContainer.ItemCustomArgs);
             }
         }
     }
