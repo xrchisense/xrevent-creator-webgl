@@ -106,6 +106,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
   m_Antialiasing: 1
   m_AntialiasingQuality: 2
@@ -294,7 +295,19 @@ MonoBehaviour:
     m_ActionId: 8cdb1f06-4534-4b99-9104-d9c702e399d3
     m_ActionName: Player/alt[/Keyboard/alt]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: CreatorControlerScript, Assembly-CSharp
+        m_MethodName: UpdateMousePosition
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: a8e7b6a5-27bc-4225-81c6-5754158d8efc
     m_ActionName: Player/MousePosition[/Mouse/position]
   - m_PersistentCalls:
