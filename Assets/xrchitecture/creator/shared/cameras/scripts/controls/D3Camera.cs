@@ -11,25 +11,26 @@ public class D3Camera : MonoBehaviour
     public Transform Camera;
 
     public bool disableScroll = false;
-    private bool rightclickPressed = false;
-    private bool middleclickPressed = false;
+    private bool rightClickPressed = false;
+    private bool middleClickPressed = false;
     private bool altPressed = false;
     private bool shiftPressed = false;
 
     public int MaxTilt = 85;
     public int MinTilt = 10;
     public float DragSpeed = 0.1f;
+    public float RotateSpeed = 0.5f;
     Vector3 prev_Mousepostition;
 
     public void rightClick(InputAction.CallbackContext context)
     {
-        rightclickPressed = context.ReadValueAsButton();
-        Debug.Log(rightclickPressed);
+        rightClickPressed = context.ReadValueAsButton();
+        Debug.Log(rightClickPressed);
     }
     public void middleClick(InputAction.CallbackContext context)
     {
-        middleclickPressed = context.ReadValueAsButton();
-        Debug.Log(middleclickPressed);
+        middleClickPressed = context.ReadValueAsButton();
+        Debug.Log(middleClickPressed);
     }
     
     public void altClick(InputAction.CallbackContext context)
@@ -46,17 +47,18 @@ public class D3Camera : MonoBehaviour
 
     public void lookAround(InputAction.CallbackContext context)
     {
-        if (middleclickPressed)
+        if (middleClickPressed)
         {
             Vector2 mouseMoevement = context.ReadValue<Vector2>();
             if (shiftPressed)
             {
                 //drag
                 Quaternion rotationCorrection = Quaternion.Euler(CameraBase.rotation.eulerAngles);
-
-                CameraBase.position -= Quaternion.AngleAxis(rotationCorrection.eulerAngles[1], Vector3.up) *
-                                       (DragSpeed * new Vector3(mouseMoevement[0], 0,
-                                           mouseMoevement[1]));
+                
+                //Solved by Kevin H.
+                CameraBase.position -= Quaternion.AngleAxis(rotationCorrection.eulerAngles[1], Camera.up) * Quaternion.AngleAxis(rotationCorrection.eulerAngles[0], Camera.right) *
+                                       (DragSpeed * new Vector3(mouseMoevement[0], mouseMoevement[1],0
+                                           ));
 
             }else {
                 //rotate
@@ -69,17 +71,16 @@ public class D3Camera : MonoBehaviour
 
 
                 goalRotation.eulerAngles += toRotate;
-                if (goalRotation.eulerAngles[0] > MaxTilt)
-                {
-                    toRotate[0] = 0;
-
-                }
-                else if (goalRotation.eulerAngles[0] < MinTilt)
+                if (goalRotation.eulerAngles[0] > MaxTilt && MaxTilt >0)
                 {
                     toRotate[0] = 0;
                 }
+                else if (goalRotation.eulerAngles[0] < MinTilt && MinTilt >0)
+                {
+                    toRotate[0] = 0;
+                }
 
-                currentRotaiaon.eulerAngles += toRotate;
+                currentRotaiaon.eulerAngles += toRotate*RotateSpeed;
                 CameraBase.rotation = currentRotaiaon;
                 
                 
@@ -102,72 +103,4 @@ public class D3Camera : MonoBehaviour
     {
         CameraBase.rotation = Quaternion.Euler(90,0,0);
     }
-    
-    // Update is called once per frame
-    /*void Update()
-    {
-
-        if (Input.GetMouseButtonDown(2))
-        {
-            
-            prev_Mousepostition = Input.mousePosition;
-
-        }
-
-        //middle Mouse rotate/+shift drag
-        if (Input.GetMouseButton(2))
-        {
-
-            if (Input.GetKey(KeyCode.LeftShift))
-            { //drag
-                Quaternion rotationCorrection = Quaternion.Euler(CameraBase.rotation.eulerAngles);
-
-                CameraBase.position -= Quaternion.AngleAxis(rotationCorrection.eulerAngles[1], Vector3.up) * (0.1f * new Vector3(Input.mousePosition[0] - prev_Mousepostition[0], 0, Input.mousePosition[1] - prev_Mousepostition[1]));
-
-            }
-            else
-            {//rotate
-
-                Quaternion currentRotaiaon;
-                Quaternion goalRotation;
-                currentRotaiaon = CameraBase.rotation;
-                goalRotation = currentRotaiaon;
-                Vector3 toRotate = new Vector3(-(Input.mousePosition[1] - prev_Mousepostition[1]), Input.mousePosition[0] - prev_Mousepostition[0], 0);
-
-
-                goalRotation.eulerAngles += toRotate;
-                if (goalRotation.eulerAngles[0] > MaxTilt)
-                {
-                    toRotate[0] = 0;
-
-                }
-                else if (goalRotation.eulerAngles[0] < MinTilt)
-                {
-                    toRotate[0] = 0;
-                }
-                currentRotaiaon.eulerAngles += toRotate;
-                CameraBase.rotation = currentRotaiaon;
-            }
-
-            prev_Mousepostition = Input.mousePosition;
-
-
-        }
-
-
-        //Zoom
-        if (disableScroll == false)
-        {
-            if (Input.mouseScrollDelta != new Vector2(0, 0))
-            {
-                Vector3 oldPosition = Camera.localPosition;
-                oldPosition[2] += Input.mouseScrollDelta[1];
-                Camera.localPosition = oldPosition;
-
-            }
-        }
-
-    }*/
-
-
 }

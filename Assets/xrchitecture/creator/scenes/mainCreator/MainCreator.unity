@@ -395,6 +395,22 @@ PrefabInstance:
       value: MainCamera
       objectReference: {fileID: 0}
     - target: {fileID: 4176773297570405655, guid: 2f4be2c30bb0ccb48a042a22830e62bf, type: 3}
+      propertyPath: MaxTilt
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176773297570405655, guid: 2f4be2c30bb0ccb48a042a22830e62bf, type: 3}
+      propertyPath: MinTilt
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176773297570405655, guid: 2f4be2c30bb0ccb48a042a22830e62bf, type: 3}
+      propertyPath: DragSpeed
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176773297570405655, guid: 2f4be2c30bb0ccb48a042a22830e62bf, type: 3}
+      propertyPath: RotateSpeed
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176773297570405655, guid: 2f4be2c30bb0ccb48a042a22830e62bf, type: 3}
       propertyPath: LevelManager
       value: 
       objectReference: {fileID: 1724127428}
