@@ -34,6 +34,7 @@ public class gltfImporter : MonoBehaviour
         Debug.Log("D12");
         loadedObject = Importer.LoadFromFile(filepath);
         loadedObject.layer = 9; // set to "Spawned Objects" layer to finde them later and save their properties to json build plan
+        loadedObject.AddComponent<MeshCollider>();
     }
 
     public void DownloadFile(string url)

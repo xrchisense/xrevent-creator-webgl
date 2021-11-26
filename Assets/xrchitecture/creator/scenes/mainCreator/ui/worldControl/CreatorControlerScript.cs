@@ -27,16 +27,18 @@ public class CreatorControlerScript : MonoBehaviour
     void Start()
     {
         Gizmo = Instantiate(Gizmo);
+        Gizmo.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        UpdateGizmoPosition();
+        
 
         if (movingObject)
         {
             MoveObjectToMousePosition();
+            UpdateGizmoPosition();
         }
 
         
@@ -147,9 +149,10 @@ public class CreatorControlerScript : MonoBehaviour
             Destroy(selectedObject.GetComponent<Outline>());
             
         }
-        
+
         if (Physics.Raycast(ray, out hit, 100))
         {
+            Gizmo.SetActive(true);
             selectedObject = hit.transform.gameObject;
             //outline
             if (!selectedObject.TryGetComponent(out Outline ll))
@@ -159,11 +162,16 @@ public class CreatorControlerScript : MonoBehaviour
                 outline.OutlineColor = Color.yellow;
                 outline.OutlineWidth = 9f;
             }
-            //gizmo
-            Gizmo.transform.position = Camera.main.WorldToScreenPoint(selectedObject.transform.position);
-            //Gizmo.GetComponent<SceneGizmoRenderer>().ReferenceTransform = selectedObject.transform;
 
+            //gizmo
+            UpdateGizmoPosition();
+            //Gizmo.transform.position = Camera.main.WorldToScreenPoint(selectedObject.transform.position);
+            //Gizmo.GetComponent<SceneGizmoRenderer>().ReferenceTransform = selectedObject.transform;
+            return;
         }
+
+        selectedObject = null;
+        Gizmo.SetActive(false);
     }
     
     
