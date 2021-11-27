@@ -8,6 +8,7 @@ namespace Xrchitecture.Creator.Common.Data
 {
     internal static class RoomCreatorUtility
     {
+
         public static void CreateRoomGameObject(RoomContainer roomToCreate)
         {
             Transform roomRoot = new GameObject().transform; 
@@ -16,44 +17,36 @@ namespace Xrchitecture.Creator.Common.Data
 
             foreach (ItemContainer itemContainer in roomToCreate.Items)
             {
-                CreatorItem creatorItem;
-                GameObject itemRoot = CreateItem(itemContainer, out creatorItem);
-
-                if (itemRoot != null)
-                {
-                    itemRoot.transform.SetParent(roomRoot);
-
-                    creatorItem.Initialize(itemContainer);
-                }
+                CreateItem(itemContainer, gO => OnItemCreated(gO, itemContainer, roomRoot));
             }
         }
 
-        private static GameObject CreateItem(ItemContainer itemContainerToCreate, out CreatorItem creatorItem)
+        private static void CreateItem(ItemContainer itemContainerToCreate, Action<GameObject> onSuccess)
         {
-            GameObject itemRoot = new GameObject();
-            itemRoot.name = itemContainerToCreate.ResourceName + "-ROOT";
-            creatorItem = itemRoot.AddComponent<CreatorItem>();
-
-            GameObject createdObject = null;
 
             if (itemContainerToCreate.ItemType == "user-defined")
             {
-                createdObject = CreateUserGameObject(itemContainerToCreate);
+                CreateUserGameObject(itemContainerToCreate, onSuccess);
             }
             else if (itemContainerToCreate.ItemType == "pre-defined")
             {
-                createdObject = CreatePredefinedGameObject(itemContainerToCreate);
+                CreatePredefinedGameObject(itemContainerToCreate, onSuccess);
             }
-
-            if (createdObject != null)
-            {
-                createdObject.transform.SetParent(itemRoot.transform);
-            }
-
-            return itemRoot;
+            
         }
 
-        private static GameObject CreateUserGameObject(ItemContainer userItemContainerToCreate)
+        private static void OnItemCreated(GameObject item, ItemContainer itemContainer, Transform roomRoot = null)
+        {
+            GameObject itemRoot = new GameObject();
+            itemRoot.name = itemContainer.ResourceName + "-ROOT";
+            item.transform.SetParent(itemRoot.transform);
+            itemRoot.transform.SetParent(roomRoot);
+            
+            CreatorItem creatorItem = itemRoot.AddComponent<CreatorItem>();
+            creatorItem.Initialize(itemContainer);
+        }
+
+        private static GameObject CreateUserGameObject(ItemContainer userItemContainerToCreate, Action<GameObject> onSuccess)
         {
             GameObject createdUserObject = null;
 
@@ -61,16 +54,16 @@ namespace Xrchitecture.Creator.Common.Data
 
             if (extension == ".glb" || extension == ".gltf")
             {
-                createdUserObject = GLTFLoader.CreateModelFromAddress(
-                    TestConfigHelper.UserDataFolder + TestConfigHelper.UserId +
-                    "/Items/" + userItemContainerToCreate.ResourceName);
+                GLTFLoader.CreateModelFromAddress(
+                    TestConfigHelper.ProjectDataFolder + TestConfigHelper.ProjectId +
+                    "/items/" + userItemContainerToCreate.ResourceName, onSuccess);
             }
 
             return createdUserObject;
         }
 
         private static GameObject CreatePredefinedGameObject(
-            ItemContainer predefinedItemContainerToCreate)
+            ItemContainer predefinedItemContainerToCreate, Action<GameObject> onSuccess)
         {
             // Using Resources right now, might switch to AssetBundles at some point. 
             // https://docs.unity3d.com/Manual/webgl-embeddedresources.html
@@ -81,6 +74,8 @@ namespace Xrchitecture.Creator.Common.Data
                 predefinedItemContainerToCreate.ResourceName) as GameObject;
 
             GameObject createdObject = GameObject.Instantiate(itemPrefab);
+
+            onSuccess(createdObject);
 
             return createdObject;
         }

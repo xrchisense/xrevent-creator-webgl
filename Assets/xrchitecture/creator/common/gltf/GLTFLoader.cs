@@ -13,48 +13,61 @@ namespace Xrchitecture.Creator.Common.Data
 {
     public class GLTFLoader
     {
-        public static GameObject CreateModelFromAddress(string modelUrl)
+        public static void CreateModelFromAddress(string modelUrl,
+            Action<GameObject> onSuccess)
         {
-            string result = DownloadModelFromAddress(modelUrl);
+            
+            HelperBehaviour.Instance.StartCoroutine(CreationRoutine());
 
-            return CreateGameObject(result);
-        }
-        
-        private static string DownloadModelFromAddress(string modelUrl)
-        {
-            UnityWebRequest req = UnityWebRequest.Get(modelUrl);
-
-            int fileSize = 0;
-            req.downloadHandler = new DownloadHandlerFile(FileDownloader.GetFilePath(modelUrl));
-            req.SendWebRequest();
-
-            while (!req.isDone)
+            IEnumerator CreationRoutine()
             {
-                if (fileSize == 0)
+                
+                string path = FileDownloader.GetFilePath(modelUrl);
+
+                /*
+                if (!SkipCache && File.Exists(path))
                 {
-                    Int32.TryParse(req.GetResponseHeader("Content-Length"), out fileSize);
+                    onSuccess(path);
+                    yield return null;
                 }
+                */
+                
+                UnityWebRequest req = UnityWebRequest.Get(modelUrl);
+
+                int fileSize = 0;
+                req.downloadHandler = new DownloadHandlerFile(FileDownloader.GetFilePath(modelUrl));
+                req.SendWebRequest();
+
+                while (!req.isDone)
+                {
+                    if (fileSize == 0)
+                    {
+                        Int32.TryParse(req.GetResponseHeader("Content-Length"),
+                            out fileSize);
+                    }
+
+                    yield return new WaitForSeconds(.1f);
+                }
+                
+                string result = FileDownloader.GetFilePath(modelUrl);
+
+
+                GameObject createdObject = null;
+
+                try
+
+                {
+                    createdObject = Importer.LoadFromFile(result,
+                        new ImportSettings() {useLegacyClips = true});
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Cannot load model to create GameObject!!" +
+                                   Environment.NewLine + e.Message);
+                }
+
+                onSuccess(createdObject);
             }
-
-            return FileDownloader.GetFilePath(modelUrl);
-        }
-
-
-        [CanBeNull]
-        private static GameObject CreateGameObject(string path)
-        {
-            GameObject createdObject = null;
-            try
-
-            {
-                createdObject = Importer.LoadFromFile(path, new ImportSettings() {useLegacyClips = true});
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Cannot load model to create GameObject!!" + Environment.NewLine + e.Message);
-            }
-
-            return createdObject;
         }
     }
 }

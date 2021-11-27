@@ -17,5 +17,10 @@ namespace Xrchitecture.Creator.Common.Data
             Debug.Log("Initialized Test-Item with args: " + Environment.NewLine +
                       argsString);
         }
+
+        public override ItemCustomArgs GetCustomArgs()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
