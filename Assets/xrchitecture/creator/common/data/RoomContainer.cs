@@ -12,7 +12,7 @@ namespace Xrchitecture.Creator.Common.Data
         public float JsonVersion;
         [JsonProperty("items")]
         public List<ItemContainer> Items;
-
+        
         public override string ToString()
         {
             return ($"Name: " + Name + ", Version: " + JsonVersion);

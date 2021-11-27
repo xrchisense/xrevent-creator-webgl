@@ -1,42 +1,44 @@
 using System;
+using System.Collections;
 using System.IO;
 using System.Net;
 using Newtonsoft.Json;
 using UnityEngine;
+using UnityEngine.Networking;
 
 namespace Xrchitecture.Creator.Common.Data
 {
-    internal partial class TestJson : MonoBehaviour
+    internal class TestJson : MonoBehaviour
     {
-        [SerializeField]
-        private GameObject gameObject;
-
-        private void Start()
+        public void LoadTestRoom()
         {
-            Vector3 pos = new Vector3(1, 0, 0);
-            Quaternion rot = new Quaternion(1, 0, 0, 1);
-
-            //string jsonGo = JsonUtility.ToJson(rot);
-            string roomJson = GetRoomJson("ExampleRoom");
-
-            RoomContainer roomToBuild = ParseRoomFromJson(roomJson);
+            StartCoroutine(RoomLoadRoutine());
             
-            RoomCreatorUtility.CreateRoomGameObject(roomToBuild);
+            
+            IEnumerator RoomLoadRoutine()
+            {
+                yield return StartCoroutine(GetRoomJson("ExampleRoom", json => RoomCreatorUtility.CreateRoomGameObject(ParseRoomFromJson(json))));
+            }
         }
 
-        internal string GetRoomJson(string roomId)
+        internal IEnumerator GetRoomJson(string roomId, Action<string> onSuccess)
         {
             WebClient request = new WebClient();
             request.Credentials = TestConfigHelper.FtpCredentials;
-            string url = TestConfigHelper.UserDataFolder +
-                         TestConfigHelper.UserId +
-                         "/Rooms/" + roomId + ".json";
+            string url = TestConfigHelper.ProjectDataFolder + TestConfigHelper.ProjectId + "/rooms/" + roomId + ".json";
 
-            byte[] fileData = request.DownloadData(url);
+            UnityWebRequest req = UnityWebRequest.Get(url);
 
-            string roomJson = System.Text.Encoding.UTF8.GetString(fileData);
+            req.SendWebRequest();
 
-            return roomJson;
+            int fileSize = 0;
+
+            while (!req.isDone)
+            {
+                yield return new WaitForSeconds(.1f);
+            }
+
+            onSuccess(req.downloadHandler.text);
         }
 
         private RoomContainer ParseRoomFromJson(string roomString)
