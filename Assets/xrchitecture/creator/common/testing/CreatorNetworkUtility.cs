@@ -45,7 +45,7 @@ namespace Xrchitecture.Creator.Common.Data
                     XrJsonUtility.ParseJsonFromEvent(containerToUpload);
 
                 yield return HelperBehaviour.Instance.StartCoroutine(
-                    PostRoomJson(address, jsonToUpload, null));
+                    PostRoomJson(address, jsonToUpload));
             }
         }
 
