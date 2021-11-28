@@ -11,6 +11,7 @@ using System;
 using System.Collections;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -45,7 +46,7 @@ namespace Xrchitecture.Creator.Common.Data
                     XrJsonUtility.ParseJsonFromEvent(containerToUpload);
 
                 yield return HelperBehaviour.Instance.StartCoroutine(
-                    PostRoomJson(address, jsonToUpload));
+                    PutRoomJson(address, jsonToUpload));
             }
         }
 
@@ -69,32 +70,28 @@ namespace Xrchitecture.Creator.Common.Data
             onSuccess(req.downloadHandler.text);
         }
 
-        internal static IEnumerator PostRoomJson(string address, string jsonData,
+        internal static IEnumerator PutRoomJson(string address, string jsonData,
             Action onSuccess = null)
         {
- 
-            byte[] bytes = Encoding.UTF8.GetBytes(jsonData);
-            
-            using (UnityWebRequest www = UnityWebRequest.Put(address, bytes))
-            {
-                www.SetRequestHeader("Content-Type", "application/json");
-                www.method = "POST";
-                yield return www.Send();
- 
-                if (www.isError)
-                {
-                    Debug.Log(www.error);
-                }
-                else
-                {
-                    Debug.Log(www.downloadHandler.text);
-                }
-            }
 
+            WebClient client = new WebClient();
+            
+            byte[] myData = System.Text.Encoding.UTF8.GetBytes(jsonData);
+            UnityWebRequest www = UnityWebRequest.Put(address, myData);
+            yield return www.SendWebRequest();
+ 
+            if (www.result != UnityWebRequest.Result.Success) {
+                Debug.Log(www.error);
+            }
+            else {
+                Debug.Log("Upload complete!");
+            }
             if (onSuccess != null)
             {
                 onSuccess();
             }
+
+            yield return null;
         }
     }
 }
