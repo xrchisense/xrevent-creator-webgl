@@ -6,8 +6,10 @@ namespace Xrchitecture.Creator.Common.Data
 {
     internal abstract class ACustomItemBehaviour : MonoBehaviour
     {
-        public abstract void Initialize(List<ItemCustomArgs> args);
 
-        public abstract ItemCustomArgs GetCustomArgs();
+        internal delegate void CustomParameterChanged(ItemCustomArg itemCustomArg);
+        internal CustomParameterChanged OnCustomParameterChanged;
+        
+        public abstract void Initialize(List<ItemCustomArg> args);
     }
 }

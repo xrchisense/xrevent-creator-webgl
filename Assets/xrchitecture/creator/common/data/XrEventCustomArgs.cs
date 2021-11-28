@@ -1,9 +1,8 @@
-﻿
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Xrchitecture.Creator.Common.Data
 {
-    internal class ItemCustomArgs
+    internal class XrEventCustomArgs
     {
         [JsonProperty("argument")]
         public string Argument;
@@ -11,4 +10,3 @@ namespace Xrchitecture.Creator.Common.Data
         public string Value;
     }
 }
-

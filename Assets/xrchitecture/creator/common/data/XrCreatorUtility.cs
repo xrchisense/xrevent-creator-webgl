@@ -1,15 +1,11 @@
 ﻿using System;
-using System.IO;
-using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.InputSystem.Interactions;
 
 namespace Xrchitecture.Creator.Common.Data
 {
-    internal static class RoomCreatorUtility
+    internal static class XrCreatorUtility
     {
-
-        public static void CreateRoomGameObject(RoomContainer roomToCreate)
+        public static GameObject CreateRoomGameObject(RoomContainer roomToCreate)
         {
             Transform roomRoot = new GameObject().transform; 
 
@@ -19,6 +15,8 @@ namespace Xrchitecture.Creator.Common.Data
             {
                 CreateItem(itemContainer, gO => OnItemCreated(gO, itemContainer, roomRoot));
             }
+
+            return roomRoot.gameObject;
         }
 
         private static void CreateItem(ItemContainer itemContainerToCreate, Action<GameObject> onSuccess)
