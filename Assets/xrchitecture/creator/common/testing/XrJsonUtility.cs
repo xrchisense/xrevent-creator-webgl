@@ -17,8 +17,19 @@ namespace Xrchitecture.Creator.Common.Data
         internal static XrEventContainer ParseEventFromJson(string roomString)
         {
             Debug.Log(roomString);
-            XrEventContainer xrEventContainer = JsonConvert.DeserializeObject<XrEventContainer>(roomString);
+            XrEventContainer xrEventContainer =
+                JsonConvert.DeserializeObject<XrEventContainer>(roomString);
             return xrEventContainer;
+        }
+
+        internal static string ParseJsonFromEvent(XrEventContainer xrEventContainer)
+        {
+            string eventJson = JsonConvert.SerializeObject(xrEventContainer,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+            return eventJson;
         }
     }
 }

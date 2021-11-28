@@ -10,5 +10,9 @@ namespace Xrchitecture.Creator.Common.Data
         }
 
 
+        public void SaveTestRoom()
+        {
+            CreatorNetworkUtility.SaveCurrentEventToAddress(TestConfigHelper.ProjectDataFolder + TestConfigHelper.ProjectId + "/ExampleEvent.json");
+        }
     }
 }

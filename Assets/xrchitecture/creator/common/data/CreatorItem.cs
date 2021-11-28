@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Xrchitecture.Creator.Common.Data
@@ -25,9 +26,22 @@ namespace Xrchitecture.Creator.Common.Data
             }
         }
 
-        private void HandleCustomParameterChanged(ItemCustomArg itemCustomArg)
+        /// <summary>
+        /// Function to be called manually, after the GameObject has been moved via Gizmo/Code/etc.
+        /// </summary>
+        private void TransformUpdated()
         {
-            ItemContainer.UpdateCustomArg(itemCustomArg);
+            ItemContainer.Position = transform.position;
+            ItemContainer.Rotation = transform.rotation;
+        }
+
+        /// <summary>
+        /// Handles the event from a ACustomItemBehaviour when a ItemCustomArgument has changed
+        /// </summary>
+        /// <param name="itemCustomPar">The ItemCustomPar that has changed</param>
+        private void HandleCustomParameterChanged(ItemCustomPar itemCustomPar)
+        {
+            ItemContainer.UpdateCustomPar(itemCustomPar);
         }
 
 
@@ -35,8 +49,7 @@ namespace Xrchitecture.Creator.Common.Data
         {
             if (_aCustomItemBehaviour)
             {
-                _aCustomItemBehaviour.OnCustomParameterChanged -=
-                    HandleCustomParameterChanged;
+                _aCustomItemBehaviour.OnCustomParameterChanged -= HandleCustomParameterChanged;
             }
         }
     }

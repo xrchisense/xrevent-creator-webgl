@@ -10,7 +10,7 @@ namespace Xrchitecture.Creator.Common.Data
             Transform roomRoot = new GameObject().transform; 
 
             roomRoot.name = roomToCreate.Name;
-
+            
             foreach (ItemContainer itemContainer in roomToCreate.Items)
             {
                 CreateItem(itemContainer, gO => OnItemCreated(gO, itemContainer, roomRoot));
