@@ -7,11 +7,12 @@
 // </author>
 // ------------------------------------------------------------------------------------------------------
 
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Xrchitecture.Creator.Common.Data
 {
-    internal static class CreatorEventManager
+    internal static class CreatorSessionManager
     {
         private static XrEventContainer _currentEvent;
 
@@ -19,16 +20,30 @@ namespace Xrchitecture.Creator.Common.Data
 
         public static void SetCreatorEvent(XrEventContainer xrEvent)
         {
-            GameObject.Destroy(_currentRoomGameObject);
-            
             _currentEvent = xrEvent;
             
-            _currentRoomGameObject = XrCreatorUtility.CreateRoomGameObject(_currentEvent.Rooms[0]);
+            SetCurrentRoom(_currentEvent.Rooms[0]);
         }
 
-        public static void SaveEventData()
+        public static XrEventContainer GetCreatorEvent()
         {
+            return _currentEvent;
+        }
+
+        public static void SetCurrentRoom(RoomContainer roomContainer)
+        {
+            DestroyRoomGameObject();
             
+            _currentRoomGameObject = XrCreatorUtility.CreateRoomGameObject(roomContainer);
+        }
+
+        private static void DestroyRoomGameObject()
+        {
+            if (_currentRoomGameObject != null)
+            {
+                GameObject.Destroy(_currentRoomGameObject);
+                _currentRoomGameObject = null;
+            }
         }
     }
 }

@@ -7,9 +7,9 @@ namespace Xrchitecture.Creator.Common.Data
 {
     class TestCustomItemBehaviour : ACustomItemBehaviour
     {
-        private List<ItemCustomArg> _itemCustomArgs = new List<ItemCustomArg>();
+        private List<ItemCustomPar> _itemCustomArgs = new List<ItemCustomPar>();
 
-        public override void Initialize(List<ItemCustomArg> args)
+        public override void Initialize(List<ItemCustomPar> args)
         {
             string argsString = "";
             for (int i = 0; i < args.Count; i++)
@@ -35,7 +35,6 @@ namespace Xrchitecture.Creator.Common.Data
 
                 for (int i = 0; i < _itemCustomArgs.Count; i++)
                 {
-                    Debug.Log("Firing event with: " + _itemCustomArgs[i].Argument + ":" + _itemCustomArgs[i].Value);
                     OnCustomParameterChanged(_itemCustomArgs[i]); // does not actually change anything - implemented as a test
                 }
             }

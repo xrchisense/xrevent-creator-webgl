@@ -9,7 +9,9 @@
 
 using System;
 using System.Collections;
+using System.IO;
 using System.Net;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -19,16 +21,37 @@ namespace Xrchitecture.Creator.Common.Data
     {
         internal static void LoadEventFromAddress(string address)
         {
-            HelperBehaviour.Instance.StartCoroutine(RoomLoadRoutine());
-            
-            IEnumerator RoomLoadRoutine()
+            HelperBehaviour.Instance.StartCoroutine(EventLoadRoutine());
+
+            IEnumerator EventLoadRoutine()
             {
-                yield return HelperBehaviour.Instance.StartCoroutine(GetRoomJson(address, json => CreatorEventManager.SetCreatorEvent(XrJsonUtility.ParseEventFromJson(json))));
+                yield return HelperBehaviour.Instance.StartCoroutine(
+                    GetRoomJson(address,
+                        json => CreatorSessionManager.SetCreatorEvent(
+                            XrJsonUtility.ParseEventFromJson(json))));
+            }
+        }
+
+        internal static void SaveCurrentEventToAddress(string address)
+        {
+            HelperBehaviour.Instance.StartCoroutine(EventSaveRoutine());
+
+            IEnumerator EventSaveRoutine()
+            {
+                XrEventContainer containerToUpload =
+                    CreatorSessionManager.GetCreatorEvent();
+
+                string jsonToUpload =
+                    XrJsonUtility.ParseJsonFromEvent(containerToUpload);
+
+                yield return HelperBehaviour.Instance.StartCoroutine(
+                    PostRoomJson(address, jsonToUpload, null));
             }
         }
 
 
-        internal static IEnumerator GetRoomJson(string address, Action<string> onSuccess)
+        internal static IEnumerator GetRoomJson(string address,
+            Action<string> onSuccess)
         {
             WebClient request = new WebClient();
             request.Credentials = TestConfigHelper.FtpCredentials;
@@ -44,6 +67,34 @@ namespace Xrchitecture.Creator.Common.Data
             }
 
             onSuccess(req.downloadHandler.text);
+        }
+
+        internal static IEnumerator PostRoomJson(string address, string jsonData,
+            Action onSuccess = null)
+        {
+ 
+            byte[] bytes = Encoding.UTF8.GetBytes(jsonData);
+            
+            using (UnityWebRequest www = UnityWebRequest.Put(address, bytes))
+            {
+                www.SetRequestHeader("Content-Type", "application/json");
+                www.method = "POST";
+                yield return www.Send();
+ 
+                if (www.isError)
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    Debug.Log(www.downloadHandler.text);
+                }
+            }
+
+            if (onSuccess != null)
+            {
+                onSuccess();
+            }
         }
     }
 }
