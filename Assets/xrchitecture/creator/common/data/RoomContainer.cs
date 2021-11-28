@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
@@ -12,7 +11,9 @@ namespace Xrchitecture.Creator.Common.Data
         public float JsonVersion;
         [JsonProperty("items")]
         public List<ItemContainer> Items;
-        
+        [JsonProperty("room-custom-args")]
+        public List<RoomCustomArgs> RoomCustomArgs;
+
         public override string ToString()
         {
             return ($"Name: " + Name + ", Version: " + JsonVersion);
