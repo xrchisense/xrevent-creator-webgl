@@ -31,7 +31,7 @@ public class WebGLConnection : MonoBehaviour
     }
     
     /*
-     * This Function requires the gltfImporter script
+     * This function requires the gltfImporter script
      */
     public void SpawnGltf(string url)
     {
@@ -40,11 +40,37 @@ public class WebGLConnection : MonoBehaviour
         imp.importGltfFromServer(url);
     }
     
-    
-    
-    
+    /*
+     * This function requires the persistenceManager script
+     */
+    public void SetGUID(string guid)
+    {
+        persistenceManager pm = this.GetComponent<persistenceManager>();
+        pm.setGUID(guid);
+    }
     
 
+    public void loadRoom(string guid)
+    {
+        SetGUID(guid);
+        // Call loading stuff here!
+
+        // Report back guid
+        reportRoomIdUnity();
+    }
+
+    /*
+     * This function requires the persistenceManager script
+     */
+    public void newRoom()
+    {
+        persistenceManager pm = this.GetComponent<persistenceManager>();
+        pm.createGUID();
+        reportRoomIdUnity();
+    }
+    
+    
+    // These are the messages sent via jslib plugin to the react app
 
     [DllImport("__Internal")]
     private static extern void SpawnItem(string type, int score);
@@ -55,5 +81,17 @@ public class WebGLConnection : MonoBehaviour
     SpawnItem (type, 100);
 #endif
     }
+
+
+    [DllImport("__Internal")]
+    private static extern void reportRoomID(string id);
+    public void reportRoomIdUnity()
+    {
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+    persistenceManager pm = this.GetComponent<persistenceManager>();
+    reportRoomID (pm.getGUID());
+#endif
+    }
+
 
 }

@@ -28,6 +28,13 @@ public class CreatorControlerScript : MonoBehaviour
     {
         Gizmo = Instantiate(Gizmo);
         Gizmo.SetActive(false);
+
+        // Unity WebGL captures all Keyboard Inputs, but we need the keystrokes for the React GUI
+        // This may help to switch them off for WebGL container
+        #if !UNITY_EDITOR && UNITY_WEBGL
+            WebGLInput.captureAllKeyboardInput = false;
+        #endif
+
     }
 
     // Update is called once per frame
