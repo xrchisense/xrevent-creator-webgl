@@ -6,25 +6,26 @@ using UnityEngine.Rendering;
 
 
 [RequireComponent(typeof(gltfImporter))]
+[RequireComponent(typeof(persistenceManager))]
 public class WebGLConnection : MonoBehaviour
 {
-    [SerializeField] 
-    public List<GameObject> PrefabList;
+    [SerializeField] public List<GameObject> PrefabList;
+
+    [SerializeField] private Material defaultMaterial;
+
+    //for safety Reasons; this Object should always be at the Origin
+    void Awake()
+    {
+        this.transform.position = new Vector3(0f, 0f, 0f);
+    }
     
-    [SerializeField] 
-    private Material defaultMaterial;
-    
-    public void SpawnPrefab (string type)
+    public void SpawnPrefab(string type)
     {
         Debug.Log(type);
         GameObject gO = Instantiate(PrefabList.Find(x => x.name == type));
         Renderer y = new Renderer();
-        if (gO.TryGetComponent<Renderer>(out y))y.material = defaultMaterial;
-        Debug.Log ($"Spawning {type}!");
-    }
-    void Awake()
-    {
-        this.transform.position = new Vector3(0f, 0f, 0f); 
+        if (gO.TryGetComponent<Renderer>(out y)) y.material = defaultMaterial;
+        Debug.Log($"Spawning {type}!");
     }
     
     /*
@@ -36,7 +37,7 @@ public class WebGLConnection : MonoBehaviour
         gltfImporter imp = this.GetComponent<gltfImporter>();
         imp.importGltfFromServer(url);
     }
-    
+
 
     /*
      * This function requires the persistenceManager script
@@ -46,7 +47,7 @@ public class WebGLConnection : MonoBehaviour
         persistenceManager pm = this.GetComponent<persistenceManager>();
         pm.setGUID(guid);
     }
-    
+
 
     public void loadRoom(string guid)
     {
@@ -66,23 +67,27 @@ public class WebGLConnection : MonoBehaviour
         pm.createGUID();
         reportRoomIdUnity();
     }
-    
-    
-    // These are the messages sent via jslib plugin to the react app
+
+    //
+    //
+    //   These are the messages sent via jslib plugin to the react app
+    //
+    // 
     [DllImport("__Internal")]
     private static extern void ItemInfo(string itemName, int itemID);
     private static extern void ShowPopup(string textStringPointer);
+    private static extern void reportRoomID(string id);
 
-    public void ItemInfoToWebGL(string itemName,int itemID)
+    public void ItemInfoToWebGL(string itemName, int itemID)
     {
 #if UNITY_WEBGL == true && UNITY_EDITOR == false
         ItemInfo (itemName, itemID);
         Debug.Log("send ItemInfo");
         return;
 #endif
-        Debug.Log("NOT WEBGL: DID NOT send ItemInfo");
+        Debug.Log("NOT RUNNING IN WEBGL: DID NOT send ItemInfo");
     }
-    
+
     public void ShowWebGLPopup(string textStringPointer)
     {
 #if UNITY_WEBGL == true && UNITY_EDITOR == false
@@ -90,19 +95,16 @@ public class WebGLConnection : MonoBehaviour
         Debug.Log("send ShowPopup");
         return;
 #endif
-        Debug.Log("NOT WEBGL: DID NOT send ShowPopup");
+        Debug.Log("NNOT RUNNING IN WEBGL: DID NOT send ItemInfo");
     }
-
-
-    [DllImport("__Internal")]
-    private static extern void reportRoomID(string id);
+    
     public void reportRoomIdUnity()
     {
 #if UNITY_WEBGL == true && UNITY_EDITOR == false
-    persistenceManager pm = this.GetComponent<persistenceManager>();
-    reportRoomID (pm.getGUID());
+        persistenceManager pm = this.GetComponent<persistenceManager>();
+        reportRoomID (pm.getGUID());
+        return;
 #endif
+        Debug.Log("NOT RUNNING IN WEBGL: DID NOT send reportRoomIdUnity");
     }
-
-
 }

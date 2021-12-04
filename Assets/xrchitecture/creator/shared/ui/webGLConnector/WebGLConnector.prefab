@@ -47,5 +47,4 @@ MonoBehaviour:
   - {fileID: 1018966757418828807, guid: f24767aae817aec43a6377ae48fbd935, type: 3}
   - {fileID: 5974682565469705927, guid: 9387b3d4dfe27f4468f9c7bcd9014f1d, type: 3}
   - {fileID: 6399709162999495704, guid: 767bd99df40b3534097e7d2d8aaa0dea, type: 3}
-  gltfImporter: {fileID: 2996980246842036502, guid: 8be8dc3415ed5b745b1c1062fc280da6, type: 3}
   defaultMaterial: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
