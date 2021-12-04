@@ -4,11 +4,8 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-/*
- * Dependencies: 
- * - gltfImporter.cs
- */
 
+[RequireComponent(typeof(gltfImporter))]
 public class WebGLConnection : MonoBehaviour
 {
     [SerializeField] 
@@ -40,6 +37,7 @@ public class WebGLConnection : MonoBehaviour
         imp.importGltfFromServer(url);
     }
     
+
     /*
      * This function requires the persistenceManager script
      */
@@ -71,15 +69,28 @@ public class WebGLConnection : MonoBehaviour
     
     
     // These are the messages sent via jslib plugin to the react app
-
     [DllImport("__Internal")]
-    private static extern void SpawnItem(string type, int score);
+    private static extern void ItemInfo(string itemName, int itemID);
+    private static extern void ShowPopup(string textStringPointer);
 
-    public void SpawnItemUnity(string type)
+    public void ItemInfoToWebGL(string itemName,int itemID)
     {
 #if UNITY_WEBGL == true && UNITY_EDITOR == false
-    SpawnItem (type, 100);
+        ItemInfo (itemName, itemID);
+        Debug.Log("send ItemInfo");
+        return;
 #endif
+        Debug.Log("NOT WEBGL: DID NOT send ItemInfo");
+    }
+    
+    public void ShowWebGLPopup(string textStringPointer)
+    {
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+        ShowPopup (textStringPointer);
+        Debug.Log("send ShowPopup");
+        return;
+#endif
+        Debug.Log("NOT WEBGL: DID NOT send ShowPopup");
     }
 
 

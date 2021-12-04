@@ -183,12 +183,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &459702688 stripped
+--- !u!1 &459702688 
 GameObject:
   m_CorrespondingSourceObject: {fileID: 692591441322285911, guid: 40c44c434945d1d4084d5e7cf28502b6, type: 3}
   m_PrefabInstance: {fileID: 3849074324417685689}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &459702689 stripped
+--- !u!114 &459702689 
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4275413187233104570, guid: 40c44c434945d1d4084d5e7cf28502b6, type: 3}
   m_PrefabInstance: {fileID: 3849074324417685689}
@@ -214,14 +214,13 @@ MonoBehaviour:
   webGlConnection: {fileID: 459702689}
 --- !u!114 &459702691
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 4275413187233104570, guid: 40c44c434945d1d4084d5e7cf28502b6, type: 3}
+  m_PrefabInstance: {fileID: 3849074324417685689}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 459702688}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d9e9bfb9ce112041a22cff8977916e8, type: 3}
+  m_Script: {fileID: 11500000, guid: 181e660fca20fcf48a82be0ecb527254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &462239135
@@ -371,6 +370,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 102465671515631949, guid: 4483c813f7e81334cacc02dc68d45b9c, type: 3}
+      propertyPath: WebGL
+      value: 
+      objectReference: {fileID: 459702689}
     - target: {fileID: 102465671515631950, guid: 4483c813f7e81334cacc02dc68d45b9c, type: 3}
       propertyPath: m_Name
       value: InputManager

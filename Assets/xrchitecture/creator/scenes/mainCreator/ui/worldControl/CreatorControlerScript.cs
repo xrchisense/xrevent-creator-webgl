@@ -7,6 +7,8 @@ public class CreatorControlerScript : MonoBehaviour
 {
     public Texture2D randomtexture = null;
     public GameObject selectedObject;
+    [SerializeField]
+    private WebGLConnection WebGL;
 
     [SerializeField]
     private GameObject Gizmo;
@@ -67,7 +69,6 @@ public class CreatorControlerScript : MonoBehaviour
         if (m_plane.Raycast(ray, out zdistance))
         {
             Vector3 mouseWorldPosition = ray.GetPoint(zdistance);
-            Debug.Log(mouseWorldPosition);
             Vector3 oldObjectPosition = selectedObject.transform.position;
             movingObjectDirection = (int) Math.Round(movingObjectDirection);
 
@@ -80,6 +81,7 @@ public class CreatorControlerScript : MonoBehaviour
             };
 
             selectedObject.transform.position = newObjectPosition;
+            WebGL.ItemInfoToWebGL(selectedObject.name,(int)selectedObject.transform.position.x);
         }
     }
     public void UpdateGizmoPosition()
@@ -122,7 +124,6 @@ public class CreatorControlerScript : MonoBehaviour
     public void leftClicktoSelect(InputAction.CallbackContext context)
     {
         
-        Debug.Log(context);
         if(context.phase == InputActionPhase.Performed){return;} //ignore "performed" status
         
         if (context.phase == InputActionPhase.Canceled) //check if mouse is let go, if movign drop the item, else do nothing
@@ -168,6 +169,7 @@ public class CreatorControlerScript : MonoBehaviour
                 outline.OutlineMode = Outline.Mode.OutlineAll;
                 outline.OutlineColor = Color.yellow;
                 outline.OutlineWidth = 9f;
+                WebGL.ItemInfoToWebGL(selectedObject.name,(int)selectedObject.transform.position.x);
             }
 
             //gizmo
