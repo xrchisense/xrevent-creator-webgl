@@ -15,6 +15,7 @@ public class persistenceManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        webGlConnection = this.GetComponent<WebGLConnection>();
         if (!PlayerPrefs.HasKey("roomID"))
         {
             createGUID();
