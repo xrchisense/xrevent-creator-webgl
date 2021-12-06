@@ -20,7 +20,7 @@ public class persistenceManager : MonoBehaviour
         {
             createGUID();
         }
-            webGlConnection.reportRoomIdUnity();
+            webGlConnection.ReportRoomIdUnity();
     }
 
     public void setGUID(string guid)

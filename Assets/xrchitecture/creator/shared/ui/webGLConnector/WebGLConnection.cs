@@ -59,7 +59,7 @@ public class WebGLConnection : MonoBehaviour
         Debug.Log("Unityloading room: " + guid);
 
         // Report back guid
-        reportRoomIdUnity();
+        ReportRoomIdUnity();
     }
     
     public void SaveRoom(string guid)
@@ -73,7 +73,7 @@ public class WebGLConnection : MonoBehaviour
         persistenceManager pm = this.GetComponent<persistenceManager>();
         pm.createGUID();
         roomSaverLoader.newRoom(pm.getGUID());
-        reportRoomIdUnity();
+        ReportRoomIdUnity();
         
     }
 
@@ -84,8 +84,10 @@ public class WebGLConnection : MonoBehaviour
     // 
     [DllImport("__Internal")]
     private static extern void ItemInfo(string itemName, int itemID);
+    [DllImport("__Internal")]
     private static extern void ShowPopup(string textStringPointer);
-    private static extern void reportRoomID(string id);
+    [DllImport("__Internal")]
+    private static extern void ReportRoomID(string id);
 
     public void ItemInfoToWebGL(string itemName, int itemID)
     {
@@ -107,11 +109,13 @@ public class WebGLConnection : MonoBehaviour
         Debug.Log("NNOT RUNNING IN WEBGL: DID NOT send ItemInfo");
     }
     
-    public void reportRoomIdUnity()
+    public void ReportRoomIdUnity()
     {
-#if UNITY_WEBGL == true && UNITY_EDITOR == false
         persistenceManager pm = this.GetComponent<persistenceManager>();
-        reportRoomID (pm.getGUID());
+        Debug.Log("UnityRoomID: " + pm.getGUID());
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+        
+        ReportRoomID (pm.getGUID());
         Debug.Log("Unity did send RoomID to Webgl");
         return;
 #endif

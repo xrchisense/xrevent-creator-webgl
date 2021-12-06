@@ -12,4 +12,10 @@ mergeInto(LibraryManager.library, {
       Pointer_stringify(textStringPointer)
     );
   },
+  ReportRoomID: function (textStringPointer) {
+    window.dispatchReactUnityEvent(
+      "ReportRoomID",
+      Pointer_stringify(textStringPointer)
+    );
+  },
 });
