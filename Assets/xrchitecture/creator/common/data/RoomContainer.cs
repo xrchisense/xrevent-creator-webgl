@@ -7,16 +7,11 @@ namespace Xrchitecture.Creator.Common.Data
     {
         [JsonProperty("name")]
         public string Name;
-        [JsonProperty("jsonversion")]
-        public float JsonVersion;
         [JsonProperty("items")]
         public List<ItemContainer> Items;
+        [JsonProperty("guid")]
+        public string Guid;
         [JsonProperty("room-custom-args")]
         public List<RoomCustomArgs> RoomCustomArgs;
-
-        public override string ToString()
-        {
-            return ($"Name: " + Name + ", Version: " + JsonVersion);
-        }
     }
 }

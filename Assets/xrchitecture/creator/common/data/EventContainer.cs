@@ -9,6 +9,8 @@ namespace Xrchitecture.Creator.Common.Data
         public string Name;
         [JsonProperty("rooms")]
         public RoomContainer[] Rooms;
+        [JsonProperty("jsonversion")]
+        public float JsonVersion;
         [JsonProperty("event-custom-args")]
         public List<XrEventCustomArgs> XrEventCustomArgs;
     }
