@@ -10,6 +10,8 @@ namespace Xrchitecture.Creator.Common.Data
             Transform roomRoot = new GameObject().transform; 
 
             roomRoot.name = roomToCreate.Name;
+
+            roomRoot.tag = "EventItem";
             
             foreach (ItemContainer itemContainer in roomToCreate.Items)
             {

@@ -19,6 +19,7 @@ public class gltfImporter : MonoBehaviour
         {
             name = "Model"
         };
+        loadedObject.tag = "EventItem"; //use Tags or use layers ??
         Debug.Log("D2");
         
     }
@@ -35,6 +36,7 @@ public class gltfImporter : MonoBehaviour
         loadedObject = Importer.LoadFromFile(filepath);
         loadedObject.layer = 9; // set to "Spawned Objects" layer to finde them later and save their properties to json build plan
         loadedObject.AddComponent<MeshCollider>();
+        loadedObject.tag = "EventItem"; //use Tags or use layers ??
     }
 
     public void DownloadFile(string url)
