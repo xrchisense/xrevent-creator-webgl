@@ -14,6 +14,8 @@ public class WebGLConnection : MonoBehaviour
 
     [SerializeField] private Material defaultMaterial;
     [SerializeField] public RoomSaverLoader roomSaverLoader;
+    
+    
 
     //for safety Reasons; this Object should always be at the Origin
     void Awake()
@@ -72,7 +74,7 @@ public class WebGLConnection : MonoBehaviour
     {
         persistenceManager pm = this.GetComponent<persistenceManager>();
         pm.createGUID();
-        roomSaverLoader.newRoom(pm.getGUID());
+        roomSaverLoader.NewRoom(pm.getGUID());
         ReportRoomIdUnity();
         
     }

@@ -1,10 +1,13 @@
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace Xrchitecture.Creator.Common.Data
 {
     public class RoomSaverLoader : MonoBehaviour
     {
+
+        [SerializeField] private GameObject[] defaultItems;
         public void LoadRoom(string roomID)
         {
             CreatorNetworkUtility.LoadEventFromAddress("https://xrchitecture.de/upload/" + roomID + "/ExampleEvent.json");
@@ -37,10 +40,21 @@ namespace Xrchitecture.Creator.Common.Data
 
         }
 
-        public void newRoom(string guid)
+        public void NewRoom(string guid)
         {
-            XrEventContainer _event = new XrEventContainer();
-            CreatorSessionManager.SetCreatorEvent(_event);
+            GameObject[] spawnedItemsList;
+            spawnedItemsList = GameObject.FindGameObjectsWithTag("EventItem");
+            foreach (var g in spawnedItemsList)
+            {
+                Destroy(g);
+            }
+            //Spawn Default Items:
+            foreach (var gameObject in defaultItems)
+            {
+                Instantiate(gameObject);
+            }
+            //XrEventContainer _event = new XrEventContainer();
+            //CreatorSessionManager.SetCreatorEvent(_event);
             
         }
     }
