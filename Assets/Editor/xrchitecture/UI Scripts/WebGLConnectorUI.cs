@@ -86,7 +86,7 @@ public class WebGLConnectorUI : Editor
                 myTarget.roomSaverLoader.SaveRoom(true,GUIDTextField);
                 return;   
             }
-            myTarget.SaveRoom(GUIDTextField);
+            myTarget.SaveRoom();
         }
         GUILayout.EndHorizontal();
 

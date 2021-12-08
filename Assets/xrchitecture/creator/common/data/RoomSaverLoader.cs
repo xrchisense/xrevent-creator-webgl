@@ -10,7 +10,7 @@ namespace Xrchitecture.Creator.Common.Data
         [SerializeField] private GameObject[] defaultItems;
         public void LoadRoom(string roomID)
         {
-            CreatorNetworkUtility.LoadEventFromAddress("https://xrchitecture.de/upload/" + roomID + "/ExampleEvent.json");
+            CreatorNetworkUtility.LoadEventFromAddress("https://xrchitecture.de/upload/" + roomID + "/EventLayout.json");
         }
         public void LoadRoom(bool local, string roomlocation)
         {
@@ -23,7 +23,7 @@ namespace Xrchitecture.Creator.Common.Data
 
         public void SaveRoom(string roomID)
         {
-            CreatorNetworkUtility.SaveCurrentEventToAddress("https://xrchitecture.de/upload/" + roomID + "/ExampleEvent.json");
+            CreatorNetworkUtility.SaveCurrentEventToAddress("https://xrchitecture.de/upload/" + roomID + "/EventLayout.json");
         }
         
         public void SaveRoom(bool local,string roomlocation)

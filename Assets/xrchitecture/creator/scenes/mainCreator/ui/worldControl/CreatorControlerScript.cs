@@ -33,9 +33,9 @@ public class CreatorControlerScript : MonoBehaviour
 
         // Unity WebGL captures all Keyboard Inputs, but we need the keystrokes for the React GUI
         // This may help to switch them off for WebGL container
-        #if !UNITY_EDITOR && UNITY_WEBGL
-            WebGLInput.captureAllKeyboardInput = false;
-        #endif
+        //#if !UNITY_EDITOR && UNITY_WEBGL
+        //    WebGLInput.captureAllKeyboardInput = false;
+        //#endif
 
     }
 

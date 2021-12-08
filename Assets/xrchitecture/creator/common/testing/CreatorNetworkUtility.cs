@@ -54,8 +54,6 @@ namespace Xrchitecture.Creator.Common.Data
         internal static IEnumerator GetRoomJson(string address,
             Action<string> onSuccess)
         {
-            WebClient request = new WebClient();
-            request.Credentials = TestConfigHelper.FtpCredentials;
             UnityWebRequest req = UnityWebRequest.Get(address);
 
             req.SendWebRequest();

@@ -64,8 +64,11 @@ public class WebGLConnection : MonoBehaviour
         ReportRoomIdUnity();
     }
     
-    public void SaveRoom(string guid)
+    public void SaveRoom()
     {
+        persistenceManager pm = this.GetComponent<persistenceManager>();
+        string guid = pm.getGUID();
+
         roomSaverLoader.SaveRoom(guid);
         //ShowReactPopup("Save successful");
     }
@@ -74,9 +77,9 @@ public class WebGLConnection : MonoBehaviour
     {
         persistenceManager pm = this.GetComponent<persistenceManager>();
         pm.createGUID();
+       
         roomSaverLoader.NewRoom(pm.getGUID());
         ReportRoomIdUnity();
-        
     }
 
     //
