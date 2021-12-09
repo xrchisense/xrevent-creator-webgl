@@ -1,13 +1,4 @@
-﻿// ------------------------------------------------------------------------------------------------------
-// <copyright file="ItemType.cs" company="Monstrum">
-// Copyright (c) 2021 Monstrum. All rights reserved.
-// </copyright>
-// <author>
-//   Nikolai Reinke
-// </author>
-// ------------------------------------------------------------------------------------------------------
-
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace Xrchitecture.Creator.Common.Data
 {

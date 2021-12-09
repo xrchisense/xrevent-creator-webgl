@@ -17,15 +17,15 @@ namespace Xrchitecture.Creator.Common.Data {
             private set
             {
                 _Address = value;
-                OnCustomParameterChanged(new ItemCustomPar(dmxValueName, _Address.ToString()));
+                OnCustomParameterChanged(new ItemCustomArgs(dmxValueName, _Address.ToString()));
             }
         }
 
         private int _Address = -1;
 
-        public override void Initialize(List<ItemCustomPar> args)
+        public override void Initialize(List<ItemCustomArgs> args)
         {
-            foreach (ItemCustomPar arg in args)
+            foreach (ItemCustomArgs arg in args)
             {
                 if (arg.Argument == dmxValueName)
                 {

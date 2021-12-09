@@ -3,15 +3,8 @@ using Newtonsoft.Json;
 
 namespace Xrchitecture.Creator.Common.Data
 {
-    internal class ItemCustomPar : IComparable<ItemCustomPar>
+    internal class ItemCustomArgs : IComparable<ItemCustomArgs>
     {
-        [JsonConstructor]
-        internal ItemCustomPar(string argument, string value)
-        {
-            Argument = argument;
-            Value = value;
-        }
-
         [JsonProperty("argument")]
         public string Argument { get; private set; }
 
@@ -19,7 +12,14 @@ namespace Xrchitecture.Creator.Common.Data
         public string Value { get; private set; }
 
 
-        public int CompareTo(ItemCustomPar other)
+        [JsonConstructor]
+        internal ItemCustomArgs(string argument, string value)
+        {
+            Argument = argument;
+            Value = value;
+        }
+
+        public int CompareTo(ItemCustomArgs other)
         {
             return string.Compare(Argument, other.Argument);
         }

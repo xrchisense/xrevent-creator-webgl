@@ -7,9 +7,9 @@ namespace Xrchitecture.Creator.Common.Data
 {
     class TestCustomItemBehaviour : ACustomItemBehaviour
     {
-        private List<ItemCustomPar> _itemCustomArgs = new List<ItemCustomPar>();
+        private List<ItemCustomArgs> _itemCustomArgs = new List<ItemCustomArgs>();
 
-        public override void Initialize(List<ItemCustomPar> args)
+        public override void Initialize(List<ItemCustomArgs> args)
         {
             string argsString = "";
             for (int i = 0; i < args.Count; i++)

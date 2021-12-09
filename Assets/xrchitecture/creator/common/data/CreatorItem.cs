@@ -39,11 +39,10 @@ namespace Xrchitecture.Creator.Common.Data
         /// Handles the event from a ACustomItemBehaviour when a ItemCustomArgument has changed
         /// </summary>
         /// <param name="itemCustomPar">The ItemCustomPar that has changed</param>
-        private void HandleCustomParameterChanged(ItemCustomPar itemCustomPar)
+        private void HandleCustomParameterChanged(ItemCustomArgs itemCustomPar)
         {
             ItemContainer.UpdateCustomPar(itemCustomPar);
         }
-
 
         private void OnDestroy()
         {

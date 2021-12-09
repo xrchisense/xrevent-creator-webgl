@@ -15,13 +15,13 @@ namespace Xrchitecture.Creator.Common.Data
         [JsonProperty("resourcename")]
         public string ResourceName;
         [JsonProperty("item-custom-args")]
-        public List<ItemCustomPar> ItemCustomArgs;
+        public List<ItemCustomArgs> ItemCustomArgs;
 
         
         // Maybe use a dictionary instead
-        public void UpdateCustomPar(ItemCustomPar newCustomPar)
+        public void UpdateCustomPar(ItemCustomArgs newCustomPar)
         {
-            foreach (ItemCustomPar itemCustomArg in ItemCustomArgs)
+            foreach (ItemCustomArgs itemCustomArg in ItemCustomArgs)
             {
                 if (itemCustomArg.Argument == newCustomPar.Argument)
                 {
