@@ -29,7 +29,7 @@ public class WebGLConnectorUI : Editor
         
         GUILayout.BeginHorizontal();
         GUILayout.Label("Path to GLTF:     ",GUILayout.ExpandWidth(false));
-        string pathTOGLTF = GUILayout.TextField("https://xrchitecture.de/upload/0f8fad5b-d9cb-469f-a165-70867728950e/items/sonic-the-hedgehog.gltf");
+        string pathTOGLTF = GUILayout.TextField("https://xrchitecture.de/upload/0f8fad5b-d9cb-469f-a165-70867728950e/items/low-poly-fox-by-pixelmannen.gltf");
         GUILayout.EndHorizontal();
         if (GUILayout.Button("GLTFImport"))
         {

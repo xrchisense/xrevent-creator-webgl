@@ -34,6 +34,8 @@ public class WebGLConnection : MonoBehaviour
     
     /*
      * This function requires the gltfImporter script
+     * 
+     * ToDo: This needs adjustment... Use Nikolais way to add an object via sceneBuilder
      */
     public void SpawnGltf(string url)
     {
