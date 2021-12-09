@@ -6,38 +6,32 @@ namespace Xrchitecture.Creator.Common.Data
 {
     public class RoomSaverLoader : MonoBehaviour
     {
+        [SerializeField] 
+        private GameObject[] defaultItems;
 
-        [SerializeField] private GameObject[] defaultItems;
+        public void LoadRoom(bool local, string path)
+        {
+            using StreamReader r = new StreamReader(path);
+            string json = r.ReadToEnd();
+            XrEventContainer eventContainer = XrJsonUtility.ParseEventFromJson(json);
+            CreatorSessionManager.SetCreatorEvent(eventContainer);
+        }  
+        
+        public void SaveRoom(bool local,string path)
+        {
+            XrEventContainer eventContainer = CreatorSessionManager.GetCreatorEvent();
+            string jsonToUpload = XrJsonUtility.ParseJsonFromEvent(eventContainer);           
+            File.WriteAllText(path, jsonToUpload);
+        }
+
         public void LoadRoom(string roomID)
         {
             CreatorNetworkUtility.LoadEventFromAddress("https://xrchitecture.de/upload/" + roomID + "/EventLayout.json");
         }
-        public void LoadRoom(bool local, string roomlocation)
-        {
-            using (StreamReader r = new StreamReader(roomlocation))
-            {
-                string json = r.ReadToEnd();
-                CreatorSessionManager.SetCreatorEvent(XrJsonUtility.ParseEventFromJson(json));
-            }
-        }
 
         public void SaveRoom(string roomID)
         {
-            CreatorNetworkUtility.SaveCurrentEventToAddress("https://xrchitecture.de/upload/" + roomID + "/EventLayout.json");
-        }
-        
-        public void SaveRoom(bool local,string roomlocation)
-        {
-            
-            XrEventContainer containerToUpload =
-                CreatorSessionManager.GetCreatorEvent();
-
-            string jsonToUpload =
-                XrJsonUtility.ParseJsonFromEvent(containerToUpload);
-            
-            
-            File.WriteAllText(roomlocation, jsonToUpload);
-
+            CreatorNetworkUtility.SaveCurrentEventToAddress(roomID);
         }
 
         public void NewRoom(string guid)

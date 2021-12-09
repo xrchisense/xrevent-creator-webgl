@@ -15,7 +15,6 @@ namespace Xrchitecture.Creator.Common.Data
     internal static class CreatorSessionManager
     {
         private static XrEventContainer _currentEvent;
-
         private static GameObject _currentRoomGameObject;
 
         public static void SetCreatorEvent(XrEventContainer xrEvent)
