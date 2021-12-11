@@ -58,7 +58,14 @@ namespace Xrchitecture.Creator.Common.Data
 
         public static void AddItemToCurrentRoom(string itemToAdd, string itemType)
         {
-            XrCreatorUtility.AddItemToCurrentRoom(itemToAdd, itemType, _currentRoomGameObject);
+            
+            XrCreatorUtility.AddItemToCurrentRoom(itemToAdd, itemType, _currentRoomGameObject, container => _currentEvent.Rooms[0].Items.Add(container));
+            
+        }
+
+        public static void RemoveItemFromCurrentRoom(CreatorItem itemToRemove)
+        {
+            
         }
 
         private static void DestroyRoomGameObject()
