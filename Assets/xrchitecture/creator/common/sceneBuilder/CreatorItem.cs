@@ -26,10 +26,23 @@ namespace Xrchitecture.Creator.Common.Data
             }
         }
 
+        
+
+        public GameObject GetThisObjectRoot()
+        {
+            return gameObject;
+        }
+        
+        //When Object is deleted:
+        private void OnDisable()
+        {
+            CreatorSessionManager.RemoveItemFromCurrentRoom(this);
+        }
+
         /// <summary>
         /// Function to be called manually, after the GameObject has been moved via Gizmo/Code/etc.
         /// </summary>
-        private void TransformUpdated()
+        public void TransformUpdated()
         {
             ItemContainer.Position = transform.position;
             ItemContainer.Rotation = transform.rotation;

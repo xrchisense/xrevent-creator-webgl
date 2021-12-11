@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using UnityEngine;
-using UnityEngine.Rendering;
 using Xrchitecture.Creator.Common.Data;
 
-
-[RequireComponent(typeof(gltfImporter))]
 [RequireComponent(typeof(persistenceManager))]
 public class WebGLConnection : MonoBehaviour
 {
-    [SerializeField] public List<GameObject> PrefabList;
-
-    [SerializeField] private Material defaultMaterial;
+    [SerializeField] public  List<GameObject> prefabList;
+    [SerializeField] private CreatorControlerScript creatorControlerScript;
     [SerializeField] public RoomSaverLoader roomSaverLoader;
     
     
@@ -21,30 +17,34 @@ public class WebGLConnection : MonoBehaviour
     void Awake()
     {
         this.transform.position = new Vector3(0f, 0f, 0f);
+        TestConfigHelper.PrefabList = prefabList;
+        
     }
     
+    
+    
+    
+    //SPAWNING AND DELETING OBJECTS:
     public void SpawnPrefab(string type)
     {
         Debug.Log(type);
-        GameObject gO = Instantiate(PrefabList.Find(x => x.name == type));
-        Renderer y = new Renderer();
-        if (gO.TryGetComponent<Renderer>(out y)) y.material = defaultMaterial;
+        CreatorSessionManager.SpawnItemInCurrentRoom(type,"pre-defined");
         Debug.Log($"Spawning {type}!");
     }
     
-    /*
-     * This function requires the gltfImporter script
-     * 
-     * ToDo: This needs adjustment... Use Nikolais way to add an object via sceneBuilder
-     */
-    public void SpawnGltf(string url)
+    public void SpawnGltf(string nameOnServer)
     {
-        Debug.Log(url);
-        gltfImporter imp = this.GetComponent<gltfImporter>();
-        imp.importGltfFromServer(url);
+        Debug.Log(nameOnServer);
+        CreatorSessionManager.SpawnItemInCurrentRoom(nameOnServer,"user-defined");
     }
 
+    public void DeleteSelectedItem()
+    {
+        GameObject objectToDelete = creatorControlerScript.selectedObject;
+        CreatorSessionManager.RemoveItemFromCurrentRoom(objectToDelete.GetComponent<CreatorItem>());
+    }
 
+    //GUID FUN:
     /*
      * This function requires the persistenceManager script
      */
@@ -54,13 +54,13 @@ public class WebGLConnection : MonoBehaviour
         pm.setGUID(guid);
     }
 
-
+    //LOADING + SAVING ROOMS:
     public void loadRoom(string guid)
     {
         SetGUID(guid);
         // Call loading stuff here!
         roomSaverLoader.LoadRoom(guid);
-        Debug.Log("Unityloading room: " + guid);
+        Debug.Log("Unity loading room: " + guid);
 
         // Report back guid
         ReportRoomIdUnity();
@@ -79,7 +79,6 @@ public class WebGLConnection : MonoBehaviour
     {
         persistenceManager pm = this.GetComponent<persistenceManager>();
         pm.createGUID();
-       
         roomSaverLoader.NewRoom(pm.getGUID());
         ReportRoomIdUnity();
     }
