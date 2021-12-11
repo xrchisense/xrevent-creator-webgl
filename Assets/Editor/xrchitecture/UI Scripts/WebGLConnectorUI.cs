@@ -19,6 +19,11 @@ public class WebGLConnectorUI : Editor
         TestConfigHelper.PrefabList = myTarget.prefabList;
         
         GUILayout.Space(20);
+        if(GUILayout.Button("Delete Selected Object"))
+        {
+            myTarget.DeleteSelectedItem();
+        }
+        GUILayout.Space(20);
         GUILayout.Label("Spawn Primitive List:");
         
 

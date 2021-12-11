@@ -4,14 +4,11 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 using Xrchitecture.Creator.Common.Data;
 
-
-[RequireComponent(typeof(gltfImporter))]
 [RequireComponent(typeof(persistenceManager))]
 public class WebGLConnection : MonoBehaviour
 {
     [SerializeField] public  List<GameObject> prefabList;
-
-    [SerializeField] private Material defaultMaterial;
+    [SerializeField] private CreatorControlerScript creatorControlerScript;
     [SerializeField] public RoomSaverLoader roomSaverLoader;
     
     
@@ -24,20 +21,30 @@ public class WebGLConnection : MonoBehaviour
         
     }
     
+    
+    
+    
+    //SPAWNING AND DELETING OBJECTS:
     public void SpawnPrefab(string type)
     {
         Debug.Log(type);
-        CreatorSessionManager.AddItemToCurrentRoom(type,"pre-defined");
+        CreatorSessionManager.SpawnItemInCurrentRoom(type,"pre-defined");
         Debug.Log($"Spawning {type}!");
     }
     
     public void SpawnGltf(string nameOnServer)
     {
         Debug.Log(nameOnServer);
-        CreatorSessionManager.AddItemToCurrentRoom(nameOnServer,"user-defined");
+        CreatorSessionManager.SpawnItemInCurrentRoom(nameOnServer,"user-defined");
     }
 
+    public void DeleteSelectedItem()
+    {
+        GameObject objectToDelete = creatorControlerScript.selectedObject;
+        CreatorSessionManager.RemoveItemFromCurrentRoom(objectToDelete.GetComponent<CreatorItem>());
+    }
 
+    //GUID FUN:
     /*
      * This function requires the persistenceManager script
      */
@@ -47,7 +54,7 @@ public class WebGLConnection : MonoBehaviour
         pm.setGUID(guid);
     }
 
-
+    //LOADING + SAVING ROOMS:
     public void loadRoom(string guid)
     {
         SetGUID(guid);
