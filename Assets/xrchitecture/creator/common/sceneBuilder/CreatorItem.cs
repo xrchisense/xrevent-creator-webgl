@@ -26,6 +26,11 @@ namespace Xrchitecture.Creator.Common.Data
             }
         }
 
+        public GameObject GetThisObjectRoot()
+        {
+            return gameObject;
+        }
+
         /// <summary>
         /// Function to be called manually, after the GameObject has been moved via Gizmo/Code/etc.
         /// </summary>
