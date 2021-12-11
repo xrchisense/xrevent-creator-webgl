@@ -49,6 +49,11 @@ namespace Xrchitecture.Creator.Common.Data
             return _currentEvent;
         }
 
+        public static GameObject GetCurrentRommGameObject()
+        {
+            return _currentRoomGameObject;
+        }
+
         public static void SetCurrentRoom(RoomContainer roomContainer)
         {
             DestroyRoomGameObject();
@@ -58,9 +63,7 @@ namespace Xrchitecture.Creator.Common.Data
 
         public static void SpawnItemInCurrentRoom(string itemToAdd, string itemType)
         {
-            
-            XrCreatorUtility.AddItemToCurrentRoom(itemToAdd, itemType, _currentRoomGameObject, container => _currentEvent.Rooms[0].Items.Add(container));
-            
+            XrCreatorUtility.SpawnItemInRoom(itemToAdd, itemType, _currentRoomGameObject, container => _currentEvent.Rooms[0].Items.Add(container));
         }
 
         public static void RemoveItemFromCurrentRoom(CreatorItem itemToRemove)

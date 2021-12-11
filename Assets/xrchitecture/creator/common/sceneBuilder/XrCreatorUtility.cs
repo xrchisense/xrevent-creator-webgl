@@ -22,7 +22,7 @@ namespace Xrchitecture.Creator.Common.Data
             return roomRoot.gameObject;
         }
         
-        public static void AddItemToCurrentRoom(string itemToAdd, string itemType, GameObject currentRoomGameObject, Action<ItemContainer> onSuccess)
+        public static void SpawnItemInRoom(string itemToAdd, string itemType, GameObject currentRoomGameObject, Action<ItemContainer> onSuccess)
         {
             ItemContainer newItemContainer = new ItemContainer()
             {

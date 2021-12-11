@@ -38,14 +38,11 @@ namespace Xrchitecture.Creator.Common.Data
         {
             CreatorSessionManager.RemoveItemFromCurrentRoom(this);
         }
-        public void SaveToContainer()
-        {
-            TransformUpdated();
-        }
+
         /// <summary>
         /// Function to be called manually, after the GameObject has been moved via Gizmo/Code/etc.
         /// </summary>
-        private void TransformUpdated()
+        public void TransformUpdated()
         {
             ItemContainer.Position = transform.position;
             ItemContainer.Rotation = transform.rotation;
