@@ -65,7 +65,7 @@ namespace Xrchitecture.Creator.Common.Data
 
         public static void RemoveItemFromCurrentRoom(CreatorItem itemToRemove)
         {
-            
+            _currentEvent.Rooms[0].Items.Remove(itemToRemove.ItemContainer);
         }
 
         private static void DestroyRoomGameObject()
