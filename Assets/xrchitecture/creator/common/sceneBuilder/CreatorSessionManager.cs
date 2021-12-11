@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Xrchitecture.Creator.Common.Data
@@ -8,6 +10,33 @@ namespace Xrchitecture.Creator.Common.Data
         private static XrEventContainer _currentEvent;
         private static GameObject _currentRoomGameObject;
 
+        public static void CreateNewCreatorEvent(string guid)
+        {
+            //add default Items to ItemContainerList
+            List<ItemContainer> defaultItemList = new List<ItemContainer>();
+            defaultItemList.Add(new ItemContainer(){ItemType = "pre-defined",ResourceName = "Plane"});
+            defaultItemList.Add(new ItemContainer(){ItemType = "pre-defined",ResourceName = "Directional Light"});
+            
+            //Create Default Event
+            XrEventContainer xrc = new XrEventContainer()
+            {
+                Name = "EmptyRoom",
+                Rooms = new RoomContainer[]
+                {
+                    new RoomContainer()
+                    {
+                        Guid = guid,
+                        Items = defaultItemList
+                    }
+                }
+            };
+            //Set DefaultEvent an Load it. 
+            SetCreatorEvent(xrc);
+            
+            //TODO:
+            //Popup: Default Scenen/Tutorial, name etc.
+            
+        }
         public static void SetCreatorEvent(XrEventContainer xrEvent)
         {
             _currentEvent = xrEvent;
@@ -23,8 +52,13 @@ namespace Xrchitecture.Creator.Common.Data
         public static void SetCurrentRoom(RoomContainer roomContainer)
         {
             DestroyRoomGameObject();
-            
+
             _currentRoomGameObject = XrCreatorUtility.CreateRoomGameObject(roomContainer);
+        }
+
+        public static void AddItemToCurrentRoom(string itemToAdd, string itemType)
+        {
+            XrCreatorUtility.AddItemToCurrentRoom(itemToAdd, itemType, _currentRoomGameObject);
         }
 
         private static void DestroyRoomGameObject()
@@ -34,6 +68,8 @@ namespace Xrchitecture.Creator.Common.Data
                 GameObject.Destroy(_currentRoomGameObject);
                 _currentRoomGameObject = null;
             }
+            
+            //Destroy all with the tag also ??
         }
     }
 }

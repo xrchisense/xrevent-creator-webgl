@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Xrchitecture.Creator.Common.Data
 {
@@ -20,6 +21,18 @@ namespace Xrchitecture.Creator.Common.Data
 
             return roomRoot.gameObject;
         }
+        
+        public static void AddItemToCurrentRoom(string itemToAdd, string itemType, GameObject currentRoomGameObject)
+        {
+            ItemContainer newItemContainer = new ItemContainer()
+            {
+                ResourceName = itemToAdd,
+                ItemType = itemType
+            };
+            Debug.Log(currentRoomGameObject);
+            CreateItem(newItemContainer , createdObject => OnItemCreated(createdObject, newItemContainer, currentRoomGameObject.transform));
+        }
+        
 
         private static void CreateItem(ItemContainer itemContainerToCreate, Action<GameObject> onSuccess)
         {
@@ -42,42 +55,60 @@ namespace Xrchitecture.Creator.Common.Data
             item.transform.SetParent(itemRoot.transform);
             itemRoot.transform.SetParent(roomRoot);
             
+            //Add Collider to spawned Object when no Collider but a Mesh is present.
+            //Does not solve the Problem when there is another Parent Root GameObject, then no collider will be applied.
+            //This should maybe be moved to the CreatorItem.init
+            if (!item.TryGetComponent<Collider>(out var component) && item.TryGetComponent<MeshRenderer>(out var meshRenderer))
+            {
+                item.AddComponent<MeshCollider>();
+            }
+            
+            
             CreatorItem creatorItem = itemRoot.AddComponent<CreatorItem>();
             creatorItem.Initialize(itemContainer);
         }
 
-        private static GameObject CreateUserGameObject(ItemContainer userItemContainerToCreate, Action<GameObject> onSuccess)
+        private static void CreateUserGameObject(ItemContainer userItemContainerToCreate, Action<GameObject> onSuccess)
         {
             GameObject createdUserObject = null;
 
             string? extension = System.IO.Path.GetExtension(userItemContainerToCreate.ResourceName);
 
+            
+            //TODO: This is still not perfect as the TestConfigHelper is used !
+            //
+            //and the Debugger does not work:
+            
+            
             if (extension == ".glb" || extension == ".gltf")
             {
                 GLTFLoader.CreateModelFromAddress(
                     TestConfigHelper.ProjectDataFolder + TestConfigHelper.ProjectId +
                     "/items/" + userItemContainerToCreate.ResourceName, onSuccess);
             }
-
-            return createdUserObject;
+            
         }
 
-        private static GameObject CreatePredefinedGameObject(
+        private static void CreatePredefinedGameObject(
             ItemContainer predefinedItemContainerToCreate, Action<GameObject> onSuccess)
         {
-            // Using Resources right now, might switch to AssetBundles at some point. 
+            
+            
+            // Using Prefabs right now, might switch to AssetBundles at some point. 
             // https://docs.unity3d.com/Manual/webgl-embeddedresources.html
             // -> Needs to be enabled for WebGL Embedded Resources
+            
+            //The prefabs can be set in the WebGLConnectorUI.
 
-            GameObject itemPrefab = Resources.Load(
-                TestConfigHelper.PredefinedItemsResourcePath +
-                predefinedItemContainerToCreate.ResourceName) as GameObject;
 
-            GameObject createdObject = GameObject.Instantiate(itemPrefab);
-
+            GameObject itemPrefab =
+                TestConfigHelper.PrefabList.Find(x => x.name == predefinedItemContainerToCreate.ResourceName);
+            
+            GameObject createdObject = Object.Instantiate(itemPrefab);
+            
             onSuccess(createdObject);
-
-            return createdObject;
         }
+
+        
     }
 }

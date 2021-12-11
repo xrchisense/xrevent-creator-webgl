@@ -4,8 +4,10 @@ using System.Net;
 using System.Security;
 using UnityEngine;
 
-public static class TestConfigHelper 
+public static class TestConfigHelper
 {
+    public static List<GameObject> PrefabList = new List<GameObject>();
+    
     public static string PredefinedItemsResourcePath = "predefined/";
     
     public static object ProjectDataFolder = "https://xrchitecture.de/upload/";

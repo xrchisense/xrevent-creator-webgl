@@ -11,14 +11,20 @@ public class WebGLConnectorUI : Editor
     string newGUIDTextField = "";
     public override void OnInspectorGUI()
     {
+        WebGLConnection myTarget = (WebGLConnection) target;
+        
+        
         DrawDefaultInspector();
+
+        TestConfigHelper.PrefabList = myTarget.prefabList;
+        
         GUILayout.Space(20);
         GUILayout.Label("Spawn Primitive List:");
         
 
-        WebGLConnection myTarget = (WebGLConnection) target;
+        
 
-        foreach (var x in myTarget.PrefabList)
+        foreach (var x in TestConfigHelper.PrefabList)
         {
             if(GUILayout.Button($"Spawn {x.name}"))
             {
