@@ -8,6 +8,7 @@ public class WebGLConnectorUI : Editor
     private bool localRoomFile;
     
     string GUIDTextField = "";
+    string newGUIDTextField = "";
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
@@ -40,14 +41,21 @@ public class WebGLConnectorUI : Editor
         GUILayout.Label("Persistent Manager Communication");
         persistenceManager pm = myTarget.GetComponent<persistenceManager>();
         GUILayout.BeginHorizontal();
+        GUILayout.BeginHorizontal();
         
+        newGUIDTextField = GUILayout.TextField(newGUIDTextField);
+        if (GUILayout.Button("change GUID", GUILayout.ExpandWidth(false)))
+        {
+            pm.setGUID(newGUIDTextField);
+        }
+        GUILayout.EndHorizontal();
         if (localRoomFile == false)
         {
             if (GUILayout.Button("switch to local", GUILayout.ExpandWidth(false)))
             {
                 localRoomFile = true;
             }
-            GUIDTextField = GUILayout.TextField("0f8fad5b-d9cb-469f-a165-70867728950e");
+            GUIDTextField = GUILayout.TextField(pm.getGUID());
         }
         else
         {
