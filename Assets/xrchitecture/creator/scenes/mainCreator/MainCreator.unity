@@ -361,6 +361,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4176773297570405657, guid: 2f4be2c30bb0ccb48a042a22830e62bf, type: 3}
+      propertyPath: m_NotificationBehavior
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4176773297570405657, guid: 2f4be2c30bb0ccb48a042a22830e62bf, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1724127428}
@@ -523,6 +527,26 @@ PrefabInstance:
       propertyPath: PrefabList.Array.data[4]
       value: 
       objectReference: {fileID: 5968273959741787471, guid: 03d77bcb16a3a244f9fbcceb8c4984e3, type: 3}
+    - target: {fileID: 4275413187233104570, guid: 40c44c434945d1d4084d5e7cf28502b6, type: 3}
+      propertyPath: prefabList.Array.data[0]
+      value: 
+      objectReference: {fileID: 3637916847699237271, guid: f24767aae817aec43a6377ae48fbd935, type: 3}
+    - target: {fileID: 4275413187233104570, guid: 40c44c434945d1d4084d5e7cf28502b6, type: 3}
+      propertyPath: prefabList.Array.data[1]
+      value: 
+      objectReference: {fileID: 3294008102144228324, guid: 1c8405e5dbe89814db363faae5465ef7, type: 3}
+    - target: {fileID: 4275413187233104570, guid: 40c44c434945d1d4084d5e7cf28502b6, type: 3}
+      propertyPath: prefabList.Array.data[2]
+      value: 
+      objectReference: {fileID: 3582781635024510197, guid: 9387b3d4dfe27f4468f9c7bcd9014f1d, type: 3}
+    - target: {fileID: 4275413187233104570, guid: 40c44c434945d1d4084d5e7cf28502b6, type: 3}
+      propertyPath: prefabList.Array.data[3]
+      value: 
+      objectReference: {fileID: 2371041299337085016, guid: 03d77bcb16a3a244f9fbcceb8c4984e3, type: 3}
+    - target: {fileID: 4275413187233104570, guid: 40c44c434945d1d4084d5e7cf28502b6, type: 3}
+      propertyPath: prefabList.Array.data[4]
+      value: 
+      objectReference: {fileID: 3749363688414227048, guid: 767bd99df40b3534097e7d2d8aaa0dea, type: 3}
     - target: {fileID: 4275413187233104570, guid: 40c44c434945d1d4084d5e7cf28502b6, type: 3}
       propertyPath: prefabList.Array.data[5]
       value: 
