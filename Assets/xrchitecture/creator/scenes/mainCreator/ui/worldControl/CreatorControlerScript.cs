@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using Xrchitecture.Creator.Common.Data;
 
 public class CreatorControlerScript : MonoBehaviour
 {
@@ -121,18 +122,24 @@ public class CreatorControlerScript : MonoBehaviour
         GUI.DrawTexture(XRect,randomtexture);
     }*/
 
+    public GameObject GetRoot(GameObject gO)
+    {
+        return gO.GetComponentInParent<CreatorItem>().GetThisObjectRoot();
+    }
+
     public void leftClicktoSelect(InputAction.CallbackContext context)
     {
         
         if(context.phase == InputActionPhase.Performed){return;} //ignore "performed" status
         
-        if (context.phase == InputActionPhase.Canceled) //check if mouse is let go, if movign drop the item, else do nothing
+        if (context.phase == InputActionPhase.Canceled) //check if mouse is let go, if moving drop the item, else do nothing
         {
             if (movingObject) { movingObject = false;};
             return;
         }
 
-        if (FindObjectOfType<EventSystem>()) {if (EventSystem.current.IsPointerOverGameObject()){return;}} //check if infront of ui object
+        //check if infront of ui object
+        if (FindObjectOfType<EventSystem>()) {if (EventSystem.current.IsPointerOverGameObject()){return;}} 
 
         //Check if Gizmoclicked
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -161,7 +168,7 @@ public class CreatorControlerScript : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 100))
         {
             Gizmo.SetActive(true);
-            selectedObject = hit.transform.gameObject;
+            selectedObject = GetRoot(hit.transform.gameObject);
             //outline
             if (!selectedObject.TryGetComponent(out Outline ll))
             {

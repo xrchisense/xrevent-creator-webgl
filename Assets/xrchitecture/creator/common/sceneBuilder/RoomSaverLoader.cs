@@ -8,7 +8,7 @@ namespace Xrchitecture.Creator.Common.Data
     {
         [SerializeField] 
         private GameObject[] defaultItems;
-
+        
         public void LoadRoom(bool local, string path)
         {
             using StreamReader r = new StreamReader(path);
@@ -43,13 +43,7 @@ namespace Xrchitecture.Creator.Common.Data
                 Destroy(g);
             }
             //Spawn Default Items:
-            foreach (var gameObject in defaultItems)
-            {
-                Instantiate(gameObject);
-            }
-            //XrEventContainer _event = new XrEventContainer();
-            //CreatorSessionManager.SetCreatorEvent(_event);
-            
+           CreatorSessionManager.CreateNewCreatorEvent(guid);
         }
     }
 }

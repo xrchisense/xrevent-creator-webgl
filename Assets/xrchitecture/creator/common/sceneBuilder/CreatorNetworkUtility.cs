@@ -48,6 +48,16 @@ namespace Xrchitecture.Creator.Common.Data
             IEnumerator EventSaveRoutine()
             {
                 XrEventContainer containerToUpload = CreatorSessionManager.GetCreatorEvent();
+                
+                //QuickFixTOGettAllTheCurrentItems (only needed because Transofrms is not updated in the Event
+                containerToUpload.Rooms[0].Items = new List<ItemContainer>();
+                foreach (var cI in CreatorSessionManager.GetCurrentRommGameObject().GetComponentsInChildren<CreatorItem>())
+                {
+                    cI.TransformUpdated();
+                    containerToUpload.Rooms[0].Items.Add(cI.ItemContainer);
+                }
+                
+                
                 string jsonToUpload = XrJsonUtility.ParseJsonFromEvent(containerToUpload);
                 
                 yield return HelperBehaviour.Instance.StartCoroutine(
