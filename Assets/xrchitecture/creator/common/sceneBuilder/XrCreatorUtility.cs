@@ -54,6 +54,7 @@ namespace Xrchitecture.Creator.Common.Data
 
             if (extension == ".glb" || extension == ".gltf")
             {
+                // ToDo: ProjectId (GUID)path is still hardcoded. needs to change!
                 GLTFLoader.CreateModelFromAddress(
                     TestConfigHelper.ProjectDataFolder + TestConfigHelper.ProjectId +
                     "/items/" + userItemContainerToCreate.ResourceName, onSuccess);

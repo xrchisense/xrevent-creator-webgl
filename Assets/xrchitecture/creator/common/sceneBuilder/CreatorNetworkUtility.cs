@@ -25,6 +25,9 @@ namespace Xrchitecture.Creator.Common.Data
             }
         }
 
+        //<Summary>
+        //Used to fetch the json string from the webserver.  
+        //</Summary>  
         internal static IEnumerator GetRoomJson(string address, Action<string> onSuccess)
         {
             UnityWebRequest req = UnityWebRequest.Get(address);

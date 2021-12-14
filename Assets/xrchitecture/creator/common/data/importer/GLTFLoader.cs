@@ -13,8 +13,7 @@ namespace Xrchitecture.Creator.Common.Data
 {
     public class GLTFLoader
     {
-        public static void CreateModelFromAddress(string modelUrl,
-            Action<GameObject> onSuccess)
+        public static void CreateModelFromAddress(string modelUrl, Action<GameObject> onSuccess)
         {
             
             HelperBehaviour.Instance.StartCoroutine(CreationRoutine());
