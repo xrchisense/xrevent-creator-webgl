@@ -14,6 +14,13 @@ public class D3Camera : MonoBehaviour
     private bool altPressed = false;
     private bool shiftPressed = false;
 
+    [SerializeField] float sensitivityX = 0.3f;
+    [SerializeField] float sensitivityY = 0.5f;
+    [SerializeField] float _yawClamp = 85;
+    private float _mouseX;
+    private float _mouseY;
+    private float _yaw;
+
     public int MaxTilt = 85;
     public int MinTilt = 10;
     public float DragSpeed = 0.1f;
@@ -56,7 +63,24 @@ public class D3Camera : MonoBehaviour
 
             }else {
                 //rotate
+                _mouseX = mouseMoevement.x * sensitivityX;
+                _mouseY = mouseMoevement.y * sensitivityY;
 
+                CameraBase.Rotate(Vector3.up, _mouseX, 0);
+
+                // Revert axis
+                _yaw -= _mouseY;
+                // Assign maximum rotations
+                _yaw = Mathf.Clamp(_yaw, -_yawClamp, _yawClamp);
+
+                Vector3 targetRotation = CameraBase.eulerAngles;
+                targetRotation.x = _yaw;
+
+                CameraBase.eulerAngles = targetRotation;
+
+                // Not sure about the old code. Fixed the clamping above...
+                // Please clean/remove the old code.
+                /*
                 Quaternion currentRotaiaon;
                 Quaternion goalRotation;
                 currentRotaiaon = CameraBase.rotation;
@@ -67,16 +91,18 @@ public class D3Camera : MonoBehaviour
                 goalRotation.eulerAngles += toRotate;
                 if (goalRotation.eulerAngles[0] > MaxTilt && MaxTilt >0)
                 {
-                    toRotate[0] = 0;
+                    //toRotate[0] = 0;
+                    currentRotaiaon.eulerAngles.Set(goalRotation.eulerAngles.x, MaxTilt, 0);
                 }
                 else if (goalRotation.eulerAngles[0] < MinTilt && MinTilt >0)
                 {
-                    toRotate[0] = 0;
+                    //toRotate[0] = 0;
+                    currentRotaiaon.eulerAngles.Set(goalRotation.eulerAngles.x, MinTilt, 0);
                 }
 
                 currentRotaiaon.eulerAngles += toRotate*RotateSpeed;
                 CameraBase.rotation = currentRotaiaon;
-                
+                */
                 
             }
             

@@ -166,9 +166,13 @@ MonoBehaviour:
   CameraBase: {fileID: 4176773297570405656}
   Camera: {fileID: 4176773296458877081}
   disableScroll: 0
+  sensitivityX: 0.3
+  sensitivityY: 0.5
+  _yawClamp: 85
   MaxTilt: 85
   MinTilt: 10
   DragSpeed: 0.1
+  RotateSpeed: 0.5
 --- !u!114 &4176773297570405657
 MonoBehaviour:
   m_ObjectHideFlags: 0
