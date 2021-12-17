@@ -59,10 +59,12 @@ namespace Xrchitecture.Creator.Common.Data
             //Add Collider to spawned Object when no Collider but a Mesh is present.
             //Does not solve the Problem when there is another Parent Root GameObject, then no collider will be applied.
             //This should maybe be moved to the CreatorItem.init
-            if (!item.TryGetComponent<Collider>(out var component) && item.TryGetComponent<MeshRenderer>(out var meshRenderer))
-            {
-                item.AddComponent<MeshCollider>();
-            }
+            foreach (MeshRenderer mesh in item.GetComponentsInChildren<MeshRenderer>()) {
+                  if (!mesh.TryGetComponent<Collider>(out var component))
+                  {
+                        mesh.gameObject.AddComponent<MeshCollider>();
+                  }
+            } 
             
             
             CreatorItem creatorItem = itemRoot.AddComponent<CreatorItem>();
