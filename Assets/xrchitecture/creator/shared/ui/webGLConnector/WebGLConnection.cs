@@ -44,6 +44,16 @@ public class WebGLConnection : MonoBehaviour
         GameObject objectToDelete = creatorControlerScript.selectedObject;
         CreatorSessionManager.RemoveItemFromCurrentRoom(objectToDelete.GetComponent<CreatorItem>());
     }
+    
+    
+    //gets the deletedItemName from React (Important!: Without the file Ending)
+    public void CustomItemDeletedFromServer(string itemName) {
+            GameObject room = CreatorSessionManager.GetCurrentRommGameObject();
+            foreach (CreatorItem item in room.GetComponentsInChildren<CreatorItem>() {
+                if (item.name == itemName + "-ROOT") {
+                    CreatorSessionManager.RemoveItemFromCurrentRoom(item);
+            }
+    }
 
     //GUID FUN:
     /*
