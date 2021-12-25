@@ -42,7 +42,7 @@ public class WebGLConnection : MonoBehaviour
     }
 
 
-    //gets the deletedItemName from React (Important!: Without the file Ending)
+    //gets the deletedItemName from React 
     public void CustomItemDeletedFromServer(string itemName)
     {
         GameObject room = CreatorSessionManager.GetCurrentRommGameObject();
