@@ -9,6 +9,9 @@ public class WebGLConnectorUI : Editor
     
     string GUIDTextField = "";
     string newGUIDTextField = "";
+
+    string pathTOGLTF =
+        "bag-chair.gltf";
     public override void OnInspectorGUI()
     {
         WebGLConnection myTarget = (WebGLConnection) target;
@@ -41,7 +44,7 @@ public class WebGLConnectorUI : Editor
         
         GUILayout.BeginHorizontal();
         GUILayout.Label("Path to GLTF:     ",GUILayout.ExpandWidth(false));
-        string pathTOGLTF = GUILayout.TextField("https://xrchitecture.de/upload/0f8fad5b-d9cb-469f-a165-70867728950e/items/low-poly-fox-by-pixelmannen.gltf");
+        pathTOGLTF = GUILayout.TextField(pathTOGLTF);
         GUILayout.EndHorizontal();
         if (GUILayout.Button("GLTFImport"))
         {
