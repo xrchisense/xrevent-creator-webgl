@@ -2,8 +2,8 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(WebGLConnection))]
-public class WebGLConnectorUI : Editor
+[CustomEditor(typeof(CreatorLevelManager))]
+public class LevelManagerUI : Editor
 {
     private bool localRoomFile;
     
@@ -14,7 +14,7 @@ public class WebGLConnectorUI : Editor
         "bag-chair.gltf";
     public override void OnInspectorGUI()
     {
-        WebGLConnection myTarget = (WebGLConnection) target;
+        CreatorLevelManager myTarget = (CreatorLevelManager) target;
         
         
         DrawDefaultInspector();

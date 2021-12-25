@@ -8,8 +8,6 @@ public class CreatorControlerScript : MonoBehaviour
 {
     public Texture2D randomtexture = null;
     public GameObject selectedObject;
-    [SerializeField]
-    private WebGLConnection WebGL;
 
     [SerializeField]
     private GameObject Gizmo;
@@ -82,7 +80,8 @@ public class CreatorControlerScript : MonoBehaviour
             };
 
             selectedObject.transform.position = newObjectPosition;
-            WebGL.ItemInfoToWebGL(selectedObject.name,(int)selectedObject.transform.position.x);
+            //TODO: Send Item Info in intervals!
+            //WebGL.ItemInfoToWebGL(selectedObject.name,(int)selectedObject.transform.position.x);
         }
     }
     public void UpdateGizmoPosition()
@@ -176,7 +175,8 @@ public class CreatorControlerScript : MonoBehaviour
                 outline.OutlineMode = Outline.Mode.OutlineAll;
                 outline.OutlineColor = Color.yellow;
                 outline.OutlineWidth = 9f;
-                WebGL.ItemInfoToWebGL(selectedObject.name,(int)selectedObject.transform.position.x);
+                //TODO: Send Item Info in intervals!
+                //WebGL.ItemInfoToWebGL(selectedObject.name,(int)selectedObject.transform.position.x);
             }
 
             //gizmo

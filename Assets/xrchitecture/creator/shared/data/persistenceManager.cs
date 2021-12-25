@@ -10,24 +10,6 @@ using Xrchitecture.Creator.Common.Data;
  */
 public class persistenceManager : MonoBehaviour
 {
-    
-    public WebGLConnection webGlConnection;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        webGlConnection = this.GetComponent<WebGLConnection>();
-        if (!PlayerPrefs.HasKey("roomID"))
-        {
-            createGUID();
-            webGlConnection.newRoom();
-            webGlConnection.ReportRoomIdUnity();
-            return;
-        }
-        webGlConnection.ReportRoomIdUnity();
-        webGlConnection.loadRoom(getGUID());
-    }
-
     public void setGUID(string guid)
     {
         //TODO: The Testconfig helper is still needed for the GUID when loading user Objects (XrCreaterUtiliy.CreateUserGameObject)
