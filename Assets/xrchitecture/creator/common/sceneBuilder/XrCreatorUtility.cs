@@ -73,9 +73,7 @@ namespace Xrchitecture.Creator.Common.Data
 
         private static void CreateUserGameObject(ItemContainer userItemContainerToCreate, Action<GameObject> onSuccess)
         {
-            GameObject createdUserObject = null;
-
-            string? extension = System.IO.Path.GetExtension(userItemContainerToCreate.ResourceName);
+            string extension = System.IO.Path.GetExtension(userItemContainerToCreate.ResourceName);
 
             
             //TODO: This is still not perfect as the TestConfigHelper is used !
