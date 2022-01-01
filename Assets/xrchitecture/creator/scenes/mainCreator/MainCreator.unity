@@ -151,7 +151,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &133981226
 GameObject:
@@ -421,7 +421,7 @@ PrefabInstance:
     - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
       propertyPath: roomSaverLoader
       value: 
-      objectReference: {fileID: 1648956023}
+      objectReference: {fileID: 0}
     - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
       propertyPath: creatorControlerScript
       value: 
@@ -432,62 +432,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
---- !u!1 &1648956022
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1648956024}
-  - component: {fileID: 1648956023}
-  - component: {fileID: 1648956025}
-  m_Layer: 0
-  m_Name: RoomSaverLoader
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1648956023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648956022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61c4381927cf54b40acf20cf62bcbdbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1648956024
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648956022}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1648956025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1648956022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23ebd4af54215e246a2978a849c7eb34, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1724127428 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 102465671515631949, guid: 4483c813f7e81334cacc02dc68d45b9c, type: 3}
