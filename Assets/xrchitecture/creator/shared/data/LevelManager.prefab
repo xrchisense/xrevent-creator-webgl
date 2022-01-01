@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6272924460494824824}
   - component: {fileID: 6272924460494824826}
+  - component: {fileID: 7963209532593732236}
   - component: {fileID: 6272924460494824825}
-  - component: {fileID: 1465123657074425448}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -52,7 +52,18 @@ MonoBehaviour:
   - {fileID: 3749363688414227048, guid: 767bd99df40b3534097e7d2d8aaa0dea, type: 3}
   - {fileID: 2371041299337085016, guid: 03d77bcb16a3a244f9fbcceb8c4984e3, type: 3}
   creatorControlerScript: {fileID: 0}
-  roomSaverLoader: {fileID: 0}
+--- !u!114 &7963209532593732236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6272924460494824831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ebd4af54215e246a2978a849c7eb34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6272924460494824825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,17 +74,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92263a8938877e747a7747f559f04b81, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1465123657074425448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6272924460494824831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 181e660fca20fcf48a82be0ecb527254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -1,15 +1,16 @@
 using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using Xrchitecture.Creator.Common.Data;
 
 [RequireComponent(typeof(persistenceManager))]
+[RequireComponent(typeof(HelperBehaviour))]
 public class CreatorLevelManager : MonoBehaviour
 {
     [SerializeField] public List<GameObject> prefabList;
     [SerializeField] private CreatorControlerScript creatorControlerScript;
-    [SerializeField] public RoomSaverLoader roomSaverLoader;
 
 
     //for safety Reasons; this Object should always be at the Origin
@@ -33,11 +34,14 @@ public class CreatorLevelManager : MonoBehaviour
     private void ReportRoomID()
     {
         persistenceManager pm = this.GetComponent<persistenceManager>();
-        //Add handle for Windows whatever Version
         
 #if UNITY_WEBGL == true
         WebGLConnection wgl = GetComponent<WebGLConnection>();
         wgl.ReportRoomIdUnity(pm.getGUID());
+#endif
+#if UNITY_STANDALONE == true
+        PcUiController ui = GetComponent<PcUiController>();
+        ui.DisplayGuid(pm.getGUID());
 #endif
     }
 
@@ -77,6 +81,8 @@ public class CreatorLevelManager : MonoBehaviour
         }
     }
 
+   
+
     //GUID FUN:
     /*
      * This function requires the persistenceManager script
@@ -91,8 +97,7 @@ public class CreatorLevelManager : MonoBehaviour
     public void loadRoom(string guid)
     {
         SetGUID(guid);
-        // Call loading stuff here!
-        roomSaverLoader.LoadRoom(guid);
+        CreatorNetworkUtility.LoadEventFromAddress("https://xrchitecture.de/upload/" + guid + "/EventLayout.json", guid);
         Debug.Log("Unity loading room: " + guid);
 
         // Report back guid
@@ -104,7 +109,7 @@ public class CreatorLevelManager : MonoBehaviour
         persistenceManager pm = this.GetComponent<persistenceManager>();
         string guid = pm.getGUID();
 
-        roomSaverLoader.SaveRoom(guid);
+        CreatorNetworkUtility.SaveCurrentEventToAddress(guid);
         //ShowReactPopup("Save successful");
     }
 
@@ -112,7 +117,28 @@ public class CreatorLevelManager : MonoBehaviour
     {
         persistenceManager pm = this.GetComponent<persistenceManager>();
         pm.createGUID();
-        roomSaverLoader.NewRoom(pm.getGUID());
+        CreatorSessionManager.CreateNewCreatorEvent(pm.getGUID());
         ReportRoomID();
+    }
+    
+    public void DeleteRoom()
+    {
+        Destroy(CreatorSessionManager.GetCurrentRommGameObject());
+        newRoom();
+    }
+
+    public void SaveRoomLocal(string path)
+    {
+        XrEventContainer eventContainer = CreatorSessionManager.GetCreatorEvent();
+                string jsonToUpload = XrJsonUtility.ParseJsonFromEvent(eventContainer);
+                File.WriteAllText(path, jsonToUpload);
+    }
+
+    public void LoadRoomLocal(string path)
+    {
+        using StreamReader r = new StreamReader(path);
+        string json = r.ReadToEnd();
+        XrEventContainer eventContainer = XrJsonUtility.ParseEventFromJson(json);
+        CreatorSessionManager.SetCreatorEvent(eventContainer);
     }
 }

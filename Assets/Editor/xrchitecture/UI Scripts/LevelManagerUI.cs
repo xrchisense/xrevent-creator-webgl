@@ -96,7 +96,7 @@ public class LevelManagerUI : Editor
             if (localRoomFile)
             {
                 Debug.Log(new System.IO.FileInfo(GUIDTextField).Exists);
-                myTarget.roomSaverLoader.LoadRoom(true,GUIDTextField);
+                myTarget.LoadRoomLocal(GUIDTextField);
                 return;   
             }
             myTarget.loadRoom(GUIDTextField);
@@ -105,7 +105,7 @@ public class LevelManagerUI : Editor
         {
             if (localRoomFile)
             {
-                myTarget.roomSaverLoader.SaveRoom(true,GUIDTextField);
+                myTarget.SaveRoomLocal(GUIDTextField);
                 return;   
             }
             myTarget.SaveRoom();
