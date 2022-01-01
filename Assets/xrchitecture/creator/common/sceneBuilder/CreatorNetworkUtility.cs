@@ -12,6 +12,7 @@ namespace Xrchitecture.Creator.Common.Data
 {
     public static class CreatorNetworkUtility
     {
+        
         internal static void LoadEventFromAddress(string address,string guid)
         {
             HelperBehaviour.Instance.StartCoroutine(EventLoadRoutine());
@@ -20,8 +21,7 @@ namespace Xrchitecture.Creator.Common.Data
             {
                 yield return HelperBehaviour.Instance.StartCoroutine(
                     GetRoomJson(address, guid,
-                        json => CreatorSessionManager.SetCreatorEvent(
-                            XrJsonUtility.ParseEventFromJson(json))));
+                       json => LoadRoomFromJson(json,guid) ));
             }
         }
 
@@ -46,12 +46,31 @@ namespace Xrchitecture.Creator.Common.Data
             else
             {
                 //Room could not be loaded Error Message!
-                
+                Debug.Log("Recieved Data is HTML?! This means the Room is not available on the Server!");
                 
                 //create new Room:
                 CreatorSessionManager.CreateNewCreatorEvent(guid);
             }
 
+        }
+
+        internal static void LoadRoomFromJson(string json, string guid)
+        {
+            XrEventContainer xrEvent;
+            try
+            {
+                xrEvent = XrJsonUtility.ParseEventFromJson(json);
+                CreatorSessionManager.SetCreatorEvent(xrEvent);
+            }
+            catch (Exception e)
+            {
+                //Room could not be loaded Error Message!
+                Debug.Log("Could not parse to Room Event: " + e);
+                
+                //create new Room:
+                CreatorSessionManager.CreateNewCreatorEvent(guid);
+            }
+            
         }
 
         internal static void SaveCurrentEventToAddress(string roomID)

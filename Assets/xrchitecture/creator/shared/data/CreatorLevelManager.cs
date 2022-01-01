@@ -120,12 +120,6 @@ public class CreatorLevelManager : MonoBehaviour
         CreatorSessionManager.CreateNewCreatorEvent(pm.getGUID());
         ReportRoomID();
     }
-    
-    public void DeleteRoom()
-    {
-        Destroy(CreatorSessionManager.GetCurrentRommGameObject());
-        newRoom();
-    }
 
     public void SaveRoomLocal(string path)
     {

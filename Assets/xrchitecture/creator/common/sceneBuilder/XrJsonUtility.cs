@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
+using System;
 using UnityEngine;
+
 
 namespace Xrchitecture.Creator.Common.Data
 {
@@ -7,8 +9,16 @@ namespace Xrchitecture.Creator.Common.Data
     {
         internal static XrEventContainer ParseEventFromJson(string roomString)
         {
-            XrEventContainer xrEventContainer =
-                JsonConvert.DeserializeObject<XrEventContainer>(roomString);
+            XrEventContainer xrEventContainer = new XrEventContainer();
+            try
+            {
+               xrEventContainer = JsonConvert.DeserializeObject<XrEventContainer>(roomString);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Error parsing the File, it might be damanged. Error Message Below: ");
+                Debug.Log(e);
+            }
             return xrEventContainer;
         }
 
