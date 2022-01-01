@@ -6,7 +6,7 @@ namespace Xrchitecture.Creator.Common.Data
     {
         public void LoadTestRoom()
         {
-            CreatorNetworkUtility.LoadEventFromAddress(TestConfigHelper.ProjectDataFolder + TestConfigHelper.ProjectId + "/ExampleEvent.json");
+            CreatorNetworkUtility.LoadEventFromAddress(TestConfigHelper.ProjectDataFolder + TestConfigHelper.ProjectId + "/ExampleEvent.json",TestConfigHelper.ProjectId);
         }
 
 

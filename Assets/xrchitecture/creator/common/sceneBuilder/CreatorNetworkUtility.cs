@@ -12,14 +12,14 @@ namespace Xrchitecture.Creator.Common.Data
 {
     public static class CreatorNetworkUtility
     {
-        internal static void LoadEventFromAddress(string address)
+        internal static void LoadEventFromAddress(string address,string guid)
         {
             HelperBehaviour.Instance.StartCoroutine(EventLoadRoutine());
 
             IEnumerator EventLoadRoutine()
             {
                 yield return HelperBehaviour.Instance.StartCoroutine(
-                    GetRoomJson(address,
+                    GetRoomJson(address, guid,
                         json => CreatorSessionManager.SetCreatorEvent(
                             XrJsonUtility.ParseEventFromJson(json))));
             }
@@ -28,7 +28,7 @@ namespace Xrchitecture.Creator.Common.Data
         //<Summary>
         //Used to fetch the json string from the webserver.  
         //</Summary>  
-        internal static IEnumerator GetRoomJson(string address, Action<string> onSuccess)
+        internal static IEnumerator GetRoomJson(string address,string guid, Action<string> onSuccess)
         {
             UnityWebRequest req = UnityWebRequest.Get(address);
             req.SendWebRequest();
@@ -38,7 +38,20 @@ namespace Xrchitecture.Creator.Common.Data
                 yield return new WaitForSeconds(.1f);
             }
 
-            onSuccess(req.downloadHandler.text);
+            
+            if (req.downloadHandler.data != null && req.downloadHandler.text[0] != '<' )
+            {
+                onSuccess(req.downloadHandler.text);
+            }
+            else
+            {
+                //Room could not be loaded Error Message!
+                
+                
+                //create new Room:
+                CreatorSessionManager.CreateNewCreatorEvent(guid);
+            }
+
         }
 
         internal static void SaveCurrentEventToAddress(string roomID)

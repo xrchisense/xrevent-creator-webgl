@@ -26,7 +26,7 @@ namespace Xrchitecture.Creator.Common.Data
 
         public void LoadRoom(string roomID)
         {
-            CreatorNetworkUtility.LoadEventFromAddress("https://xrchitecture.de/upload/" + roomID + "/EventLayout.json");
+            CreatorNetworkUtility.LoadEventFromAddress("https://xrchitecture.de/upload/" + roomID + "/EventLayout.json", roomID);
         }
 
         public void SaveRoom(string roomID)
