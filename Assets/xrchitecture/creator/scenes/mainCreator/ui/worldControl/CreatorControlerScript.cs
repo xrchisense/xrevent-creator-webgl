@@ -29,7 +29,12 @@ public class CreatorControlerScript : MonoBehaviour
     {
         Gizmo = Instantiate(Gizmo);
         Gizmo.SetActive(false);
-
+        
+        //stupid fix so my GPU is not at 100% all the time :D
+        #if UNITY_STANDALONE || UNITY_EDITOR
+        Application.targetFrameRate = 60;
+        #endif
+        
         // Unity WebGL captures all Keyboard Inputs, but we need the keystrokes for the React GUI
         // This may help to switch them off for WebGL container
         //#if !UNITY_EDITOR && UNITY_WEBGL
