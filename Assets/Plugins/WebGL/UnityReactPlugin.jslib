@@ -1,9 +1,16 @@
 mergeInto(LibraryManager.library, {
-  ItemInfo: function (itemName, itemID) {
+  ItemInfo: function (itemName, itemID, dataarray,arraySize) {
+    
+    var itemdata = [];
+    for (var i = 0; i < arraySize; i++){
+      itemdata.push(HEAPF32[(dataarray >> 2) + i]);
+    }
+
     window.dispatchReactUnityEvent(
       "ItemInfo",
       Pointer_stringify(itemName),
-      itemID
+      itemID,
+      itemdata
     );
   },
   ShowPopup: function (textStringPointer) {

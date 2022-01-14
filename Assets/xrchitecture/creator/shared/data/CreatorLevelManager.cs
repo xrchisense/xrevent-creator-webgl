@@ -2,8 +2,10 @@ using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Numerics;
 using UnityEngine;
 using Xrchitecture.Creator.Common.Data;
+using Vector3 = UnityEngine.Vector3;
 
 [RequireComponent(typeof(persistenceManager))]
 [RequireComponent(typeof(HelperBehaviour))]
@@ -86,6 +88,84 @@ public class CreatorLevelManager : MonoBehaviour
         }
     }
 
+    //Modifying Objects:
+
+    public void ReportObjectInfo()
+    {
+        GameObject selectedObject = creatorControlerScript.selectedObject;
+        //Create List off all float parameters
+        float[] dataList = new []{selectedObject.transform.position[0],selectedObject.transform.position[1],selectedObject.transform.position[2],selectedObject.transform.rotation.eulerAngles[0],selectedObject.transform.rotation.eulerAngles[1],selectedObject.transform.rotation.eulerAngles[2],selectedObject.transform.localScale[0],selectedObject.transform.localScale[1],selectedObject.transform.localScale[2]};
+
+#if UNITY_WEBGL == true
+        WebGLConnection wgl = GetComponent<WebGLConnection>();
+        wgl.ItemInfoToWebGL(selectedObject.name,4,dataList);
+#endif
+#if UNITY_STANDALONE == true
+        PcUiController ui = GetComponent<PcUiController>();
+        //ui.setSelectedObject(selectedObject);
+#endif
+    }
+
+    public void MoveSelectedObject(string axis, float location)
+    {
+        GameObject objectToMove = creatorControlerScript.selectedObject;
+
+        Vector3 oldPosition = objectToMove.transform.position;
+        switch (axis)
+        {
+            case "x":
+                objectToMove.transform.position= new Vector3(location, oldPosition[1], oldPosition[2]);
+                break;
+            case "y":
+                objectToMove.transform.position= new Vector3(oldPosition[0],location, oldPosition[2]);
+                break;
+            case "z":
+                objectToMove.transform.position= new Vector3(oldPosition[0], oldPosition[1], location );
+                break;
+                
+        }
+        
+    }
+    public void RotateSelectedObject(string axis, float rotation)
+    {
+        GameObject objectToRotate = creatorControlerScript.selectedObject;
+
+        Vector3 oldPosition = objectToRotate.transform.rotation.eulerAngles;
+        switch (axis)
+        {
+            case "x":
+                objectToRotate.transform.Rotate(Vector3.right, oldPosition[1] - rotation);
+                break;
+            case "y":
+                objectToRotate.transform.Rotate(Vector3.up, oldPosition[2] - rotation);
+                break;
+            case "z":
+                objectToRotate.transform.Rotate(Vector3.forward, oldPosition[3] - rotation);
+                break;
+                
+        }
+        
+    }
+    public void ScaleSelectedObject(string axis, float location)
+    {
+        GameObject objectToMove = creatorControlerScript.selectedObject;
+
+        Vector3 oldPosition = objectToMove.transform.position;
+        switch (axis)
+        {
+            case "x":
+                objectToMove.transform.position= new Vector3(location, oldPosition[1], oldPosition[2]);
+                break;
+            case "y":
+                objectToMove.transform.position= new Vector3(oldPosition[0],location, oldPosition[2]);
+                break;
+            case "z":
+                objectToMove.transform.position= new Vector3(oldPosition[0], oldPosition[1], location );
+                break;
+                
+        }
+        
+    }
    
 
     //GUID FUN:
