@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.siccity.gltfutility": {
-      "version": "https://github.com/siccity/gltfutility.git",
+      "version": "https://github.com/siccity/gltfutility.git#450b0bcd10649b5e91dc29c001de06c0205aa330",
       "depth": 0,
       "source": "git",
       "dependencies": {
