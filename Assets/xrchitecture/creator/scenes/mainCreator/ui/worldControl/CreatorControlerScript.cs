@@ -34,12 +34,6 @@ public class CreatorControlerScript : MonoBehaviour
         #if UNITY_STANDALONE || UNITY_EDITOR
         Application.targetFrameRate = 60;
         #endif
-        
-        // Unity WebGL captures all Keyboard Inputs, but we need the keystrokes for the React GUI
-        // This may help to switch them off for WebGL container
-        //#if !UNITY_EDITOR && UNITY_WEBGL
-        //    WebGLInput.captureAllKeyboardInput = false;
-        //#endif
 
     }
 
@@ -166,11 +160,17 @@ public class CreatorControlerScript : MonoBehaviour
         if (selectedObject != null)
         {
             Destroy(selectedObject.GetComponent<Outline>());
-            
+            Gizmo.SetActive(false);
         }
 
         if (Physics.Raycast(ray, out hit, 100))
         {
+            if (selectedObject == GetRoot(hit.transform.gameObject))
+            {
+                selectedObject = null;
+                Gizmo.SetActive(false);
+                return;
+            }
             Gizmo.SetActive(true);
             selectedObject = GetRoot(hit.transform.gameObject);
             //outline
@@ -190,9 +190,11 @@ public class CreatorControlerScript : MonoBehaviour
             //Gizmo.GetComponent<SceneGizmoRenderer>().ReferenceTransform = selectedObject.transform;
             return;
         }
-
+        
+        //if nothing is clicked:
         selectedObject = null;
         Gizmo.SetActive(false);
+        
     }
     
     
