@@ -18,8 +18,13 @@ public class CreatorControlerScript : MonoBehaviour
     [SerializeField]
     private Transform ZEmpty;*/
 
+    public bool movementLocal;
     public bool movingObject = false;
     public float movingObjectDirection;
+
+    public bool rotatingObject;
+    public Vector3 rotateObjectDirection;
+    public Vector3 lastScreenMousePosition;
     
     private Vector3 initMouseOffset;
     private Plane m_plane;
@@ -44,17 +49,28 @@ public class CreatorControlerScript : MonoBehaviour
 
         if (movingObject)
         {
+            
             MoveObjectToMousePosition();
             UpdateGizmoPosition();
+        }
+
+        if (rotatingObject)
+        {
+            RotateObjectToMousePosition();
         }
 
         
 
     }
 
-    public void UpdateMousePosition(InputAction.CallbackContext context)
+    public void RotateObjectToMousePosition()
     {
-        
+        Vector3 mousePosition = Mouse.current.position.ReadValue();
+        selectedObject.transform.Rotate(rotateObjectDirection,Vector3.Distance(mousePosition,lastScreenMousePosition),Space.World);
+        if (Vector3.Distance(mousePosition,lastScreenMousePosition) != 0 )
+            Debug.Log("Distance: "+ Vector3.Distance(mousePosition,lastScreenMousePosition) +" Minus: " + (mousePosition-lastScreenMousePosition));
+        lastScreenMousePosition = mousePosition;
+
     }
 
     public void MoveObjectToMousePosition()
@@ -88,6 +104,11 @@ public class CreatorControlerScript : MonoBehaviour
         if (selectedObject != null)
         {
             Gizmo.transform.position = selectedObject.transform.position;
+            if (movementLocal)
+            {
+                Gizmo.transform.rotation = selectedObject.transform.rotation;
+            }
+            
         }
         
     }
@@ -133,6 +154,7 @@ public class CreatorControlerScript : MonoBehaviour
         if (context.phase == InputActionPhase.Canceled) //check if mouse is let go, if moving drop the item, else do nothing
         {
             if (movingObject) { movingObject = false;};
+            if (rotatingObject) { rotatingObject = false;};
             return;
         }
 
@@ -145,14 +167,26 @@ public class CreatorControlerScript : MonoBehaviour
         int layerMask = 1 << 8;
         if (Physics.Raycast(ray, out hit, 300,layerMask))
         {
+            if (selectedObject == null) { return; }
             Debug.Log("hit the gizmo");
-            if (selectedObject !=null) {
+            //Check if moving:
+            if (hit.transform.TryGetComponent<GizmoArrow>(out GizmoArrow arrow))
+            {
                 movingObject = true;
                 movingObjectDirection = hit.transform.gameObject.transform.rotation.eulerAngles.x;
-                m_plane = new Plane(hit.transform.gameObject.GetComponent<GizmoArrow>().PlaneNormalDirection, selectedObject.transform.position);
+                m_plane = new Plane(arrow.PlaneNormalDirection, selectedObject.transform.position);
                 Vector3 mouseposition = Mouse.current.position.ReadValue();
                 initMouseOffset = mouseposition - Camera.main.WorldToScreenPoint(selectedObject.transform.position);
             }
+            //Check if rotating:
+            if (hit.transform.TryGetComponent<GizmoRotator>(out GizmoRotator rotator))
+            {
+                rotatingObject = true;
+                rotateObjectDirection = rotator.PlaneNormalDirection;
+                lastScreenMousePosition = Mouse.current.position.ReadValue();
+            }
+                
+            
             return;
         }
         
