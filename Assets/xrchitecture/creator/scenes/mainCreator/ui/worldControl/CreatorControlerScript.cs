@@ -21,10 +21,13 @@ public class CreatorControlerScript : MonoBehaviour
     public bool movementLocal;
     public bool movingObject = false;
     public float movingObjectDirection;
+    
 
     public bool rotatingObject;
     public Vector3 rotateObjectDirection;
     public Vector3 lastScreenMousePosition;
+    private Vector3 oldMouseWorldPosition;
+    
     
     private Vector3 initMouseOffset;
     private Plane m_plane;
@@ -66,9 +69,63 @@ public class CreatorControlerScript : MonoBehaviour
     public void RotateObjectToMousePosition()
     {
         Vector3 mousePosition = Mouse.current.position.ReadValue();
+        
+        Plane r_plane = new Plane(rotateObjectDirection, selectedObject.transform.position);
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+        float zdistance = 0.0f;
+
+        if (r_plane.Raycast(ray, out zdistance))
+        {
+            Vector3 mouseWorldPosition = ray.GetPoint(zdistance);
+            Vector3 mouseMovement = mouseWorldPosition - oldMouseWorldPosition;
+            
+            Debug.Log(mouseMovement);
+
+            if (rotateObjectDirection[2] == 1)
+            {
+                if (mouseMovement[0] <= 0 || mouseMovement[1] >= 0) 
+                {
+                    selectedObject.transform.Rotate(rotateObjectDirection,Vector3.Distance(mousePosition,lastScreenMousePosition),Space.World);
+                }
+                else
+                {
+                    selectedObject.transform.Rotate(rotateObjectDirection,-Vector3.Distance(mousePosition,lastScreenMousePosition),Space.World);
+                }
+            }
+            if (rotateObjectDirection[1] == 1)
+            {
+                if (mouseMovement[2] <= 0 || mouseMovement[0] >= 0) 
+                {
+                    selectedObject.transform.Rotate(rotateObjectDirection,Vector3.Distance(mousePosition,lastScreenMousePosition),Space.World);
+                }
+                else
+                {
+                    selectedObject.transform.Rotate(rotateObjectDirection,-Vector3.Distance(mousePosition,lastScreenMousePosition),Space.World);
+                }
+            }
+            if (rotateObjectDirection[0] == 1)
+            {
+                if (mouseMovement[1] <= 0 || mouseMovement[2] >= 0) 
+                {
+                    selectedObject.transform.Rotate(rotateObjectDirection,Vector3.Distance(mousePosition,lastScreenMousePosition),Space.World);
+                }
+                else
+                {
+                    selectedObject.transform.Rotate(rotateObjectDirection,-Vector3.Distance(mousePosition,lastScreenMousePosition),Space.World);
+                }
+            }
+            
+            
+
+            oldMouseWorldPosition = mouseWorldPosition;
+        }
+
+
+        /*
         selectedObject.transform.Rotate(rotateObjectDirection,Vector3.Distance(mousePosition,lastScreenMousePosition),Space.World);
         if (Vector3.Distance(mousePosition,lastScreenMousePosition) != 0 )
             Debug.Log("Distance: "+ Vector3.Distance(mousePosition,lastScreenMousePosition) +" Minus: " + (mousePosition-lastScreenMousePosition));
+        */
         lastScreenMousePosition = mousePosition;
 
     }
