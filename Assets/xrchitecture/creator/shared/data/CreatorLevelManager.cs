@@ -1,8 +1,7 @@
-using System.CodeDom;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Numerics;
+using JetBrains.Annotations;
 using UnityEngine;
 using Xrchitecture.Creator.Common.Data;
 using Vector3 = UnityEngine.Vector3;
@@ -13,7 +12,7 @@ public class CreatorLevelManager : MonoBehaviour
 {
     [SerializeField] public List<GameObject> prefabList;
     [SerializeField] private CreatorControlerScript creatorControlerScript;
-
+    [CanBeNull] private Action<int> popUpActionWhenClicked = null;
 
     //for safety Reasons; this Object should always be at the Origin
     void Awake()
@@ -52,6 +51,30 @@ public class CreatorLevelManager : MonoBehaviour
 #endif
     }
 
+    
+    //POUP Managment
+    public void ShowPopUp(string titelString, string bodyTextString, string button1Text, Action<int> onPopUpClick, string button2Text = "null", string button3Text = "null", bool showX = false)
+    {
+#if UNITY_WEBGL == true
+        popUpActionWhenClicked = onPopUpClick;
+        WebGLConnection wgl = GetComponent<WebGLConnection>();
+        wgl.ShowReactPopup(titelString, bodyTextString, button1Text, button2Text, button3Text, showX);
+#endif
+#if UNITY_STANDALONE == true
+        PcUiController ui = GetComponent<PcUiController>();
+        //ui.DisplayGuid(pm.getGUID());
+#endif
+    }
+
+    public void PopUpFeedback(int buttonNumber)
+    {
+        if (popUpActionWhenClicked == null) return;
+        
+        popUpActionWhenClicked(buttonNumber);
+        popUpActionWhenClicked = null;
+
+    }
+
 
     //SPAWNING AND DELETING OBJECTS:
     public void SpawnPrefab(string type)
@@ -70,8 +93,15 @@ public class CreatorLevelManager : MonoBehaviour
 
     public void DeleteSelectedItem()
     {
-        GameObject objectToDelete = creatorControlerScript.selectedObject;
-        CreatorSessionManager.RemoveItemFromCurrentRoom(objectToDelete.GetComponent<CreatorItem>());
+        ShowPopUp("Delete Item","Do you really want to delete the selected Item?","Delete Item", (int i) =>
+        {
+            if (i == 1)
+            {
+                GameObject objectToDelete = creatorControlerScript.selectedObject;
+                CreatorSessionManager.RemoveItemFromCurrentRoom(objectToDelete.GetComponent<CreatorItem>());
+            }
+        },"Cancel");
+        
     }
 
 

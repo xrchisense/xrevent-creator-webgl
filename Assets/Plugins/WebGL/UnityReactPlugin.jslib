@@ -13,10 +13,15 @@ mergeInto(LibraryManager.library, {
       itemdata
     );
   },
-  ShowPopup: function (textStringPointer) {
+  ShowPopup: function (TitelString,BodyTextString,Button1Text,Button2Text,Button3Text,showX) {
     window.dispatchReactUnityEvent(
       "ShowPopup",
-      Pointer_stringify(textStringPointer)
+      Pointer_stringify(TitelString),
+      Pointer_stringify(BodyTextString),
+      Pointer_stringify(Button1Text),
+      Pointer_stringify(Button2Text),
+      Pointer_stringify(Button3Text),
+      showX
     );
   },
   ReportRoomID: function (textStringPointer) {

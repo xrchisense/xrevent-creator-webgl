@@ -13,7 +13,7 @@ public class WebGLConnection : MonoBehaviour
     private static extern void ItemInfo(string itemName, int itemID, float[] dataarray,int arrayLength);
 
     [DllImport("__Internal")]
-    private static extern void ShowPopup(string textStringPointer);
+    private static extern void ShowPopup(string titelString,string bodyTextString,string button1Text,string button2Text,string button3Text,bool showX);
 
     [DllImport("__Internal")]
     private static extern void ReportRoomID(string id);
@@ -29,10 +29,10 @@ public class WebGLConnection : MonoBehaviour
         Debug.Log("NOT RUNNING IN WEBGL: DID NOT send ItemInfo");
     }
 
-    public void ShowReactPopup(string textStringPointer)
+    public void ShowReactPopup(string titelString,string bodyTextString,string button1Text,string button2Text,string button3Text,bool showX)
     {
 #if UNITY_WEBGL == true && UNITY_EDITOR == false
-        ShowPopup (textStringPointer);
+        ShowPopup (titelString,bodyTextString,button1Text,button2Text,button3Text,showX);
         Debug.Log("Unity did send ShowPopup");
         return;
 #endif
