@@ -37,6 +37,7 @@ public class CreatorLevelManager : MonoBehaviour
 #endif
     }
 
+  
     private void ReportRoomID()
     {
         persistenceManager pm = this.GetComponent<persistenceManager>();
@@ -75,6 +76,20 @@ public class CreatorLevelManager : MonoBehaviour
 
     }
 
+    public void SetKeyboardCapture(string cap)
+    {
+#if !UNITY_EDITOR && UNITY_WEBGL
+        Debug.Log(cap);
+        if (cap == "1")
+        {
+            WebGLInput.captureAllKeyboardInput = true;
+        }
+        else
+        {
+            WebGLInput.captureAllKeyboardInput = false;
+        }
+#endif
+    }
 
     //SPAWNING AND DELETING OBJECTS:
     public void SpawnPrefab(string type)
