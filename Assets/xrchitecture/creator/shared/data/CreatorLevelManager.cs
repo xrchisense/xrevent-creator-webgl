@@ -151,66 +151,84 @@ public class CreatorLevelManager : MonoBehaviour
 #endif
     }
 
-    public void MoveSelectedObject(string axis, float location)
+    public void MoveSelectedObjectX(float location)
     {
         GameObject objectToMove = creatorControlerScript.selectedObject;
 
         Vector3 oldPosition = objectToMove.transform.position;
-        switch (axis)
-        {
-            case "x":
-                objectToMove.transform.position= new Vector3(location, oldPosition[1], oldPosition[2]);
-                break;
-            case "y":
-                objectToMove.transform.position= new Vector3(oldPosition[0],location, oldPosition[2]);
-                break;
-            case "z":
-                objectToMove.transform.position= new Vector3(oldPosition[0], oldPosition[1], location );
-                break;
-                
-        }
-        
+        objectToMove.transform.position = new Vector3(location, oldPosition[1], oldPosition[2]);
     }
-    public void RotateSelectedObject(string axis, float rotation)
+
+    public void MoveSelectedObjectY(float location)
+    {
+        GameObject objectToMove = creatorControlerScript.selectedObject;
+
+        Vector3 oldPosition = objectToMove.transform.position;
+        objectToMove.transform.position = new Vector3(oldPosition[0], location, oldPosition[2]);
+    }
+
+    public void MoveSelectedObjectZ(float location)
+    {
+        GameObject objectToMove = creatorControlerScript.selectedObject;
+
+        Vector3 oldPosition = objectToMove.transform.position;
+        objectToMove.transform.position = new Vector3(oldPosition[0], oldPosition[1], location);
+    }
+
+    public void RotateSelectedObjectX(float rotation)
     {
         GameObject objectToRotate = creatorControlerScript.selectedObject;
 
         Vector3 oldPosition = objectToRotate.transform.rotation.eulerAngles;
-        switch (axis)
-        {
-            case "x":
-                objectToRotate.transform.Rotate(Vector3.right, oldPosition[1] - rotation);
-                break;
-            case "y":
-                objectToRotate.transform.Rotate(Vector3.up, oldPosition[2] - rotation);
-                break;
-            case "z":
-                objectToRotate.transform.Rotate(Vector3.forward, oldPosition[3] - rotation);
-                break;
-                
-        }
-        
+        objectToRotate.transform.Rotate(Vector3.right, oldPosition[1] - rotation);
     }
-    public void ScaleSelectedObject(string axis, float location)
-    {
-        GameObject objectToMove = creatorControlerScript.selectedObject;
 
-        Vector3 oldPosition = objectToMove.transform.position;
-        switch (axis)
-        {
-            case "x":
-                objectToMove.transform.position= new Vector3(location, oldPosition[1], oldPosition[2]);
-                break;
-            case "y":
-                objectToMove.transform.position= new Vector3(oldPosition[0],location, oldPosition[2]);
-                break;
-            case "z":
-                objectToMove.transform.position= new Vector3(oldPosition[0], oldPosition[1], location );
-                break;
-                
-        }
-        
+    public void RotateSelectedObjectY(float rotation)
+    {
+        GameObject objectToRotate = creatorControlerScript.selectedObject;
+
+        Vector3 oldPosition = objectToRotate.transform.rotation.eulerAngles;
+        objectToRotate.transform.Rotate(Vector3.up, oldPosition[2] - rotation);
     }
+
+    public void RotateSelectedObjectZ(float rotation)
+    {
+        GameObject objectToRotate = creatorControlerScript.selectedObject;
+
+        Vector3 oldPosition = objectToRotate.transform.rotation.eulerAngles;
+        objectToRotate.transform.Rotate(Vector3.forward, oldPosition[3] - rotation);
+    }
+
+
+
+
+    public void ScaleSelectedObjectX(float location)
+    {
+        GameObject objectToScale = creatorControlerScript.selectedObject;
+
+        Vector3 oldScale = objectToScale.transform.localScale;
+        objectToScale.transform.position = new Vector3(location, oldScale[1], oldScale[2]);
+    }
+    
+
+    public void ScaleSelectedObjectY(float location)
+    {
+        GameObject objectToScale = creatorControlerScript.selectedObject;
+
+        Vector3 oldScale = objectToScale.transform.localScale;
+        objectToScale.transform.position = new Vector3(oldScale[0], location, oldScale[2]);
+    }
+
+    public void ScaleSelectedObjectZ(float location)
+    {
+        GameObject objectToScale = creatorControlerScript.selectedObject;
+
+        Vector3 oldScale = objectToScale.transform.localScale;
+        objectToScale.transform.position = new Vector3(oldScale[0], oldScale[1], location);
+    }
+
+
+        
    
 
     //GUID FUN:
@@ -254,8 +272,8 @@ public class CreatorLevelManager : MonoBehaviour
     public void SaveRoomLocal(string path)
     {
         XrEventContainer eventContainer = CreatorSessionManager.GetCreatorEvent();
-                string jsonToUpload = XrJsonUtility.ParseJsonFromEvent(eventContainer);
-                File.WriteAllText(path, jsonToUpload);
+        string jsonToUpload = XrJsonUtility.ParseJsonFromEvent(eventContainer);
+        File.WriteAllText(path, jsonToUpload);
     }
 
     public void LoadRoomLocal(string path)
