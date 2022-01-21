@@ -108,12 +108,16 @@ public class CreatorLevelManager : MonoBehaviour
 
     public void DeleteSelectedItem()
     {
+        if (creatorControlerScript.selectedObject == null) {return;}
         ShowPopUp("Delete Item","Do you really want to delete the selected Item?","Delete Item", (int i) =>
         {
             if (i == 1)
             {
                 GameObject objectToDelete = creatorControlerScript.selectedObject;
                 CreatorSessionManager.RemoveItemFromCurrentRoom(objectToDelete.GetComponent<CreatorItem>());
+                creatorControlerScript.selectedObject = null;
+                creatorControlerScript.UpdateGizmoPosition();
+                
             }
         },"Cancel");
         
@@ -123,14 +127,20 @@ public class CreatorLevelManager : MonoBehaviour
     //gets the deletedItemName from React 
     public void CustomItemDeletedFromServer(string itemName)
     {
-        GameObject room = CreatorSessionManager.GetCurrentRommGameObject();
-        foreach (CreatorItem item in room.GetComponentsInChildren<CreatorItem>())
+        ShowPopUp("Delete Item","Do you really want to delete the selected Item? It will be removed from the Scene!","Delete Item", (int i) =>
         {
-            if (item.name == itemName + "-ROOT")
+            if (i == 1)
             {
-                CreatorSessionManager.RemoveItemFromCurrentRoom(item);
+                GameObject room = CreatorSessionManager.GetCurrentRommGameObject();
+                foreach (CreatorItem item in room.GetComponentsInChildren<CreatorItem>())
+                {
+                    if (item.name == itemName + "-ROOT")
+                    {
+                        CreatorSessionManager.RemoveItemFromCurrentRoom(item);
+                    }
+                }
             }
-        }
+        },"Cancel");
     }
 
     //Modifying Objects:
@@ -138,8 +148,13 @@ public class CreatorLevelManager : MonoBehaviour
     public void ReportObjectInfo()
     {
         GameObject selectedObject = creatorControlerScript.selectedObject;
+        
         //Create List off all float parameters
-        float[] dataList = new []{selectedObject.transform.position[0],selectedObject.transform.position[1],selectedObject.transform.position[2],selectedObject.transform.rotation.eulerAngles[0],selectedObject.transform.rotation.eulerAngles[1],selectedObject.transform.rotation.eulerAngles[2],selectedObject.transform.localScale[0],selectedObject.transform.localScale[1],selectedObject.transform.localScale[2]};
+        var position = selectedObject.transform.position;
+        var rotation = selectedObject.transform.rotation; 
+        var localScale = selectedObject.transform.localScale;
+        
+        float[] dataList = {position[0],position[1],position[2],rotation.eulerAngles[0],rotation.eulerAngles[1],rotation.eulerAngles[2],localScale[0],localScale[1],localScale[2]};
 
 #if UNITY_WEBGL == true
         WebGLConnection wgl = GetComponent<WebGLConnection>();

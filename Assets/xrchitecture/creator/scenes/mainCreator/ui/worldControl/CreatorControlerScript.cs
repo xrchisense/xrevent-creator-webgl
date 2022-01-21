@@ -165,38 +165,11 @@ public class CreatorControlerScript : MonoBehaviour
             {
                 Gizmo.transform.rotation = selectedObject.transform.rotation;
             }
-            
+            return;
         }
-        
+        Gizmo.SetActive(false);
     }
-
-    /*public void UpdateGizmoUI()
-    {
-        Vector3 screenCalc = new Vector3(Screen.width / 2, Screen.height / 2,0);
-        Vector3 centerposition = Camera.main.WorldToScreenPoint(Gizmo.transform.position);
-        Vector3 Xposition = Camera.main.WorldToScreenPoint(XEmpty.position);
-        Vector3 Yposition = Camera.main.WorldToScreenPoint(YEmpty.position);
-        Vector3 Zposition = Camera.main.WorldToScreenPoint(ZEmpty.position);
-
-        Debug.Log("Center: " + centerposition);
-        Debug.Log("X: " + Xposition);
-
-        
-        XRect.x = centerposition[0];
-        XRect.y = Screen.height-Xposition[1];
-        XRect.height = centerposition[1] - Xposition[1];
-        XRect.width =  Xposition[0] - centerposition[0];
-
-        
-        YRect.localPosition = centerposition-screenCalc;
-
-    }*/
-
-    /*void OnGUI()
-    {
-        GUI.color = Color.black;
-        GUI.DrawTexture(XRect,randomtexture);
-    }*/
+    
 
     public GameObject GetRoot(GameObject gO)
     {
