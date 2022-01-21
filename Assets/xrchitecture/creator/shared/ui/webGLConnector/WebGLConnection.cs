@@ -26,7 +26,6 @@ public class WebGLConnection : MonoBehaviour
         Debug.Log("Untiy did send ItemInfo");
         return;
 #endif
-        Debug.Log("NOT RUNNING IN WEBGL: DID NOT send ItemInfo");
     }
 
     public void ShowReactPopup(string titelString,string bodyTextString,string button1Text,string button2Text,string button3Text,bool showX)
@@ -36,7 +35,6 @@ public class WebGLConnection : MonoBehaviour
         Debug.Log("Unity did send ShowPopup");
         return;
 #endif
-        Debug.Log("NOT RUNNING IN WEBGL: DID NOT send ItemInfo");
     }
 
     public void ReportRoomIdUnity(string guid)
@@ -46,6 +44,5 @@ public class WebGLConnection : MonoBehaviour
         Debug.Log("Unity did send RoomID to Webgl");
         return;
 #endif
-        Debug.Log("NOT RUNNING IN WEBGL: DID NOT send reportRoomIdUnity");
     }
 }
