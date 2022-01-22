@@ -11,6 +11,11 @@ using Vector3 = UnityEngine.Vector3;
 public class CreatorLevelManager : MonoBehaviour
 {
     [SerializeField] public List<GameObject> prefabList;
+    private List<ItemContainer> defaultItemsList;
+    
+    [SerializeField] private List<GameObject> defaultGameObjectsList;
+    [SerializeField] private List<Vector3> defaultGameObjectsPositions;
+    
     [SerializeField] private CreatorControlerScript creatorControlerScript;
     [CanBeNull] private Action<int> popUpActionWhenClicked = null;
 

@@ -10,12 +10,16 @@ namespace Xrchitecture.Creator.Common.Data
         private static XrEventContainer _currentEvent;
         private static GameObject _currentRoomGameObject;
 
-        public static void CreateNewCreatorEvent(string guid)
+        public static void CreateNewCreatorEvent(string guid, List<ItemContainer> defaultItems = null)
         {
             //add default Items to ItemContainerList
-            List<ItemContainer> defaultItemList = new List<ItemContainer>();
-            defaultItemList.Add(new ItemContainer(){ItemType = "pre-defined",ResourceName = "Plane"});
-            defaultItemList.Add(new ItemContainer(){ItemType = "pre-defined",ResourceName = "Directional Light", Position = new Vector3(0,3,0)});
+            List<ItemContainer> defaultItemList = defaultItems;
+            if (defaultItems == null)
+            {
+                defaultItemList = new List<ItemContainer>();
+                defaultItemList.Add(new ItemContainer(){ItemType = "pre-defined",ResourceName = "Plane"});
+                defaultItemList.Add(new ItemContainer(){ItemType = "pre-defined",ResourceName = "Directional Light", Position = new Vector3(0,3,0)});
+            }
             
             //Create Default Event
             XrEventContainer xrc = new XrEventContainer()
