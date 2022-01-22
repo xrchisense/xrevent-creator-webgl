@@ -145,7 +145,7 @@ public class CreatorLevelManager : MonoBehaviour
         {
             if (i == 1)
             {
-                GameObject room = CreatorSessionManager.GetCurrentRommGameObject();
+                GameObject room = CreatorSessionManager.GetCurrentRoomGameObject();
                 foreach (CreatorItem item in room.GetComponentsInChildren<CreatorItem>())
                 {
                     if (item.name == itemName + "-ROOT")
@@ -294,7 +294,7 @@ public class CreatorLevelManager : MonoBehaviour
     {
         persistenceManager pm = this.GetComponent<persistenceManager>();
         pm.createGUID();
-        CreatorSessionManager.CreateNewCreatorEvent(pm.getGUID());
+        CreatorSessionManager.CreateNewCreatorEvent(pm.getGUID(),defaultItemsList);
         ReportRoomID();
     }
 

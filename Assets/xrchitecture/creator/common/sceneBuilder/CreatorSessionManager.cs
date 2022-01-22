@@ -17,7 +17,7 @@ namespace Xrchitecture.Creator.Common.Data
             if (defaultItems == null)
             {
                 defaultItemList = new List<ItemContainer>();
-                defaultItemList.Add(new ItemContainer(){ItemType = "pre-defined",ResourceName = "Plane"});
+                //defaultItemList.Add(new ItemContainer(){ItemType = "pre-defined",ResourceName = "Plane"});
                 defaultItemList.Add(new ItemContainer(){ItemType = "pre-defined",ResourceName = "Directional Light", Position = new Vector3(0,3,0)});
             }
             
@@ -29,6 +29,7 @@ namespace Xrchitecture.Creator.Common.Data
                 {
                     new RoomContainer()
                     {
+                        Name = "DefaultRoom",
                         Guid = guid,
                         Items = defaultItemList
                     }
@@ -53,7 +54,7 @@ namespace Xrchitecture.Creator.Common.Data
             return _currentEvent;
         }
 
-        public static GameObject GetCurrentRommGameObject()
+        public static GameObject GetCurrentRoomGameObject()
         {
             return _currentRoomGameObject;
         }

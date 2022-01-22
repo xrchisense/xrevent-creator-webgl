@@ -551,6 +551,22 @@ PrefabInstance:
       propertyPath: creatorControlerScript
       value: 
       objectReference: {fileID: 1724127428}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: defaultGameObjectsList.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: defaultGameObjectsList.Array.data[0]
+      value: 
+      objectReference: {fileID: 2371041299337085016, guid: 03d77bcb16a3a244f9fbcceb8c4984e3, type: 3}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: defaultGameObjectsPositions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: defaultGameObjectsPositions.Array.data[0].y
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6272924460494824831, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
       propertyPath: m_Name
       value: LevelManager
