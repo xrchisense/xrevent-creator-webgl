@@ -25,7 +25,7 @@ public class CreatorControlerScript : MonoBehaviour
 
     public bool rotatingObject;
     public Vector3 rotateObjectDirection;
-    public Vector3 lastScreenMousePosition;
+    private Vector3 ?lastRotateVector;
     private Vector3 oldMouseWorldPosition;
     
     
@@ -69,65 +69,34 @@ public class CreatorControlerScript : MonoBehaviour
     public void RotateObjectToMousePosition()
     {
         Vector3 mousePosition = Mouse.current.position.ReadValue();
-        
+
         Plane r_plane = new Plane(rotateObjectDirection, selectedObject.transform.position);
-        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
         float zdistance = 0.0f;
+        
+        if (lastRotateVector == null)
+        {
+            Ray fray = Camera.main.ScreenPointToRay(initMouseOffset);
+            if (r_plane.Raycast(fray, out zdistance))
+            {
+                lastRotateVector = fray.GetPoint(zdistance) - selectedObject.transform.position;
+            }
+        }
+        
+        
+        
+        Ray ray = Camera.main.ScreenPointToRay(mousePosition);
+        
 
         if (r_plane.Raycast(ray, out zdistance))
         {
             Vector3 mouseWorldPosition = ray.GetPoint(zdistance);
-            Vector3 mouseMovement = mouseWorldPosition - oldMouseWorldPosition;
-            
-            Debug.Log(mouseMovement);
+            Vector3 rotateVector = mouseWorldPosition - selectedObject.transform.position;
+            float angleToRotate = Vector3.SignedAngle(rotateVector, (Vector3)lastRotateVector,rotateObjectDirection);
 
-            if (rotateObjectDirection[2] == 1)
-            {
-                if (mouseMovement[0] <= 0 || mouseMovement[1] >= 0) 
-                {
-                    selectedObject.transform.Rotate(rotateObjectDirection,Vector3.Distance(mousePosition,lastScreenMousePosition),Space.World);
-                }
-                else
-                {
-                    selectedObject.transform.Rotate(rotateObjectDirection,-Vector3.Distance(mousePosition,lastScreenMousePosition),Space.World);
-                }
-            }
-            if (rotateObjectDirection[1] == 1)
-            {
-                if (mouseMovement[2] <= 0 || mouseMovement[0] >= 0) 
-                {
-                    selectedObject.transform.Rotate(rotateObjectDirection,Vector3.Distance(mousePosition,lastScreenMousePosition),Space.World);
-                }
-                else
-                {
-                    selectedObject.transform.Rotate(rotateObjectDirection,-Vector3.Distance(mousePosition,lastScreenMousePosition),Space.World);
-                }
-            }
-            if (rotateObjectDirection[0] == 1)
-            {
-                if (mouseMovement[1] <= 0 || mouseMovement[2] >= 0) 
-                {
-                    selectedObject.transform.Rotate(rotateObjectDirection,Vector3.Distance(mousePosition,lastScreenMousePosition),Space.World);
-                }
-                else
-                {
-                    selectedObject.transform.Rotate(rotateObjectDirection,-Vector3.Distance(mousePosition,lastScreenMousePosition),Space.World);
-                }
-            }
-            
-            
+            selectedObject.transform.Rotate(rotateObjectDirection, -angleToRotate, Space.World);
 
-            oldMouseWorldPosition = mouseWorldPosition;
+            lastRotateVector = rotateVector;
         }
-
-
-        /*
-        selectedObject.transform.Rotate(rotateObjectDirection,Vector3.Distance(mousePosition,lastScreenMousePosition),Space.World);
-        if (Vector3.Distance(mousePosition,lastScreenMousePosition) != 0 )
-            Debug.Log("Distance: "+ Vector3.Distance(mousePosition,lastScreenMousePosition) +" Minus: " + (mousePosition-lastScreenMousePosition));
-        */
-        lastScreenMousePosition = mousePosition;
-
     }
 
     public void MoveObjectToMousePosition()
@@ -184,7 +153,12 @@ public class CreatorControlerScript : MonoBehaviour
         if (context.phase == InputActionPhase.Canceled) //check if mouse is let go, if moving drop the item, else do nothing
         {
             if (movingObject) { movingObject = false;};
-            if (rotatingObject) { rotatingObject = false;};
+            if (rotatingObject)
+            {
+                rotatingObject = false;
+                lastRotateVector = null;
+            };
+            
             return;
         }
 
@@ -213,7 +187,7 @@ public class CreatorControlerScript : MonoBehaviour
             {
                 rotatingObject = true;
                 rotateObjectDirection = rotator.PlaneNormalDirection;
-                lastScreenMousePosition = Mouse.current.position.ReadValue();
+                initMouseOffset = Mouse.current.position.ReadValue();
             }
                 
             
