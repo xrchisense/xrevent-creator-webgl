@@ -4,6 +4,7 @@ using System.IO;
 using JetBrains.Annotations;
 using UnityEngine;
 using Xrchitecture.Creator.Common.Data;
+using Random = System.Random;
 using Vector3 = UnityEngine.Vector3;
 
 [RequireComponent(typeof(persistenceManager))]
@@ -162,7 +163,18 @@ public class CreatorLevelManager : MonoBehaviour
     public void ReportObjectInfo()
     {
         GameObject selectedObject = creatorControlerScript.selectedObject;
-        
+        if (selectedObject == null)
+        {
+        #if UNITY_WEBGL == true
+            WebGLConnection wgl1 = GetComponent<WebGLConnection>();
+            wgl1.ItemInfoToWebGL("",0,new float[]{0});
+        #endif
+        #if UNITY_STANDALONE == true
+        PcUiController ui = GetComponent<PcUiController>();
+        //ui.setSelectedObject(null);
+        #endif
+            return;
+        }   
         //Create List off all float parameters
         var position = selectedObject.transform.position;
         var rotation = selectedObject.transform.rotation; 
@@ -170,14 +182,14 @@ public class CreatorLevelManager : MonoBehaviour
         
         float[] dataList = {position[0],position[1],position[2],rotation.eulerAngles[0],rotation.eulerAngles[1],rotation.eulerAngles[2],localScale[0],localScale[1],localScale[2]};
 
-#if UNITY_WEBGL == true
+        #if UNITY_WEBGL == true
         WebGLConnection wgl = GetComponent<WebGLConnection>();
-        wgl.ItemInfoToWebGL(selectedObject.name,4,dataList);
-#endif
-#if UNITY_STANDALONE == true
+        wgl.ItemInfoToWebGL(selectedObject.name,999,dataList);
+        #endif
+        #if UNITY_STANDALONE == true
         PcUiController ui = GetComponent<PcUiController>();
         //ui.setSelectedObject(selectedObject);
-#endif
+        #endif
     }
 
     public void MoveSelectedObjectX(float location)
@@ -186,6 +198,8 @@ public class CreatorLevelManager : MonoBehaviour
 
         Vector3 oldPosition = objectToMove.transform.position;
         objectToMove.transform.position = new Vector3(location, oldPosition[1], oldPosition[2]);
+
+        ReportObjectInfo();
     }
 
     public void MoveSelectedObjectY(float location)
@@ -194,6 +208,7 @@ public class CreatorLevelManager : MonoBehaviour
 
         Vector3 oldPosition = objectToMove.transform.position;
         objectToMove.transform.position = new Vector3(oldPosition[0], location, oldPosition[2]);
+        ReportObjectInfo();
     }
 
     public void MoveSelectedObjectZ(float location)
@@ -202,7 +217,10 @@ public class CreatorLevelManager : MonoBehaviour
 
         Vector3 oldPosition = objectToMove.transform.position;
         objectToMove.transform.position = new Vector3(oldPosition[0], oldPosition[1], location);
+        ReportObjectInfo();
     }
+    
+    
 
     public void RotateSelectedObjectX(float rotation)
     {
@@ -210,6 +228,7 @@ public class CreatorLevelManager : MonoBehaviour
 
         Vector3 oldPosition = objectToRotate.transform.rotation.eulerAngles;
         objectToRotate.transform.Rotate(Vector3.right, oldPosition[1] - rotation);
+        ReportObjectInfo();
     }
 
     public void RotateSelectedObjectY(float rotation)
@@ -218,6 +237,7 @@ public class CreatorLevelManager : MonoBehaviour
 
         Vector3 oldPosition = objectToRotate.transform.rotation.eulerAngles;
         objectToRotate.transform.Rotate(Vector3.up, oldPosition[2] - rotation);
+        ReportObjectInfo();
     }
 
     public void RotateSelectedObjectZ(float rotation)
@@ -226,26 +246,27 @@ public class CreatorLevelManager : MonoBehaviour
 
         Vector3 oldPosition = objectToRotate.transform.rotation.eulerAngles;
         objectToRotate.transform.Rotate(Vector3.forward, oldPosition[3] - rotation);
+        ReportObjectInfo();
     }
 
-
-
-
+    
+    
     public void ScaleSelectedObjectX(float location)
     {
         GameObject objectToScale = creatorControlerScript.selectedObject;
 
         Vector3 oldScale = objectToScale.transform.localScale;
         objectToScale.transform.position = new Vector3(location, oldScale[1], oldScale[2]);
+        ReportObjectInfo();
     }
     
-
     public void ScaleSelectedObjectY(float location)
     {
         GameObject objectToScale = creatorControlerScript.selectedObject;
 
         Vector3 oldScale = objectToScale.transform.localScale;
         objectToScale.transform.position = new Vector3(oldScale[0], location, oldScale[2]);
+        ReportObjectInfo();
     }
 
     public void ScaleSelectedObjectZ(float location)
@@ -254,6 +275,7 @@ public class CreatorLevelManager : MonoBehaviour
 
         Vector3 oldScale = objectToScale.transform.localScale;
         objectToScale.transform.position = new Vector3(oldScale[0], oldScale[1], location);
+        ReportObjectInfo();
     }
 
 

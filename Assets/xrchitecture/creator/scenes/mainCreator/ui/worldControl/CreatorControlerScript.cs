@@ -6,37 +6,28 @@ using Xrchitecture.Creator.Common.Data;
 
 public class CreatorControlerScript : MonoBehaviour
 {
-    public Texture2D randomtexture = null;
+    public CreatorLevelManager levelManager;
     public GameObject selectedObject;
 
     [SerializeField]
-    private GameObject Gizmo;
-    /*[SerializeField]
-    private Transform XEmpty;
-    [SerializeField]
-    private Transform YEmpty;
-    [SerializeField]
-    private Transform ZEmpty;*/
-
+    private GameObject gizmo;
+    
     public bool movementLocal;
-    public bool movingObject = false;
-    public float movingObjectDirection;
-    
-
+    public bool movingObject;
     public bool rotatingObject;
+    
+    public float movingObjectDirection;
     public Vector3 rotateObjectDirection;
-    private Vector3 ?lastRotateVector;
-    private Vector3 oldMouseWorldPosition;
     
-    
-    private Vector3 initMouseOffset;
-    private Plane m_plane;
+    private Vector3 _initMouseOffset;
+    private Vector3 ?_lastRotateVector;
+    private Plane _mPlane;
     
     // Start is called before the first frame update
     void Start()
     {
-        Gizmo = Instantiate(Gizmo);
-        Gizmo.SetActive(false);
+        gizmo = Instantiate(gizmo);
+        gizmo.SetActive(false);
         
         //stupid fix so my GPU is not at 100% all the time :D
         #if UNITY_STANDALONE || UNITY_EDITOR
@@ -73,12 +64,12 @@ public class CreatorControlerScript : MonoBehaviour
         Plane r_plane = new Plane(rotateObjectDirection, selectedObject.transform.position);
         float zdistance = 0.0f;
         
-        if (lastRotateVector == null)
+        if (_lastRotateVector == null)
         {
-            Ray fray = Camera.main.ScreenPointToRay(initMouseOffset);
+            Ray fray = Camera.main.ScreenPointToRay(_initMouseOffset);
             if (r_plane.Raycast(fray, out zdistance))
             {
-                lastRotateVector = fray.GetPoint(zdistance) - selectedObject.transform.position;
+                _lastRotateVector = fray.GetPoint(zdistance) - selectedObject.transform.position;
             }
         }
         
@@ -91,22 +82,22 @@ public class CreatorControlerScript : MonoBehaviour
         {
             Vector3 mouseWorldPosition = ray.GetPoint(zdistance);
             Vector3 rotateVector = mouseWorldPosition - selectedObject.transform.position;
-            float angleToRotate = Vector3.SignedAngle(rotateVector, (Vector3)lastRotateVector,rotateObjectDirection);
+            float angleToRotate = Vector3.SignedAngle(rotateVector, (Vector3)_lastRotateVector,rotateObjectDirection);
 
             selectedObject.transform.Rotate(rotateObjectDirection, -angleToRotate, Space.World);
 
-            lastRotateVector = rotateVector;
+            _lastRotateVector = rotateVector;
         }
     }
 
     public void MoveObjectToMousePosition()
     {
         Vector3 mousePosition = Mouse.current.position.ReadValue();
-        mousePosition -= initMouseOffset;
+        mousePosition -= _initMouseOffset;
         //create a movement plane
         Ray ray = Camera.main.ScreenPointToRay(mousePosition);
         float zdistance = 0.0f;
-        if (m_plane.Raycast(ray, out zdistance))
+        if (_mPlane.Raycast(ray, out zdistance))
         {
             Vector3 mouseWorldPosition = ray.GetPoint(zdistance);
             Vector3 oldObjectPosition = selectedObject.transform.position;
@@ -129,14 +120,28 @@ public class CreatorControlerScript : MonoBehaviour
     {
         if (selectedObject != null)
         {
-            Gizmo.transform.position = selectedObject.transform.position;
+            gizmo.transform.position = selectedObject.transform.position;
             if (movementLocal)
             {
-                Gizmo.transform.rotation = selectedObject.transform.rotation;
+                gizmo.transform.rotation = selectedObject.transform.rotation;
             }
             return;
         }
-        Gizmo.SetActive(false);
+        gizmo.SetActive(false);
+    }
+
+    private void UnselectItem()
+    {
+        if (selectedObject == null) {return;}
+        
+        if (selectedObject.TryGetComponent<Outline>(out Outline t))
+        {
+            Destroy(selectedObject.GetComponent<Outline>());
+        }
+        selectedObject = null;
+        gizmo.SetActive(false);
+        
+        levelManager.ReportObjectInfo();
     }
     
 
@@ -156,9 +161,9 @@ public class CreatorControlerScript : MonoBehaviour
             if (rotatingObject)
             {
                 rotatingObject = false;
-                lastRotateVector = null;
+                _lastRotateVector = null;
             };
-            
+            levelManager.ReportObjectInfo();
             return;
         }
 
@@ -178,60 +183,60 @@ public class CreatorControlerScript : MonoBehaviour
             {
                 movingObject = true;
                 movingObjectDirection = hit.transform.gameObject.transform.rotation.eulerAngles.x;
-                m_plane = new Plane(arrow.PlaneNormalDirection, selectedObject.transform.position);
+                _mPlane = new Plane(arrow.PlaneNormalDirection, selectedObject.transform.position);
                 Vector3 mouseposition = Mouse.current.position.ReadValue();
-                initMouseOffset = mouseposition - Camera.main.WorldToScreenPoint(selectedObject.transform.position);
+                _initMouseOffset = mouseposition - Camera.main.WorldToScreenPoint(selectedObject.transform.position);
             }
             //Check if rotating:
             if (hit.transform.TryGetComponent<GizmoRotator>(out GizmoRotator rotator))
             {
                 rotatingObject = true;
                 rotateObjectDirection = rotator.PlaneNormalDirection;
-                initMouseOffset = Mouse.current.position.ReadValue();
+                _initMouseOffset = Mouse.current.position.ReadValue();
             }
                 
             
             return;
         }
         
-        
+        //prepare Object Switch
         if (selectedObject != null)
         {
             Destroy(selectedObject.GetComponent<Outline>());
-            Gizmo.SetActive(false);
+            gizmo.SetActive(false);
         }
 
-        if (Physics.Raycast(ray, out hit, 100))
+        //check if new Object Hit
+        if (Physics.Raycast(ray, out hit, 1000))
         {
+            //if the hit Object is the same as the last one, unselect Item
             if (selectedObject == GetRoot(hit.transform.gameObject))
             {
-                selectedObject = null;
-                Gizmo.SetActive(false);
+                UnselectItem();
                 return;
             }
-            Gizmo.SetActive(true);
+            
+            //select new Object
+            gizmo.SetActive(true);
             selectedObject = GetRoot(hit.transform.gameObject);
-            //outline
+            //Add outline
             if (!selectedObject.TryGetComponent(out Outline ll))
             {
                 var outline = selectedObject.AddComponent<Outline>();
                 outline.OutlineMode = Outline.Mode.OutlineAll;
                 outline.OutlineColor = Color.yellow;
                 outline.OutlineWidth = 9f;
-                //TODO: Send Item Info in intervals!
-                //WebGL.ItemInfoToWebGL(selectedObject.name,(int)selectedObject.transform.position.x);
+                
             }
-
-            //gizmo
             UpdateGizmoPosition();
-            //Gizmo.transform.position = Camera.main.WorldToScreenPoint(selectedObject.transform.position);
-            //Gizmo.GetComponent<SceneGizmoRenderer>().ReferenceTransform = selectedObject.transform;
+            
+            //send to WebGL
+            levelManager.ReportObjectInfo();
             return;
         }
         
-        //if nothing is clicked:
-        selectedObject = null;
-        Gizmo.SetActive(false);
+        //if nothing is clicked/hit, unselect Item
+        UnselectItem();
         
     }
     
