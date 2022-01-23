@@ -164,6 +164,16 @@ public class LevelManagerUI : Editor
             myTarget.ScaleSelectedObjectZ(scaleTextField);
         }
         GUILayout.EndHorizontal();
+        
+        GUILayout.Space(20);
+        
+        foreach (var x in myTarget.SkyBoxList)
+        {
+            if(GUILayout.Button($"Spawn {x.name}"))
+            {
+                myTarget.setSkybox(x.name);
+            }
+        }
 
     }
 }

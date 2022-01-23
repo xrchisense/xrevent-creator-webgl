@@ -12,6 +12,7 @@ using Vector3 = UnityEngine.Vector3;
 public class CreatorLevelManager : MonoBehaviour
 {
     [SerializeField] public List<GameObject> prefabList;
+    public List<Material> SkyBoxList;
     private List<ItemContainer> defaultItemsList;
     
     [SerializeField] private List<GameObject> defaultGameObjectsList;
@@ -338,5 +339,38 @@ public class CreatorLevelManager : MonoBehaviour
         string json = r.ReadToEnd();
         XrEventContainer eventContainer = XrJsonUtility.ParseEventFromJson(json);
         CreatorSessionManager.SetCreatorEvent(eventContainer);
+    }
+    
+    //World Modifying:
+
+    public void getSkyBoxList()
+    {
+        
+        #if UNITY_WEBGL == true
+        List<string> skyBoxNames = new List<string>();
+        foreach (var g in SkyBoxList)
+        {
+            skyBoxNames.Add(g.name);
+        }
+        WebGLConnection wgl = GetComponent<WebGLConnection>();
+        wgl.SendSkyboxList(skyBoxNames);
+#endif
+
+
+#if UNITY_STANDALONE == true
+        PcUiController ui = GetComponent<PcUiController>();
+        //ui.setSelectedObject(null);
+#endif
+    }
+
+    public void setSkybox(string name)
+    {
+        foreach (var skyboxMaterial in SkyBoxList)
+        {
+            if (skyboxMaterial.name != name) continue;
+            
+            RenderSettings.skybox = skyboxMaterial;
+            break;
+        }
     }
 }

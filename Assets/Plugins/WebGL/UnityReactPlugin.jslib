@@ -30,4 +30,10 @@ mergeInto(LibraryManager.library, {
       Pointer_stringify(textStringPointer)
     );
   },
+  SkyboxList: function (skyboxList) {
+    window.dispatchReactUnityEvent(
+      "SkyboxList",
+      Pointer_stringify(skyboxList)
+    );
+  },
 });

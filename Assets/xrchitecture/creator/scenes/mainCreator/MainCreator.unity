@@ -471,9 +471,53 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: SkyBoxList.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
       propertyPath: creatorControlerScript
       value: 
       objectReference: {fileID: 1724127428}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: SkyBoxList.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c56e28e54cac24b04ae3dd957d214534, type: 2}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: SkyBoxList.Array.data[1]
+      value: 
+      objectReference: {fileID: 2100000, guid: aa78c8d403a8547fe86d1f74239e6b03, type: 2}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: SkyBoxList.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9af23ba5fa5364ff598888460e0e2759, type: 2}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: SkyBoxList.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2d796ced94d61438fbab81b194038162, type: 2}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: SkyBoxList.Array.data[4]
+      value: 
+      objectReference: {fileID: 2100000, guid: b4f152e0498484391a9f0d5a1facf03b, type: 2}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: SkyBoxList.Array.data[5]
+      value: 
+      objectReference: {fileID: 2100000, guid: 7416536dbe0334cfd888dd1beb75a9fb, type: 2}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: SkyBoxList.Array.data[6]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8b7dd0809c7c6498789fa32a61eaa6cb, type: 2}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: SkyBoxList.Array.data[7]
+      value: 
+      objectReference: {fileID: 2100000, guid: c494c335823f54b52b2e87e1b7a63a23, type: 2}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: SkyBoxList.Array.data[8]
+      value: 
+      objectReference: {fileID: 2100000, guid: f2b5f3f20933f434e850db1b710542fd, type: 2}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: SkyBoxList.Array.data[9]
+      value: 
+      objectReference: {fileID: 2100000, guid: 656058fe318eb48558d21d66d1a79a2b, type: 2}
     - target: {fileID: 6272924460494824831, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
       propertyPath: m_Name
       value: LevelManager

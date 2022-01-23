@@ -17,6 +17,9 @@ public class WebGLConnection : MonoBehaviour
 
     [DllImport("__Internal")]
     private static extern void ReportRoomID(string id);
+    
+    [DllImport("__Internal")]
+    private static extern void SkyboxList(string[] skyboxList);
 
     public void ItemInfoToWebGL(string itemName, int itemID, float[] datalist)
     {
@@ -42,6 +45,20 @@ public class WebGLConnection : MonoBehaviour
 #if UNITY_WEBGL == true && UNITY_EDITOR == false
         ReportRoomID (guid);
         Debug.Log("Unity did send RoomID to Webgl");
+        return;
+#endif
+    }
+
+    public void SendSkyboxList(List<string> skyboxlist)
+    {
+        string skyboxListLong = "default";
+        foreach (var name in skyboxlist)
+        {
+            skyboxListLong = skyboxListLong + "|" + name;
+        }
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+        SkyboxList(skyboxListLong);
+        Debug.Log("Unity did send SkyboxList to Webgl");
         return;
 #endif
     }
