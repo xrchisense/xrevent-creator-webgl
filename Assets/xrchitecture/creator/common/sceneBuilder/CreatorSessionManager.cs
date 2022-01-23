@@ -25,6 +25,7 @@ namespace Xrchitecture.Creator.Common.Data
             XrEventContainer xrc = new XrEventContainer()
             {
                 Name = "EmptyRoom",
+                JsonVersion = HelperBehaviour.Instance.currentJsonVersion,
                 Rooms = new RoomContainer[]
                 {
                     new RoomContainer()
@@ -45,6 +46,15 @@ namespace Xrchitecture.Creator.Common.Data
         public static void SetCreatorEvent(XrEventContainer xrEvent)
         {
             _currentEvent = xrEvent;
+
+            //check Event Json Version;
+            Debug.Log("Event Version: " + _currentEvent.JsonVersion + " Editor Version: " + HelperBehaviour.Instance.currentJsonVersion);
+            
+            if (_currentEvent.JsonVersion <= HelperBehaviour.Instance.currentJsonVersion)
+            {
+                _currentEvent = XrJsonVersionRepair.UpdateEventContainer(_currentEvent);
+                HelperBehaviour.Instance.LevelManager.ShowPopUp("Warning!","This Event was Saved with an old Version of the Creator. The program updated it, please test everything thoroughly and save! You can see the Changelog here: www.xrchitecture.de/creator/changelog","Okay",null);
+            }
             
             SetCurrentRoom(_currentEvent.Rooms[0]);
         }

@@ -10,6 +10,8 @@ namespace Xrchitecture.Creator.Common.Data
         public Vector3 Position;
         [JsonProperty("rotation")]
         public Quaternion Rotation;
+        [JsonProperty("scale")]
+        public Vector3 Scale;
         [JsonProperty("type")]
         public string ItemType;
         [JsonProperty("resourcename")]

@@ -7,8 +7,13 @@ using UnityEngine;
 /// </summary>
 public class HelperBehaviour : MonoBehaviour
 {
+    public float currentJsonVersion => TestConfigHelper.CurrentJsonVersion;
+    
+    public CreatorLevelManager LevelManager => GetComponent<CreatorLevelManager>();
+
     public static HelperBehaviour Instance
     {
+        
         get
         {
             if (_Instance == null)

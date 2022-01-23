@@ -16,6 +16,7 @@ namespace Xrchitecture.Creator.Common.Data
             ItemContainer = itemContainer;
             
             transform.SetPositionAndRotation(itemContainer.Position, itemContainer.Rotation);
+            transform.localScale = itemContainer.Scale;
             
             if (itemContainer.ItemCustomArgs != null)
             {
@@ -46,6 +47,7 @@ namespace Xrchitecture.Creator.Common.Data
         {
             ItemContainer.Position = transform.position;
             ItemContainer.Rotation = transform.rotation;
+            ItemContainer.Scale = transform.localScale;
         }
 
         /// <summary>

@@ -559,6 +559,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7963209532593732236, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: currentJsonVersion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
 --- !u!114 &1724127428 stripped
