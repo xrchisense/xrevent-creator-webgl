@@ -19,7 +19,7 @@ public class WebGLConnection : MonoBehaviour
     private static extern void ReportRoomID(string id);
     
     [DllImport("__Internal")]
-    private static extern void SkyboxList(string[] skyboxList);
+    private static extern void SkyboxList(string  skyboxList);
 
     public void ItemInfoToWebGL(string itemName, int itemID, float[] datalist)
     {
