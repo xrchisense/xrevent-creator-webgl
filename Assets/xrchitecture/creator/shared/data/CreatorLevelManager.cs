@@ -231,8 +231,8 @@ public class CreatorLevelManager : MonoBehaviour
     {
         GameObject objectToRotate = creatorControlerScript.selectedObject;
 
-        Vector3 oldPosition = objectToRotate.transform.rotation.eulerAngles;
-        objectToRotate.transform.Rotate(Vector3.right, oldPosition[1] - rotation);
+        Vector3 oldRotationEulerAngles = objectToRotate.transform.rotation.eulerAngles;
+        objectToRotate.transform.transform.rotation = Quaternion.Euler(rotation,oldRotationEulerAngles[1],oldRotationEulerAngles[2]);
         ReportObjectInfo();
     }
 
@@ -240,8 +240,8 @@ public class CreatorLevelManager : MonoBehaviour
     {
         GameObject objectToRotate = creatorControlerScript.selectedObject;
 
-        Vector3 oldPosition = objectToRotate.transform.rotation.eulerAngles;
-        objectToRotate.transform.Rotate(Vector3.up, oldPosition[2] - rotation);
+        Vector3 oldRotationEulerAngles = objectToRotate.transform.rotation.eulerAngles;
+        objectToRotate.transform.transform.rotation = Quaternion.Euler(oldRotationEulerAngles[0 ],rotation, oldRotationEulerAngles[2] );
         ReportObjectInfo();
     }
 
@@ -249,37 +249,37 @@ public class CreatorLevelManager : MonoBehaviour
     {
         GameObject objectToRotate = creatorControlerScript.selectedObject;
 
-        Vector3 oldPosition = objectToRotate.transform.rotation.eulerAngles;
-        objectToRotate.transform.Rotate(Vector3.forward, oldPosition[3] - rotation);
+        Vector3 oldRotationEulerAngles = objectToRotate.transform.rotation.eulerAngles;
+        objectToRotate.transform.transform.rotation = Quaternion.Euler(oldRotationEulerAngles[0 ],oldRotationEulerAngles[1], rotation);
         ReportObjectInfo();
     }
 
     
     
-    public void ScaleSelectedObjectX(float location)
+    public void ScaleSelectedObjectX(float scale)
     {
         GameObject objectToScale = creatorControlerScript.selectedObject;
 
         Vector3 oldScale = objectToScale.transform.localScale;
-        objectToScale.transform.position = new Vector3(location, oldScale[1], oldScale[2]);
+        objectToScale.transform.localScale = new Vector3(scale, oldScale[1], oldScale[2]);
         ReportObjectInfo();
     }
     
-    public void ScaleSelectedObjectY(float location)
+    public void ScaleSelectedObjectY(float scale)
     {
         GameObject objectToScale = creatorControlerScript.selectedObject;
 
         Vector3 oldScale = objectToScale.transform.localScale;
-        objectToScale.transform.position = new Vector3(oldScale[0], location, oldScale[2]);
+        objectToScale.transform.localScale = new Vector3(oldScale[0], scale, oldScale[2]);
         ReportObjectInfo();
     }
 
-    public void ScaleSelectedObjectZ(float location)
+    public void ScaleSelectedObjectZ(float scale)
     {
         GameObject objectToScale = creatorControlerScript.selectedObject;
 
         Vector3 oldScale = objectToScale.transform.localScale;
-        objectToScale.transform.position = new Vector3(oldScale[0], oldScale[1], location);
+        objectToScale.transform.localScale = new Vector3(oldScale[0], oldScale[1], scale);
         ReportObjectInfo();
     }
 
