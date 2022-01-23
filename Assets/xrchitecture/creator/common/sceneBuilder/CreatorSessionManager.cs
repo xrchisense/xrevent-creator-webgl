@@ -50,12 +50,17 @@ namespace Xrchitecture.Creator.Common.Data
             //check Event Json Version;
             Debug.Log("Event Version: " + _currentEvent.JsonVersion + " Editor Version: " + HelperBehaviour.Instance.currentJsonVersion);
             
-            if (_currentEvent.JsonVersion <= HelperBehaviour.Instance.currentJsonVersion)
+            if (_currentEvent.JsonVersion < HelperBehaviour.Instance.currentJsonVersion)
             {
                 _currentEvent = XrJsonVersionRepair.UpdateEventContainer(_currentEvent);
-                HelperBehaviour.Instance.LevelManager.ShowPopUp("Warning!","This Event was Saved with an old Version of the Creator. The program updated it, please test everything thoroughly and save! You can see the Changelog here: www.xrchitecture.de/creator/changelog","Okay",null);
+                HelperBehaviour.Instance.LevelManager.ShowPopUp("Warning!","This Event was Saved with an old Version of the Creator. The program updated it, please test everything thoroughly and save! You can see the Changelog here: <a href ='www.xrchitecture.de/creator/changelog'>www.xrchitecture.de/creator/changelog</a>","Okay",null);
             }
-            
+
+            if (_currentEvent.JsonVersion > HelperBehaviour.Instance.currentJsonVersion)
+            {
+                HelperBehaviour.Instance.LevelManager.ShowPopUp("Warning!","This Event was saved with a newer Version of the Creator. Please test everything thoroughly, see the changes here: <a href ='www.xrchitecture.de/creator/changelog'>www.xrchitecture.de/creator/changelog</a> ","Okay",null);
+            }
+
             SetCurrentRoom(_currentEvent.Rooms[0]);
         }
 
