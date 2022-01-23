@@ -106,6 +106,11 @@ public class CreatorLevelManager : MonoBehaviour
 #endif
     }
 
+    public void SetGridVisibilty(bool gridVisible)
+    {
+        creatorControlerScript.grid.SetActive(gridVisible);
+    }
+
     //SPAWNING AND DELETING OBJECTS:
     public void SpawnPrefab(string type)
     {

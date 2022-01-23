@@ -11,6 +11,8 @@ public class CreatorControlerScript : MonoBehaviour
 
     [SerializeField]
     private GameObject gizmo;
+
+    public GameObject grid;
     
     public bool movementLocal;
     public bool movingObject;
@@ -28,7 +30,9 @@ public class CreatorControlerScript : MonoBehaviour
     {
         gizmo = Instantiate(gizmo);
         gizmo.SetActive(false);
-        
+
+        grid = Instantiate(grid);
+
         //stupid fix so my GPU is not at 100% all the time :D
         #if UNITY_STANDALONE || UNITY_EDITOR
         Application.targetFrameRate = 60;

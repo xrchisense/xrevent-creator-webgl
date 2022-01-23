@@ -46,6 +46,7 @@ MonoBehaviour:
   levelManager: {fileID: 0}
   selectedObject: {fileID: 0}
   gizmo: {fileID: 8938360534940938860, guid: 1b60a633f2dc2f24c8cc19b3b4c86f27, type: 3}
+  grid: {fileID: 4131799683134890744, guid: 3f9d870a6ef200743ac0464f9e75ad1e, type: 3}
   movementLocal: 0
   movingObject: 0
   rotatingObject: 0
