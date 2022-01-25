@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Xrchitecture.Creator.Common.Data;
 using Vector3 = UnityEngine.Vector3;
 
@@ -73,7 +74,7 @@ public class CreatorLevelManager : MonoBehaviour
         
         popUpActionWhenClicked(buttonNumber);
         popUpActionWhenClicked = null;
-
+       
     }
 
     public void SetKeyboardCapture(string cap)
@@ -83,10 +84,12 @@ public class CreatorLevelManager : MonoBehaviour
         if (cap == "1")
         {
             WebGLInput.captureAllKeyboardInput = true;
+            EventSystem.current.enabled = true;
         }
         else
         {
             WebGLInput.captureAllKeyboardInput = false;
+            EventSystem.current.enabled = false;
         }
 #endif
     }
