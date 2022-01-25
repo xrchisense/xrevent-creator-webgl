@@ -51,6 +51,10 @@ MonoBehaviour:
   - {fileID: 3582781635024510197, guid: 9387b3d4dfe27f4468f9c7bcd9014f1d, type: 3}
   - {fileID: 3749363688414227048, guid: 767bd99df40b3534097e7d2d8aaa0dea, type: 3}
   - {fileID: 2371041299337085016, guid: 03d77bcb16a3a244f9fbcceb8c4984e3, type: 3}
+  defaultGameObjectsList:
+  - {fileID: 2371041299337085016, guid: 03d77bcb16a3a244f9fbcceb8c4984e3, type: 3}
+  defaultGameObjectsPositions:
+  - {x: 0, y: 5, z: 0}
   creatorControlerScript: {fileID: 0}
 --- !u!114 &7963209532593732236
 MonoBehaviour:

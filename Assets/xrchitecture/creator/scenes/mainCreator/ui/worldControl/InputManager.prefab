@@ -43,9 +43,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75d3e85ab5744964e871708c1ed01338, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomtexture: {fileID: 10309, guid: 0000000000000000f000000000000000, type: 0}
+  levelManager: {fileID: 0}
   selectedObject: {fileID: 0}
-  WebGL: {fileID: 0}
-  Gizmo: {fileID: 8938360534940938860, guid: 1b60a633f2dc2f24c8cc19b3b4c86f27, type: 3}
+  gizmo: {fileID: 8938360534940938860, guid: 1b60a633f2dc2f24c8cc19b3b4c86f27, type: 3}
+  grid: {fileID: 4131799683134890744, guid: 3f9d870a6ef200743ac0464f9e75ad1e, type: 3}
+  movementLocal: 0
   movingObject: 0
+  rotatingObject: 0
   movingObjectDirection: 0
+  rotateObjectDirection: {x: 0, y: 0, z: 0}

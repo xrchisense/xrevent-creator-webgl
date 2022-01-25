@@ -27,7 +27,8 @@ namespace Xrchitecture.Creator.Common.Data
             ItemContainer newItemContainer = new ItemContainer()
             {
                 ResourceName = itemToAdd,
-                ItemType = itemType
+                ItemType = itemType,
+                Scale = new Vector3(1,1,1)
             };
             Debug.Log(currentRoomGameObject);
             CreateItem(newItemContainer , createdObject => OnItemCreated(createdObject, newItemContainer, currentRoomGameObject.transform));

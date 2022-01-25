@@ -12,6 +12,10 @@ public class LevelManagerUI : Editor
 
     string pathTOGLTF =
         "bag-chair.gltf";
+
+    private float moveTextField = 0f;
+    private float rotateTextField = 0f;
+    private float scaleTextField = 0f;
     public override void OnInspectorGUI()
     {
         CreatorLevelManager myTarget = (CreatorLevelManager) target;
@@ -111,8 +115,65 @@ public class LevelManagerUI : Editor
             myTarget.SaveRoom();
         }
         GUILayout.EndHorizontal();
-
-
+        
+        GUILayout.BeginHorizontal();
+        
+        moveTextField = float.Parse(GUILayout.TextField(moveTextField.ToString()));
+        if (GUILayout.Button("MoveX", GUILayout.ExpandWidth(false)))
+        {
+            myTarget.MoveSelectedObjectX(moveTextField);
+        }
+        if (GUILayout.Button("MoveY", GUILayout.ExpandWidth(false)))
+        {
+            myTarget.MoveSelectedObjectY(moveTextField);
+        }
+        if (GUILayout.Button("MoveZ", GUILayout.ExpandWidth(false)))
+        {
+            myTarget.MoveSelectedObjectZ(moveTextField);
+        }
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        
+        rotateTextField = float.Parse(GUILayout.TextField(rotateTextField.ToString()));
+        if (GUILayout.Button("RotateX", GUILayout.ExpandWidth(false)))
+        {
+            myTarget.RotateSelectedObjectX(rotateTextField);
+        }
+        if (GUILayout.Button("RotateY", GUILayout.ExpandWidth(false)))
+        {
+            myTarget.RotateSelectedObjectY(rotateTextField);
+        }
+        if (GUILayout.Button("RotateZ", GUILayout.ExpandWidth(false)))
+        {
+            myTarget.RotateSelectedObjectZ(rotateTextField);
+        }
+        GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        
+        scaleTextField = float.Parse(GUILayout.TextField(scaleTextField.ToString()));
+        if (GUILayout.Button("ScaleX", GUILayout.ExpandWidth(false)))
+        {
+            myTarget.ScaleSelectedObjectX(scaleTextField);
+        }
+        if (GUILayout.Button("ScaleX", GUILayout.ExpandWidth(false)))
+        {
+            myTarget.ScaleSelectedObjectY(scaleTextField);
+        }
+        if (GUILayout.Button("ScaleX", GUILayout.ExpandWidth(false)))
+        {
+            myTarget.ScaleSelectedObjectZ(scaleTextField);
+        }
+        GUILayout.EndHorizontal();
+        
+        GUILayout.Space(20);
+        
+        foreach (var x in myTarget.SkyBoxList)
+        {
+            if(GUILayout.Button($"Spawn {x.name}"))
+            {
+                myTarget.setSkybox(x.name);
+            }
+        }
 
     }
 }

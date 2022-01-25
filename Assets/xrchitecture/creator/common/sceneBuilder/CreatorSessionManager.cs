@@ -10,21 +10,27 @@ namespace Xrchitecture.Creator.Common.Data
         private static XrEventContainer _currentEvent;
         private static GameObject _currentRoomGameObject;
 
-        public static void CreateNewCreatorEvent(string guid)
+        public static void CreateNewCreatorEvent(string guid, List<ItemContainer> defaultItems = null)
         {
             //add default Items to ItemContainerList
-            List<ItemContainer> defaultItemList = new List<ItemContainer>();
-            defaultItemList.Add(new ItemContainer(){ItemType = "pre-defined",ResourceName = "Plane"});
-            defaultItemList.Add(new ItemContainer(){ItemType = "pre-defined",ResourceName = "Directional Light", Position = new Vector3(0,3,0)});
+            List<ItemContainer> defaultItemList = defaultItems;
+            if (defaultItems == null)
+            {
+                defaultItemList = new List<ItemContainer>();
+                //defaultItemList.Add(new ItemContainer(){ItemType = "pre-defined",ResourceName = "Plane"});
+                defaultItemList.Add(new ItemContainer(){ItemType = "pre-defined",ResourceName = "Directional Light", Position = new Vector3(0,3,0)});
+            }
             
             //Create Default Event
             XrEventContainer xrc = new XrEventContainer()
             {
                 Name = "EmptyRoom",
+                JsonVersion = HelperBehaviour.Instance.currentJsonVersion,
                 Rooms = new RoomContainer[]
                 {
                     new RoomContainer()
                     {
+                        Name = "DefaultRoom",
                         Guid = guid,
                         Items = defaultItemList
                     }
@@ -40,7 +46,21 @@ namespace Xrchitecture.Creator.Common.Data
         public static void SetCreatorEvent(XrEventContainer xrEvent)
         {
             _currentEvent = xrEvent;
+
+            //check Event Json Version;
+            Debug.Log("Event Version: " + _currentEvent.JsonVersion + " Editor Version: " + HelperBehaviour.Instance.currentJsonVersion);
             
+            if (_currentEvent.JsonVersion < HelperBehaviour.Instance.currentJsonVersion)
+            {
+                _currentEvent = XrJsonVersionRepair.UpdateEventContainer(_currentEvent);
+                HelperBehaviour.Instance.LevelManager.ShowPopUp("Warning!","This Event was Saved with an old Version of the Creator. The program updated it, please test everything thoroughly and save! You can see the Changelog here: <a href ='www.xrchitecture.de/creator/changelog'>www.xrchitecture.de/creator/changelog</a>","Okay",null);
+            }
+
+            if (_currentEvent.JsonVersion > HelperBehaviour.Instance.currentJsonVersion)
+            {
+                HelperBehaviour.Instance.LevelManager.ShowPopUp("Warning!","This Event was saved with a newer Version of the Creator. Please test everything thoroughly, see the changes here: <a href ='www.xrchitecture.de/creator/changelog'>www.xrchitecture.de/creator/changelog</a> ","Okay",null);
+            }
+
             SetCurrentRoom(_currentEvent.Rooms[0]);
         }
 
@@ -49,7 +69,7 @@ namespace Xrchitecture.Creator.Common.Data
             return _currentEvent;
         }
 
-        public static GameObject GetCurrentRommGameObject()
+        public static GameObject GetCurrentRoomGameObject()
         {
             return _currentRoomGameObject;
         }

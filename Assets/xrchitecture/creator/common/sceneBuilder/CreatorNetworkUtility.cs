@@ -83,7 +83,7 @@ namespace Xrchitecture.Creator.Common.Data
                 
                 //QuickFixTOGettAllTheCurrentItems (only needed because Transofrms is not updated in the Event
                 containerToUpload.Rooms[0].Items = new List<ItemContainer>();
-                foreach (var cI in CreatorSessionManager.GetCurrentRommGameObject().GetComponentsInChildren<CreatorItem>())
+                foreach (var cI in CreatorSessionManager.GetCurrentRoomGameObject().GetComponentsInChildren<CreatorItem>())
                 {
                     cI.TransformUpdated();
                     containerToUpload.Rooms[0].Items.Add(cI.ItemContainer);
