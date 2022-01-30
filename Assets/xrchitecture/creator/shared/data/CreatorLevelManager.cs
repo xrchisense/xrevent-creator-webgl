@@ -220,7 +220,7 @@ public class CreatorLevelManager : MonoBehaviour
 
         Vector3 oldPosition = objectToMove.transform.position;
         objectToMove.transform.position = new Vector3(location, oldPosition[1], oldPosition[2]);
-
+        creatorControlerScript.UpdateGizmoPosition();
         ReportObjectInfo();
     }
 
@@ -230,6 +230,7 @@ public class CreatorLevelManager : MonoBehaviour
 
         Vector3 oldPosition = objectToMove.transform.position;
         objectToMove.transform.position = new Vector3(oldPosition[0], location, oldPosition[2]);
+        creatorControlerScript.UpdateGizmoPosition();
         ReportObjectInfo();
     }
 
@@ -239,6 +240,7 @@ public class CreatorLevelManager : MonoBehaviour
 
         Vector3 oldPosition = objectToMove.transform.position;
         objectToMove.transform.position = new Vector3(oldPosition[0], oldPosition[1], location);
+        creatorControlerScript.UpdateGizmoPosition();
         ReportObjectInfo();
     }
     
@@ -250,6 +252,7 @@ public class CreatorLevelManager : MonoBehaviour
 
         Vector3 oldRotationEulerAngles = objectToRotate.transform.rotation.eulerAngles;
         objectToRotate.transform.transform.rotation = Quaternion.Euler(rotation,oldRotationEulerAngles[1],oldRotationEulerAngles[2]);
+        creatorControlerScript.UpdateGizmoPosition();
         ReportObjectInfo();
     }
 
@@ -259,6 +262,7 @@ public class CreatorLevelManager : MonoBehaviour
 
         Vector3 oldRotationEulerAngles = objectToRotate.transform.rotation.eulerAngles;
         objectToRotate.transform.transform.rotation = Quaternion.Euler(oldRotationEulerAngles[0 ],rotation, oldRotationEulerAngles[2] );
+        creatorControlerScript.UpdateGizmoPosition();
         ReportObjectInfo();
     }
 
@@ -268,6 +272,7 @@ public class CreatorLevelManager : MonoBehaviour
 
         Vector3 oldRotationEulerAngles = objectToRotate.transform.rotation.eulerAngles;
         objectToRotate.transform.transform.rotation = Quaternion.Euler(oldRotationEulerAngles[0 ],oldRotationEulerAngles[1], rotation);
+        creatorControlerScript.UpdateGizmoPosition();
         ReportObjectInfo();
     }
 
