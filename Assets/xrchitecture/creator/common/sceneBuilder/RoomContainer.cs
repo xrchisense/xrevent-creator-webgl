@@ -11,6 +11,8 @@ namespace Xrchitecture.Creator.Common.Data
         public List<ItemContainer> Items;
         [JsonProperty("guid")]
         public string Guid;
+        [JsonProperty("skybox")]
+        public string Skybox;
         [JsonProperty("room-custom-args")]
         public List<RoomCustomArgs> RoomCustomArgs;
     }

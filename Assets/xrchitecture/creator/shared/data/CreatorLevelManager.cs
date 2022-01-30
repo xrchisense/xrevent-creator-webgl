@@ -383,7 +383,7 @@ public class CreatorLevelManager : MonoBehaviour
         foreach (var skyboxMaterial in SkyBoxList)
         {
             if (skyboxMaterial.name != name) continue;
-            
+            CreatorSessionManager.SetRoomSkybox(skyboxMaterial.name);
             RenderSettings.skybox = skyboxMaterial;
             break;
         }

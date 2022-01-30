@@ -22,9 +22,17 @@ namespace Xrchitecture.Creator.Common.Data
                     }
                 }
             }
+            //0.3 SkyBox Save
+            if (oldContainer.JsonVersion < 0.3)
+            {
+                foreach (var room in oldContainer.Rooms)
+                {
+                    room.Skybox = "Day_BlueSky_Nothing";
+                }
+            }
             
             //0.X XXXXXXXXXX
-            /*if (oldContainer.JsonVersion < 0.3)
+            /*if (oldContainer.JsonVersion < 0.9)
             {
                 
             }*/

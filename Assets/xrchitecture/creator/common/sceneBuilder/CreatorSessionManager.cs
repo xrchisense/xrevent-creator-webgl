@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Newtonsoft.Json;
 using UnityEngine;
 
@@ -32,7 +33,8 @@ namespace Xrchitecture.Creator.Common.Data
                     {
                         Name = "DefaultRoom",
                         Guid = guid,
-                        Items = defaultItemList
+                        Items = defaultItemList,
+                        Skybox = "Day_BlueSky_Nothing"
                     }
                 }
             };
@@ -42,6 +44,19 @@ namespace Xrchitecture.Creator.Common.Data
             //TODO:
             //Popup: Default Scenen/Tutorial, name etc.
             
+        }
+
+        public static void SetEventName(string value)
+        {
+            _currentEvent.Name = value;
+        }
+        public static void SetRoomName(string value)
+        {
+            _currentEvent.Rooms[0].Name = value;
+        }
+        public static void SetRoomSkybox(string value)
+        {
+            _currentEvent.Rooms[0].Skybox = value;
         }
         public static void SetCreatorEvent(XrEventContainer xrEvent)
         {
@@ -77,8 +92,10 @@ namespace Xrchitecture.Creator.Common.Data
         public static void SetCurrentRoom(RoomContainer roomContainer)
         {
             DestroyRoomGameObject();
-
             _currentRoomGameObject = XrCreatorUtility.CreateRoomGameObject(roomContainer);
+            
+            //Set Skybox
+            HelperBehaviour.Instance.gameObject.GetComponent<CreatorLevelManager>().setSkybox(roomContainer.Skybox);
         }
 
         public static void SpawnItemInCurrentRoom(string itemToAdd, string itemType)
