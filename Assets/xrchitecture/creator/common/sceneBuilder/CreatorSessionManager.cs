@@ -11,6 +11,8 @@ namespace Xrchitecture.Creator.Common.Data
         private static XrEventContainer _currentEvent;
         private static GameObject _currentRoomGameObject;
 
+        private static int objectsLoaded;
+        public static int objectToLoad;
         public static void CreateNewCreatorEvent(string guid, List<ItemContainer> defaultItems = null)
         {
             //add default Items to ItemContainerList
@@ -39,6 +41,7 @@ namespace Xrchitecture.Creator.Common.Data
                 }
             };
             //Set DefaultEvent an Load it. 
+            
             SetCreatorEvent(xrc);
             
             //TODO:
@@ -75,7 +78,8 @@ namespace Xrchitecture.Creator.Common.Data
             {
                 HelperBehaviour.Instance.LevelManager.ShowPopUp("Warning!","This Event was saved with a newer Version of the Creator. Please test everything thoroughly, see the changes here: <a href ='www.xrchitecture.de/creator/changelog'>www.xrchitecture.de/creator/changelog</a> ","Okay",null);
             }
-
+            
+            objectsLoaded = 0;
             SetCurrentRoom(_currentEvent.Rooms[0]);
         }
 
@@ -93,11 +97,28 @@ namespace Xrchitecture.Creator.Common.Data
         {
             DestroyRoomGameObject();
             _currentRoomGameObject = XrCreatorUtility.CreateRoomGameObject(roomContainer);
-            
+            //when object is returned finish Loading
+            TrackLoadingStatus(1);
             //Set Skybox
             HelperBehaviour.Instance.gameObject.GetComponent<CreatorLevelManager>().setSkybox(roomContainer.Skybox);
         }
-
+        
+        public static void TrackLoadingStatus(int counter)
+        {
+            objectsLoaded += counter;
+            float itemPercent = (((float) objectsLoaded / objectToLoad)*100);
+            //Reporting to UI
+            HelperBehaviour.Instance.LevelManager.ReportLoadingStatus((int)itemPercent);
+            
+            
+            //unhiding all Object
+            if (objectsLoaded >= objectToLoad)
+            {
+                HelperBehaviour.Instance.OnFinishLoad();
+            }
+            
+        }
+        
         public static void SpawnItemInCurrentRoom(string itemToAdd, string itemType)
         {
             XrCreatorUtility.SpawnItemInRoom(itemToAdd, itemType, _currentRoomGameObject, container => _currentEvent.Rooms[0].Items.Add(container));

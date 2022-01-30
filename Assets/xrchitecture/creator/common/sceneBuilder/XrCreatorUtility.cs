@@ -6,8 +6,7 @@ namespace Xrchitecture.Creator.Common.Data
 {
     internal static class XrCreatorUtility
     {
-        private static int objectToLoadCount;
-        private static int objectToLoadOriginalCount;
+       
         public static GameObject CreateRoomGameObject(RoomContainer roomToCreate)
         {
             Transform roomRoot = new GameObject().transform; 
@@ -17,8 +16,8 @@ namespace Xrchitecture.Creator.Common.Data
             roomRoot.tag = "EventItem";
 
 
-            objectToLoadCount = roomToCreate.Items.Count;
-            objectToLoadOriginalCount = roomToCreate.Items.Count;
+            //+1 to wait for the RoomObject to be returned. As the reference is needed.
+            CreatorSessionManager.objectToLoad = roomToCreate.Items.Count + 1;
             HelperBehaviour.Instance.LevelManager.ReportLoadingStatus(0);
             foreach (ItemContainer itemContainer in roomToCreate.Items)
             {
@@ -26,29 +25,13 @@ namespace Xrchitecture.Creator.Common.Data
                 CreateItem(itemContainer, gO =>
                 {
                     OnItemCreated(gO, itemContainer, roomRoot);
-                    TrackLoadingStatus(-1);
+                    CreatorSessionManager.TrackLoadingStatus(1);
                 });
             }
-            
-            
-            
             return roomRoot.gameObject;
         }
 
-        private static void TrackLoadingStatus(int counter)
-        {
-            objectToLoadCount += counter;
-            float itemPercent = 100- (((float) objectToLoadCount / objectToLoadOriginalCount)*100);
-            //Reporting to UI
-            HelperBehaviour.Instance.LevelManager.ReportLoadingStatus((int)itemPercent);
-            
-            //unhiding all Object
-            if (objectToLoadCount <= 0)
-            {
-                HelperBehaviour.Instance.OnFinishLoad();
-            }
-            
-        }
+        
         
         
         public static void SpawnItemInRoom(string itemToAdd, string itemType, GameObject currentRoomGameObject, Action<ItemContainer> onSuccess)

@@ -19,7 +19,7 @@ public class WebGLConnection : MonoBehaviour
     private static extern void ReportRoomID(string id);
     
     [DllImport("__Internal")]
-    private static extern void ReportLoadingStatus(int percent);
+    private static extern void ReportLoadingStatus(float percent);
     
     [DllImport("__Internal")]
     private static extern void SkyboxList(string  skyboxList);
@@ -37,7 +37,7 @@ public class WebGLConnection : MonoBehaviour
     public void ReportLoadingStatusToWebGL(int percent)
     {
 #if UNITY_WEBGL == true && UNITY_EDITOR == false
-        ReportLoadingStatus(percent);
+        ReportLoadingStatus((float)percent);
         Debug.Log("Unity did send ReportLoadingStatus: " + percent);
         return;
 #endif

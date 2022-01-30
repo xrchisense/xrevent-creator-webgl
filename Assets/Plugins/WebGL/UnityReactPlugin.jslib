@@ -36,4 +36,10 @@ mergeInto(LibraryManager.library, {
       Pointer_stringify(skyboxList)
     );
   },
+  ReportLoadingStatus: function (percent) {
+    window.dispatchReactUnityEvent(
+      "ReportLoadingStatus",
+      percent
+    );
+  },
 });
