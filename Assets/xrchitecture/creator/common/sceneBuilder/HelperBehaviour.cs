@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Xrchitecture.Creator.Common.Data;
 
 /// <summary>
 /// This is an empty Singleton that exists to run Coroutines on it
@@ -22,6 +24,16 @@ public class HelperBehaviour : MonoBehaviour
             }
 
             return _Instance;
+        }
+    }
+
+    public void OnFinishLoad()
+    {
+        
+        GameObject roomRoot = CreatorSessionManager.GetCurrentRoomGameObject();
+        foreach (Transform child in roomRoot.transform)
+        {
+            child.gameObject.SetActive(true);
         }
     }
 

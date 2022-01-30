@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -6,6 +6,8 @@ namespace Xrchitecture.Creator.Common.Data
 {
     internal static class XrCreatorUtility
     {
+        private static int objectToLoadCount;
+        private static int objectToLoadOriginalCount;
         public static GameObject CreateRoomGameObject(RoomContainer roomToCreate)
         {
             Transform roomRoot = new GameObject().transform; 
@@ -13,14 +15,41 @@ namespace Xrchitecture.Creator.Common.Data
             roomRoot.name = roomToCreate.Name;
 
             roomRoot.tag = "EventItem";
-            
+
+
+            objectToLoadCount = roomToCreate.Items.Count;
+            objectToLoadOriginalCount = roomToCreate.Items.Count;
+            HelperBehaviour.Instance.LevelManager.ReportLoadingStatus(0);
             foreach (ItemContainer itemContainer in roomToCreate.Items)
             {
-                CreateItem(itemContainer, gO => OnItemCreated(gO, itemContainer, roomRoot));
+                
+                CreateItem(itemContainer, gO =>
+                {
+                    OnItemCreated(gO, itemContainer, roomRoot);
+                    TrackLoadingStatus(-1);
+                });
             }
-
+            
+            
+            
             return roomRoot.gameObject;
         }
+
+        private static void TrackLoadingStatus(int counter)
+        {
+            objectToLoadCount += counter;
+            float itemPercent = 100- (((float) objectToLoadCount / objectToLoadOriginalCount)*100);
+            //Reporting to UI
+            HelperBehaviour.Instance.LevelManager.ReportLoadingStatus((int)itemPercent);
+            
+            //unhiding all Object
+            if (objectToLoadCount <= 0)
+            {
+                HelperBehaviour.Instance.OnFinishLoad();
+            }
+            
+        }
+        
         
         public static void SpawnItemInRoom(string itemToAdd, string itemType, GameObject currentRoomGameObject, Action<ItemContainer> onSuccess)
         {
@@ -56,6 +85,7 @@ namespace Xrchitecture.Creator.Common.Data
             itemRoot.name = itemContainer.ResourceName + "-ROOT";
             item.transform.SetParent(itemRoot.transform);
             itemRoot.transform.SetParent(roomRoot);
+            itemRoot.SetActive(false);
             
             //Add Collider to spawned Object when no Collider but a Mesh is present.
             //Does not solve the Problem when there is another Parent Root GameObject, then no collider will be applied.

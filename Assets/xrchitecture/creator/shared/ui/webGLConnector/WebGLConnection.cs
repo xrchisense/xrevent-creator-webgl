@@ -19,6 +19,9 @@ public class WebGLConnection : MonoBehaviour
     private static extern void ReportRoomID(string id);
     
     [DllImport("__Internal")]
+    private static extern void ReportLoadingStatus(int percent);
+    
+    [DllImport("__Internal")]
     private static extern void SkyboxList(string  skyboxList);
 
     public void ItemInfoToWebGL(string itemName, int itemID, float[] datalist)
@@ -31,6 +34,14 @@ public class WebGLConnection : MonoBehaviour
 #endif
     }
 
+    public void ReportLoadingStatusToWebGL(int percent)
+    {
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+        ReportLoadingStatus(percent);
+        Debug.Log("Unity did send ReportLoadingStatus: " + percent);
+        return;
+#endif
+    }
     public void ShowReactPopup(string titelString,string bodyTextString,string button1Text,string button2Text,string button3Text,bool showX)
     {
 #if UNITY_WEBGL == true && UNITY_EDITOR == false

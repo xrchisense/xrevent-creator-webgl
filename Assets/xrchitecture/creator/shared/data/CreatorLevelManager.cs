@@ -69,6 +69,19 @@ public class CreatorLevelManager : MonoBehaviour
 #endif
     }
 
+    public void ReportLoadingStatus(int percent)
+    {
+        Debug.Log("Loading at: " + percent + "%");
+#if UNITY_WEBGL == true
+        WebGLConnection wgl = GetComponent<WebGLConnection>();
+        wgl.ReportLoadingStatusToWebGL(percent);
+#endif
+#if UNITY_STANDALONE == true
+        PcUiController ui = GetComponent<PcUiController>();
+       // ui.DisplayGuid(pm.getGUID());
+#endif
+    }
+
     
     //POUP Managment
     public void ShowPopUp(string titelString, string bodyTextString, string button1Text, Action<int> onPopUpClick, string button2Text = "null", string button3Text = "null", bool showX = false)
@@ -307,7 +320,6 @@ public class CreatorLevelManager : MonoBehaviour
         SetGUID(guid);
         CreatorNetworkUtility.LoadEventFromAddress("https://xrchitecture.de/upload/" + guid + "/EventLayout.json", guid);
         Debug.Log("Unity loading room: " + guid);
-
         // Report back guid
         ReportRoomID();
     }
