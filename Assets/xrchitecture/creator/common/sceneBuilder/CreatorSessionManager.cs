@@ -76,7 +76,9 @@ namespace Xrchitecture.Creator.Common.Data
 
             if (_currentEvent.JsonVersion > HelperBehaviour.Instance.currentJsonVersion)
             {
-                HelperBehaviour.Instance.LevelManager.ShowPopUp("Warning!","This Event was saved with a newer Version of the Creator. Please test everything thoroughly, see the changes here: <a href ='www.xrchitecture.de/creator/changelog'>www.xrchitecture.de/creator/changelog</a> ","Okay",null);
+                //TODO: should the newer version be given an old number ??
+                //_currentEvent = XrJsonVersionRepair.UpdateEventContainer(_currentEvent);
+                //HelperBehaviour.Instance.LevelManager.ShowPopUp("Warning!","This Event was saved with a newer Version of the Creator. Please test everything thoroughly, see the changes here: <a href ='www.xrchitecture.de/creator/changelog'>www.xrchitecture.de/creator/changelog</a> ","Okay",null);
             }
             
             objectsLoaded = 0;
