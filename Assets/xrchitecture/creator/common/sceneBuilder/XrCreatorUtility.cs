@@ -24,7 +24,7 @@ namespace Xrchitecture.Creator.Common.Data
                 
                 CreateItem(itemContainer, gO =>
                 {
-                    OnItemCreated(gO, itemContainer, roomRoot);
+                    OnItemCreated(gO, itemContainer, roomRoot,false);
                     CreatorSessionManager.TrackLoadingStatus(1);
                 });
             }
@@ -43,7 +43,7 @@ namespace Xrchitecture.Creator.Common.Data
                 Scale = new Vector3(1,1,1)
             };
             Debug.Log(currentRoomGameObject);
-            CreateItem(newItemContainer , createdObject => OnItemCreated(createdObject, newItemContainer, currentRoomGameObject.transform));
+            CreateItem(newItemContainer , createdObject => OnItemCreated(createdObject, newItemContainer, currentRoomGameObject.transform,true));
             onSuccess(newItemContainer);
         }
         
@@ -62,13 +62,13 @@ namespace Xrchitecture.Creator.Common.Data
             
         }
 
-        private static void OnItemCreated(GameObject item, ItemContainer itemContainer, Transform roomRoot = null)
+        private static void OnItemCreated(GameObject item, ItemContainer itemContainer, Transform roomRoot, bool showObject)
         {
             GameObject itemRoot = new GameObject();
             itemRoot.name = itemContainer.ResourceName + "-ROOT";
             item.transform.SetParent(itemRoot.transform);
             itemRoot.transform.SetParent(roomRoot);
-            itemRoot.SetActive(false);
+            itemRoot.SetActive(showObject);
             
             //Add Collider to spawned Object when no Collider but a Mesh is present.
             //Does not solve the Problem when there is another Parent Root GameObject, then no collider will be applied.
