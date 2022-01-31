@@ -156,7 +156,7 @@ public class CreatorControlerScript : MonoBehaviour
 
     public void leftClicktoSelect(InputAction.CallbackContext context)
     {
-        
+        if(levelManager.clickInsideUnityView == false){return;}    //ignore clicks outsided of unity
         if(context.phase == InputActionPhase.Performed){return;} //ignore "performed" status
         
         if (context.phase == InputActionPhase.Canceled) //check if mouse is let go, if moving drop the item, else do nothing

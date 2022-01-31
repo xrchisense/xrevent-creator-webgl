@@ -14,6 +14,7 @@ public class CreatorLevelManager : MonoBehaviour
 {
     [SerializeField] public List<GameObject> prefabList;
     public List<Material> SkyBoxList;
+    public bool clickInsideUnityView = true;
     private List<ItemContainer> defaultItemsList;
     
     [SerializeField] private List<GameObject> defaultGameObjectsList;
@@ -108,17 +109,18 @@ public class CreatorLevelManager : MonoBehaviour
 
     public void SetKeyboardCapture(string cap)
     {
+        
 #if !UNITY_EDITOR && UNITY_WEBGL
         Debug.Log(cap);
         if (cap == "1")
         {
             WebGLInput.captureAllKeyboardInput = true;
-            EventSystem.current.enabled = true;
+            clickInsideUnityView = true;
         }
         else
         {
             WebGLInput.captureAllKeyboardInput = false;
-            EventSystem.current.enabled = false;
+            clickInsideUnityView = false;
         }
 #endif
     }
@@ -130,6 +132,12 @@ public class CreatorLevelManager : MonoBehaviour
 
     //SPAWNING AND DELETING OBJECTS:
     public void SpawnPrefab(string type)
+    {
+        Debug.Log(type);
+        CreatorSessionManager.SpawnItemInCurrentRoom(type, "pre-defined");
+        Debug.Log($"Spawning {type}!");
+    }
+    public void SpawnRoom(string type)
     {
         Debug.Log(type);
         CreatorSessionManager.SpawnItemInCurrentRoom(type, "pre-defined");
