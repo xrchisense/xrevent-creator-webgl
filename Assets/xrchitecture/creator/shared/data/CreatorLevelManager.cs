@@ -92,9 +92,11 @@ public class CreatorLevelManager : MonoBehaviour
         WebGLConnection wgl = GetComponent<WebGLConnection>();
         wgl.ShowReactPopup(titelString, bodyTextString, button1Text, button2Text, button3Text, showX);
 #endif
-#if UNITY_STANDALONE == true
-        PcUiController ui = GetComponent<PcUiController>();
+        
+#if UNITY_STANDALONE == true ||  UNITY_EDITOR == true
+        //PcUiController ui = GetComponent<PcUiController>();
         //ui.DisplayGuid(pm.getGUID());
+        
 #endif
     }
 

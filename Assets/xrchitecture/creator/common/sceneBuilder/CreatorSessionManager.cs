@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Newtonsoft.Json;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Xrchitecture.Creator.Common.Data
 {
@@ -11,8 +12,24 @@ namespace Xrchitecture.Creator.Common.Data
         private static XrEventContainer _currentEvent;
         private static GameObject _currentRoomGameObject;
 
-        private static int objectsLoaded;
-        public static int objectToLoad;
+        private static int _objectsLoaded;
+        public static int ObjectsToLoad;
+        
+        
+        //get Functions:
+        public static XrEventContainer GetCreatorEvent()
+        {
+            return _currentEvent;
+        }
+
+        public static GameObject GetCurrentRoomGameObject()
+        {
+            return _currentRoomGameObject;
+        }
+        
+        //Loading / unloading Rooms:
+        //
+        //Loading Empty Event:
         public static void CreateNewCreatorEvent(string guid, List<ItemContainer> defaultItems = null)
         {
             //add default Items to ItemContainerList
@@ -40,27 +57,13 @@ namespace Xrchitecture.Creator.Common.Data
                     }
                 }
             };
-            //Set DefaultEvent an Load it. 
-            
             SetCreatorEvent(xrc);
             
             //TODO:
             //Popup: Default Scenen/Tutorial, name etc.
             
         }
-
-        public static void SetEventName(string value)
-        {
-            _currentEvent.Name = value;
-        }
-        public static void SetRoomName(string value)
-        {
-            _currentEvent.Rooms[0].Name = value;
-        }
-        public static void SetRoomSkybox(string value)
-        {
-            _currentEvent.Rooms[0].Skybox = value;
-        }
+        
         public static void SetCreatorEvent(XrEventContainer xrEvent)
         {
             _currentEvent = xrEvent;
@@ -81,21 +84,11 @@ namespace Xrchitecture.Creator.Common.Data
                 //HelperBehaviour.Instance.LevelManager.ShowPopUp("Warning!","This Event was saved with a newer Version of the Creator. Please test everything thoroughly, see the changes here: <a href ='www.xrchitecture.de/creator/changelog'>www.xrchitecture.de/creator/changelog</a> ","Okay",null);
             }
             
-            objectsLoaded = 0;
+            _objectsLoaded = 0;
             SetCurrentRoom(_currentEvent.Rooms[0]);
         }
 
-        public static XrEventContainer GetCreatorEvent()
-        {
-            return _currentEvent;
-        }
-
-        public static GameObject GetCurrentRoomGameObject()
-        {
-            return _currentRoomGameObject;
-        }
-
-        public static void SetCurrentRoom(RoomContainer roomContainer)
+        private static void SetCurrentRoom(RoomContainer roomContainer)
         {
             DestroyRoomGameObject();
             _currentRoomGameObject = XrCreatorUtility.CreateRoomGameObject(roomContainer);
@@ -105,22 +98,31 @@ namespace Xrchitecture.Creator.Common.Data
             HelperBehaviour.Instance.gameObject.GetComponent<CreatorLevelManager>().setSkybox(roomContainer.Skybox);
         }
         
-        public static void TrackLoadingStatus(int counter)
+        private static void DestroyRoomGameObject()
         {
-            objectsLoaded += counter;
-            float itemPercent = (((float) objectsLoaded / objectToLoad)*100);
-            //Reporting to UI
-            HelperBehaviour.Instance.LevelManager.ReportLoadingStatus((int)itemPercent);
+            if (_currentRoomGameObject == null) return;
             
-            
-            //unhiding all Object
-            if (objectsLoaded >= objectToLoad)
-            {
-                HelperBehaviour.Instance.OnFinishLoad();
-            }
-            
+            Object.Destroy(_currentRoomGameObject);
+            _currentRoomGameObject = null;
+
         }
         
+        
+        //Editing The Event and the Room - Parameter:
+        public static void SetEventName(string value)
+        {
+            _currentEvent.Name = value;
+        }
+        public static void SetRoomName(string value)
+        {
+            _currentEvent.Rooms[0].Name = value;
+        }
+        public static void SetRoomSkybox(string value)
+        {
+            _currentEvent.Rooms[0].Skybox = value;
+        }
+        
+        //Editing The Room:
         public static void SpawnItemInCurrentRoom(string itemToAdd, string itemType)
         {
             XrCreatorUtility.SpawnItemInRoom(itemToAdd, itemType, _currentRoomGameObject, container => _currentEvent.Rooms[0].Items.Add(container));
@@ -132,15 +134,22 @@ namespace Xrchitecture.Creator.Common.Data
             GameObject.Destroy(itemToRemove.gameObject);
         }
         
-        private static void DestroyRoomGameObject()
+
+        //loading Status Tracker:
+        
+        public static void TrackLoadingStatus(int counter)
         {
-            if (_currentRoomGameObject != null)
-            {
-                GameObject.Destroy(_currentRoomGameObject);
-                _currentRoomGameObject = null;
-            }
+            _objectsLoaded += counter;
+            float itemPercent = (((float) _objectsLoaded / ObjectsToLoad)*100);
+            //Reporting to UI
+            HelperBehaviour.Instance.LevelManager.ReportLoadingStatus((int)itemPercent);
             
-            //Destroy all with the tag also ??
+            
+            //unhiding all Object
+            if (_objectsLoaded >= ObjectsToLoad)
+            {
+                HelperBehaviour.Instance.OnFinishLoad();
+            }
         }
     }
 }

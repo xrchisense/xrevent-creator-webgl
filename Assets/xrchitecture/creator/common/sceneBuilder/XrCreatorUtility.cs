@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 using Object = UnityEngine.Object;
 
 namespace Xrchitecture.Creator.Common.Data
@@ -9,30 +10,36 @@ namespace Xrchitecture.Creator.Common.Data
        
         public static GameObject CreateRoomGameObject(RoomContainer roomToCreate)
         {
-            Transform roomRoot = new GameObject().transform; 
-
-            roomRoot.name = roomToCreate.Name;
-
-            roomRoot.tag = "EventItem";
-
-
-            //+1 to wait for the RoomObject to be returned. As the reference is needed.
-            CreatorSessionManager.objectToLoad = roomToCreate.Items.Count + 1;
+            //+1 to wait for the RoomObject to be returned. As the reference is needed for finishing loading!.
+            CreatorSessionManager.ObjectsToLoad = roomToCreate.Items.Count + 1;
+            //Report Loading Start to LevelMananger
             HelperBehaviour.Instance.LevelManager.ReportLoadingStatus(0);
+            
+            //Create Basis
+            Transform roomRoot = new GameObject().transform;
+            roomRoot.name = roomToCreate.Name;
+            roomRoot.tag = "EventItem";
+            
+            //Start Loading
             foreach (ItemContainer itemContainer in roomToCreate.Items)
             {
-                
-                CreateItem(itemContainer, gO =>
+                try
                 {
-                    OnItemCreated(gO, itemContainer, roomRoot,false);
-                    CreatorSessionManager.TrackLoadingStatus(1);
-                });
+                    CreateItem(itemContainer, gO =>
+                    {
+                        OnItemCreated(gO, itemContainer, roomRoot,false);
+                        CreatorSessionManager.TrackLoadingStatus(1);
+                    });
+                }
+                catch (Exception e)
+                {
+                    HelperBehaviour.Instance.LevelManager.ShowPopUp("Error Loading Model:" + itemContainer.ResourceName,e.ToString(),"continue",x => {CreatorSessionManager.TrackLoadingStatus(1);});
+                }
+                
             }
             return roomRoot.gameObject;
         }
 
-        
-        
         
         public static void SpawnItemInRoom(string itemToAdd, string itemType, GameObject currentRoomGameObject, Action<ItemContainer> onSuccess)
         {
@@ -70,9 +77,7 @@ namespace Xrchitecture.Creator.Common.Data
             itemRoot.transform.SetParent(roomRoot);
             itemRoot.SetActive(showObject);
             
-            //Add Collider to spawned Object when no Collider but a Mesh is present.
-            //Does not solve the Problem when there is another Parent Root GameObject, then no collider will be applied.
-            //This should maybe be moved to the CreatorItem.init
+            //goes through every Child and looks for meshes to put Collider on
             foreach (MeshRenderer mesh in item.GetComponentsInChildren<MeshRenderer>()) {
                   if (!mesh.TryGetComponent<Collider>(out var component))
                   {
@@ -124,7 +129,5 @@ namespace Xrchitecture.Creator.Common.Data
             
             onSuccess(createdObject);
         }
-
-        
     }
 }
