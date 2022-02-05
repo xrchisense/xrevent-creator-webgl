@@ -34,6 +34,8 @@ namespace Xrchitecture.Creator.Common.Data
                 catch (Exception e)
                 {
                     HelperBehaviour.Instance.LevelManager.ShowPopUp("Error Loading Model:" + itemContainer.ResourceName,e.ToString(),"continue",x => {CreatorSessionManager.TrackLoadingStatus(1);});
+                    Debug.Log("Error caught outside of Loader! This should never happen.");
+                    CreatorSessionManager.TrackLoadingStatus(1);
                 }
                 
             }
@@ -49,7 +51,6 @@ namespace Xrchitecture.Creator.Common.Data
                 ItemType = itemType,
                 Scale = new Vector3(1,1,1)
             };
-            Debug.Log(currentRoomGameObject);
             CreateItem(newItemContainer , createdObject => OnItemCreated(createdObject, newItemContainer, currentRoomGameObject.transform,true));
             onSuccess(newItemContainer);
         }

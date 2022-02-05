@@ -15,9 +15,18 @@ namespace Xrchitecture.Creator.Common.Data
     {
         public static void CreateModelFromAddress(string modelUrl, Action<GameObject> onSuccess)
         {
-            
-            HelperBehaviour.Instance.StartCoroutine(CreationRoutine());
 
+            HelperBehaviour.Instance.StartCoroutine(CoroutineUtils.RunThrowingIterator(CreationRoutine(),
+                exception =>
+                {
+                    if (exception == null) return;
+                    Debug.LogError(exception.Message);
+                    Debug.LogWarning("Skipping Object because Error!");
+                    CreatorSessionManager.TrackLoadingStatus(1);
+                    //TODO: show PopUp Error
+                }));
+            
+            
             IEnumerator CreationRoutine()
             {
                 
@@ -34,7 +43,16 @@ namespace Xrchitecture.Creator.Common.Data
                 UnityWebRequest req = UnityWebRequest.Get(modelUrl);
 
                 int fileSize = 0;
-                req.downloadHandler = new DownloadHandlerFile(FileDownloader.GetFilePath(modelUrl));
+
+                try
+                {
+                    req.downloadHandler = new DownloadHandlerFile(FileDownloader.GetFilePath(modelUrl));
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarning("CannotDownloadFile! File may be already Downloaded !!" + Environment.NewLine + e.Message);
+                }
+                
                 req.SendWebRequest();
 
                 while (!req.isDone)
