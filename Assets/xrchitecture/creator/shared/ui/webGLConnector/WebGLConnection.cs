@@ -62,11 +62,12 @@ public class WebGLConnection : MonoBehaviour
 
     public void SendSkyboxList(List<string> skyboxlist)
     {
-        string skyboxListLong = "default";
+        string skyboxListLong = "";
         foreach (var name in skyboxlist)
         {
             skyboxListLong = skyboxListLong + "|" + name;
         }
+        skyboxListLong = skyboxListLong.Substring(1);
 #if UNITY_WEBGL == true && UNITY_EDITOR == false
         SkyboxList(skyboxListLong);
         Debug.Log("Unity did send SkyboxList to Webgl");
