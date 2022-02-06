@@ -66,6 +66,9 @@ namespace Xrchitecture.Creator.Common.Data
             else if (itemContainerToCreate.ItemType == "pre-defined")
             {
                 CreatePredefinedGameObject(itemContainerToCreate, onSuccess);
+            }else if (itemContainerToCreate.ItemType == "room")
+            {
+                CreateRoomGameObject(itemContainerToCreate, onSuccess);
             }
             
         }
@@ -78,16 +81,33 @@ namespace Xrchitecture.Creator.Common.Data
             itemRoot.transform.SetParent(roomRoot);
             itemRoot.SetActive(showObject);
             
+            CreatorItem creatorItem = itemRoot.AddComponent<CreatorItem>();
             //goes through every Child and looks for meshes to put Collider on
+            if (itemContainer.ItemType == "room")
+            {
+                foreach (MeshRenderer mesh in item.GetComponentsInChildren<MeshRenderer>())
+                {
+                    if (!mesh.TryGetComponent<Collider>(out var component))
+                    {
+                        mesh.gameObject.AddComponent<MeshCollider>();
+                        mesh.gameObject.layer = 11;
+                    }
+                }
+                creatorItem.Initialize(itemContainer);
+                return;
+            }
+
             foreach (MeshRenderer mesh in item.GetComponentsInChildren<MeshRenderer>()) {
                   if (!mesh.TryGetComponent<Collider>(out var component))
                   {
                         mesh.gameObject.AddComponent<MeshCollider>();
                   }
-            } 
-            
-            
-            CreatorItem creatorItem = itemRoot.AddComponent<CreatorItem>();
+                  else
+                  {
+                      //TODO: Idea for making normal Collider and not Mesh Collider !
+                      //component.bounds.Contains(mesh.bounds.extents);
+                  }
+            }
             creatorItem.Initialize(itemContainer);
         }
 
@@ -110,16 +130,29 @@ namespace Xrchitecture.Creator.Common.Data
             }
             
         }
+        private static void CreateRoomGameObject(ItemContainer userItemContainerToCreate, Action<GameObject> onSuccess)
+        {
+            string extension = System.IO.Path.GetExtension(userItemContainerToCreate.ResourceName);
+
+            
+            //TODO: This is still not perfect as the TestConfigHelper is used !
+            //
+            //and the Debugger does not work:
+            
+            
+            if (extension == ".glb" || extension == ".gltf")
+            {
+                // ToDo: ProjectId (GUID)path is still hardcoded. needs to change!
+                GLTFLoader.CreateModelFromAddress(
+                    TestConfigHelper.ProjectDataFolder + TestConfigHelper.ProjectId +
+                    "/rooms/" + userItemContainerToCreate.ResourceName, onSuccess);
+            }
+            
+        }
 
         private static void CreatePredefinedGameObject(
             ItemContainer predefinedItemContainerToCreate, Action<GameObject> onSuccess)
         {
-            
-            
-            // Using Prefabs right now, might switch to AssetBundles at some point. 
-            // https://docs.unity3d.com/Manual/webgl-embeddedresources.html
-            // -> Needs to be enabled for WebGL Embedded Resources
-            
             //The prefabs can be set in the WebGLConnectorUI.
 
 

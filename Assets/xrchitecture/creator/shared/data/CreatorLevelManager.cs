@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using JetBrains.Annotations;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Xrchitecture.Creator.Common.Data;
-using Random = System.Random;
 using Vector3 = UnityEngine.Vector3;
 
 [RequireComponent(typeof(persistenceManager))]
@@ -157,14 +155,12 @@ public class CreatorLevelManager : MonoBehaviour
     //SPAWNING AND DELETING OBJECTS:
     public void SpawnPrefab(string type)
     {
-        Debug.Log(type);
         CreatorSessionManager.SpawnItemInCurrentRoom(type, "pre-defined");
         Debug.Log($"Spawning {type}!");
     }
     public void SpawnRoom(string type)
     {
-        Debug.Log(type);
-        CreatorSessionManager.SpawnItemInCurrentRoom(type, "pre-defined");
+        CreatorSessionManager.SpawnItemInCurrentRoom(type, "room");
         Debug.Log($"Spawning {type}!");
     }
 
