@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(CreatorLevelManager))]
-public class LevelManagerUI : Editor
+public class LevelManagerUI : UnityEditor.Editor
 {
     private bool localRoomFile;
     

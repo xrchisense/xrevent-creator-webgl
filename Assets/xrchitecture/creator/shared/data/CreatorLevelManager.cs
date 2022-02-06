@@ -93,12 +93,34 @@ public class CreatorLevelManager : MonoBehaviour
         wgl.ShowReactPopup(titelString, bodyTextString, button1Text, button2Text, button3Text, showX);
 #endif
         
-#if UNITY_STANDALONE == true ||  UNITY_EDITOR == true
+#if UNITY_STANDALONE == true &&  UNITY_EDITOR == false
         //PcUiController ui = GetComponent<PcUiController>();
         //ui.DisplayGuid(pm.getGUID());
         
 #endif
+        
+#if UNITY_EDITOR == true
+        Debug.Log("send window!");
+        BringUpWindow(titelString, bodyTextString, button1Text, button2Text, button3Text, showX);
+#endif
     }
+    
+#if UNITY_EDITOR == true
+    public delegate void BringUpWindowDelegate(string titelString, string bodyTextString, string button1Text, string button2Text, string button3Text, bool showX);
+    public BringUpWindowDelegate OnBringUpWindow;
+    
+    void BringUpWindow(string titelString, string bodyTextString, string button1Text, string button2Text, string button3Text, bool showX) {
+        
+        Debug.Log(OnBringUpWindow);
+        if (OnBringUpWindow != null)
+        {
+            Debug.Log("tried window!");
+            OnBringUpWindow(titelString, bodyTextString, button1Text, button2Text, button3Text, showX);
+        }
+    }
+    
+#endif
+   
 
     public void PopUpFeedback(int buttonNumber)
     {
@@ -376,7 +398,7 @@ public class CreatorLevelManager : MonoBehaviour
     public void getSkyBoxList()
     {
         
-        #if UNITY_WEBGL == true
+#if UNITY_WEBGL == true
         List<string> skyBoxNames = new List<string>();
         foreach (var g in SkyBoxList)
         {
