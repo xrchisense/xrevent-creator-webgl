@@ -422,6 +422,16 @@ public class CreatorLevelManager : MonoBehaviour
             if (skyboxMaterial.name != name) continue;
             CreatorSessionManager.SetRoomSkybox(skyboxMaterial.name);
             RenderSettings.skybox = skyboxMaterial;
+
+            if (skyboxMaterial.name == "Day_BlueSky_Nothing")
+            {
+                RenderSettings.ambientSkyColor = Color.white;
+                break;
+            }
+            Texture2D skytexture = (Texture2D) skyboxMaterial.GetTexture("_UpTex");
+            int x = Mathf.FloorToInt(skytexture.width / 2);
+            int z = Mathf.FloorToInt(skytexture.height / 2);
+            RenderSettings.ambientSkyColor = skytexture.GetPixel(x, z);
             break;
         }
     }
