@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,6 +27,19 @@ namespace Xrchitecture.Creator.Common.Data
                 
             vid.url = "https://www.youtube.com/watch?v=JsyyZ9DR_Us";
             vid.Play();
+            
+            
+            string argsString = "";
+            for (int i = 0; i < args.Count; i++)
+            {
+                argsString += ("{" + args[i].Argument + " " + args[i].Value + "} ");
+            }
+
+            Debug.Log("Initialized Test-Item with args: " + Environment.NewLine +
+                      argsString);
+
+
+            _itemCustomArgs = args;
         }
     }
 }
