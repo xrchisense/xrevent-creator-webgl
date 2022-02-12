@@ -29,7 +29,7 @@ namespace Xrchitecture.Creator.Common.Data
 
         private IEnumerator ChangeCustomArgs()
         {
-            while (true)
+            /*while (true)
             {
                 yield return new WaitForSeconds(1.0f);
 
@@ -37,7 +37,14 @@ namespace Xrchitecture.Creator.Common.Data
                 {
                     OnCustomParameterChanged(_itemCustomArgs[i]); // does not actually change anything - implemented as a test
                 }
-            }
+            }*/
+            yield return new WaitForSeconds(1.0f);
+        }
+        
+        public override void UpdateCustomArgs(string itemName, string key, string value)
+        {
+            if (itemName != "lol") return;
+            
         }
     }
 }

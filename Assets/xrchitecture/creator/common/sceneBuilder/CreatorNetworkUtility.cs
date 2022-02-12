@@ -81,11 +81,13 @@ namespace Xrchitecture.Creator.Common.Data
             {
                 XrEventContainer containerToUpload = CreatorSessionManager.GetCreatorEvent();
                 
-                //QuickFixTOGettAllTheCurrentItems (only needed because Transofrms is not updated in the Event
+                //TODO THis is working but a stupid way of doing it !! ALL ITEMS GET DELELTED BEFORE SAVING!!!!!
+                //QuickFixTOGettAllTheCurrentItems (only needed because Transofrms is not updated in the Event HEHE LOL
                 containerToUpload.Rooms[0].Items = new List<ItemContainer>();
                 foreach (var cI in CreatorSessionManager.GetCurrentRoomGameObject().GetComponentsInChildren<CreatorItem>())
                 {
                     cI.TransformUpdated();
+                    cI.CustomParametersUpdated();
                     containerToUpload.Rooms[0].Items.Add(cI.ItemContainer);
                 }
                 

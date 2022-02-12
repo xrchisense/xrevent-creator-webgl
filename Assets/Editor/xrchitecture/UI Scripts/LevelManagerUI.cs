@@ -13,6 +13,9 @@ public class LevelManagerUI : UnityEditor.Editor
     string pathTOGLTF =
         "bag-chair.gltf";
 
+    private string key = "";
+    private string value = "";
+
     private float moveTextField = 0f;
     private float rotateTextField = 0f;
     private float scaleTextField = 0f;
@@ -164,7 +167,15 @@ public class LevelManagerUI : UnityEditor.Editor
             myTarget.ScaleSelectedObjectZ(scaleTextField);
         }
         GUILayout.EndHorizontal();
+        GUILayout.BeginHorizontal();
+        key = GUILayout.TextField(key);
+        value = GUILayout.TextField(value);
+        if (GUILayout.Button("change CustomArg", GUILayout.ExpandWidth(false)))
+        {
+            myTarget.ChangeCustomArg(key+ "," + value);
+        }
         
+        GUILayout.EndHorizontal();
         GUILayout.Space(20);
         
         foreach (var x in myTarget.SkyBoxList)

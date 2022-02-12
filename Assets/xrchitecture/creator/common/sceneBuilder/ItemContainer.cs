@@ -19,8 +19,9 @@ namespace Xrchitecture.Creator.Common.Data
         [JsonProperty("item-custom-args")]
         public List<ItemCustomArgs> ItemCustomArgs;
 
-        
-        // Maybe use a dictionary instead
+        //not needed atm
+        //TODO research if this may be a better solution
+        /*// Maybe use a dictionary instead
         public void UpdateCustomPar(ItemCustomArgs newCustomPar)
         {
             foreach (ItemCustomArgs itemCustomArg in ItemCustomArgs)
@@ -35,7 +36,7 @@ namespace Xrchitecture.Creator.Common.Data
             ItemCustomArgs.Add(newCustomPar);
             
             ItemCustomArgs.Sort(); // sorting to avoid some confusion when debugging and iterating over indices while updating ItemCustomArgs
-        }
+        }*/
     }
 
 

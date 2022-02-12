@@ -1,31 +1,70 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Video;
+
+
 
 namespace Xrchitecture.Creator.Common.Data
 {
     class VideoWallItemBehaviour : ACustomItemBehaviour
     {
-        private List<ItemCustomArgs> _itemCustomArgs = new List<ItemCustomArgs>();
-        public string VideoURL;
-        
+        public string url;
+        public float volume;
+                
         public override void Initialize(List<ItemCustomArgs> args)
         {
+            CustomArgsList = args;
             
-            Debug.Log("INIT WVIDOEEWASDJAWED");
-            //set the screen to a better position after spawning
-            
-            transform.position = new Vector3(0, 1, 0);
-            transform.localEulerAngles = new Vector3(-90, 0, 0);
-           
-            
+            foreach (var cs in args)
+            {
+                switch (cs.Argument)
+                {
+                    case "url":
+                        url = cs.Value;
+                        break;
+                    case "volume":
+                        volume = float.Parse(cs.Value);
+                        break;
+                }
+            }
+            Debug.LogWarning("init VideoWall");
+
+#if UNITY_EDITOR == false && UNITY_WEBGL == false
             //videowall add the Video Component:
             GameObject videoscreen = GetComponentInChildren<MeshRenderer>().gameObject;
-            VideoPlayer vid = videoscreen.gameObject.AddComponent<VideoPlayer>();
-                
-            vid.url = "https://www.youtube.com/watch?v=JsyyZ9DR_Us";
+            var vid = videoscreen.gameObject.AddComponent<RenderHeads.Media.AVProVideo.MediaPlayer>();
+            var texture = videoscreen.gameObject.AddComponent<RenderHeads.Media.AVProVideo.ApplyToMaterial>();
+
+            texture.Material = videoscreen.gameObject.GetComponent<MeshRenderer>().material;
+            texture.Player = vid;
+            texture.TexturePropertyName = "_BaseMap";
+            vid.MediaSource = RenderHeads.Media.AVProVideo.MediaSource.Path;
+            vid.MediaPath.PathType = RenderHeads.Media.AVProVideo.MediaPathType.AbsolutePathOrURL;
+            vid.MediaPath.Path = url;
+
+            vid.AudioVolume = volume;
+            
             vid.Play();
+#endif
+        }
+        
+        public override void UpdateCustomArgs(string itemName, string key, string value)
+        {
+            
+            switch (key)
+            {
+                case "url":
+                    url = value;
+                    break;
+                case "volume":
+                    volume = float.Parse(value);
+                    break;
+            }
+            CustomArgsList = new List<ItemCustomArgs>()
+            {
+                new ItemCustomArgs("url", url),
+                new ItemCustomArgs("volume", volume.ToString())
+            };
+            GetComponentInParent<CreatorItem>().ItemContainer.ItemCustomArgs = CustomArgsList;
         }
     }
 }

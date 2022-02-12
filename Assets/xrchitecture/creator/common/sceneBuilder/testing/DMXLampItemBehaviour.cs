@@ -33,5 +33,11 @@ namespace Xrchitecture.Creator.Common.Data {
                 }
             }
         }
+        
+        public override void UpdateCustomArgs(string itemName, string key, string value)
+        {
+            if (itemName != "DmxLamp") return;
+            
+        }
     }
 }
