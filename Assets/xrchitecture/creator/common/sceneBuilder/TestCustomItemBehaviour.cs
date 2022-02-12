@@ -40,5 +40,11 @@ namespace Xrchitecture.Creator.Common.Data
             }*/
             yield return new WaitForSeconds(1.0f);
         }
+        
+        public override void UpdateCustomArgs(string itemName, string key, string value)
+        {
+            if (itemName != "lol") return;
+            
+        }
     }
 }

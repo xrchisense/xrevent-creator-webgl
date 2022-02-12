@@ -18,18 +18,22 @@ namespace Xrchitecture.Creator.Common.Data
             transform.SetPositionAndRotation(itemContainer.Position, itemContainer.Rotation);
             transform.localScale = itemContainer.Scale;
             
-            if (GetComponentInChildren(typeof(ItemCustomArgAdd)))
+            //if item is fresh spawned
+            if (itemContainer.ItemCustomArgs == null && GetComponentInChildren(typeof(ItemCustomArgAdd)))
             {
                 ItemCustomArgAdd t = GetComponentInChildren<ItemCustomArgAdd>();
                 itemContainer.ItemCustomArgs = t.GETCustomArgs();
                 Destroy(t);
             }
-
-            if (itemContainer.ItemCustomArgs == null) return;
             
-            _aCustomItemBehaviour = GetComponentInChildren<ACustomItemBehaviour>();
-            _aCustomItemBehaviour.Initialize(itemContainer.ItemCustomArgs);
-            _aCustomItemBehaviour.OnCustomParameterChanged += HandleCustomParameterChanged;
+            //if item already has customArgs or just got them
+            if (itemContainer.ItemCustomArgs != null)
+            {
+                _aCustomItemBehaviour = GetComponentInChildren<ACustomItemBehaviour>();
+                _aCustomItemBehaviour.Initialize(itemContainer.ItemCustomArgs);
+                /*_aCustomItemBehaviour.OnCustomParameterChanged += HandleCustomParameterChanged;*/
+            }
+            
         }
 
         
@@ -55,20 +59,26 @@ namespace Xrchitecture.Creator.Common.Data
             ItemContainer.Scale = transform.localScale;
         }
 
-        /// <summary>
+        public void CustomParametersUpdated()
+        {
+            if (ItemContainer.ItemCustomArgs == null) return;
+            ItemContainer.ItemCustomArgs = GetComponentInChildren<ACustomItemBehaviour>().CustomArgsList;
+        }
+
+        /*/// <summary>
         /// Handles the event from a ACustomItemBehaviour when a ItemCustomArgument has changed
         /// </summary>
         /// <param name="itemCustomPar">The ItemCustomPar that has changed</param>
         private void HandleCustomParameterChanged(ItemCustomArgs itemCustomPar)
         {
             ItemContainer.UpdateCustomPar(itemCustomPar);
-        }
+        }*/
 
         private void OnDestroy()
         {
             if (_aCustomItemBehaviour)
             {
-                _aCustomItemBehaviour.OnCustomParameterChanged -= HandleCustomParameterChanged;
+                /*_aCustomItemBehaviour.OnCustomParameterChanged -= HandleCustomParameterChanged;*/
             }
         }
     }

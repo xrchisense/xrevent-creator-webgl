@@ -254,6 +254,14 @@ public class CreatorLevelManager : MonoBehaviour
         wgl.CustomArgsToWebGL(customArgString);
     }
 
+    public void ChangeCustomArg(string value)
+    {
+        var split = value.Split(',');
+        GameObject selectedObject = creatorControlerScript.selectedObject;
+        selectedObject.GetComponentInChildren<ACustomItemBehaviour>().UpdateCustomArgs(selectedObject.name,split[0],split[1]);
+        ReportObjectInfo();
+    }
+
     public void MoveSelectedObjectX(float location)
     {
         GameObject objectToMove = creatorControlerScript.selectedObject;

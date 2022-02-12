@@ -12,7 +12,8 @@ namespace Xrchitecture.Creator.Common.Data
                 
         public override void Initialize(List<ItemCustomArgs> args)
         {
-
+            CustomArgsList = args;
+            
             foreach (var cs in args)
             {
                 switch (cs.Argument)
@@ -27,7 +28,7 @@ namespace Xrchitecture.Creator.Common.Data
             }
             Debug.LogWarning("init VideoWall");
 
-#if UNITY_EDITOR == false || UNITY_WEBGL == false
+#if UNITY_EDITOR == false && UNITY_WEBGL == false
             //videowall add the Video Component:
             GameObject videoscreen = GetComponentInChildren<MeshRenderer>().gameObject;
             var vid = videoscreen.gameObject.AddComponent<RenderHeads.Media.AVProVideo.MediaPlayer>();
@@ -44,6 +45,26 @@ namespace Xrchitecture.Creator.Common.Data
             
             vid.Play();
 #endif
+        }
+        
+        public override void UpdateCustomArgs(string itemName, string key, string value)
+        {
+            
+            switch (key)
+            {
+                case "url":
+                    url = value;
+                    break;
+                case "volume":
+                    volume = float.Parse(value);
+                    break;
+            }
+            CustomArgsList = new List<ItemCustomArgs>()
+            {
+                new ItemCustomArgs("url", url),
+                new ItemCustomArgs("volume", volume.ToString())
+            };
+            GetComponentInParent<CreatorItem>().ItemContainer.ItemCustomArgs = CustomArgsList;
         }
     }
 }
