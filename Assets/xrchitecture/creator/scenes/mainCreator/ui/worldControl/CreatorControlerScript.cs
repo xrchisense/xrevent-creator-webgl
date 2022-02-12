@@ -202,6 +202,8 @@ public class CreatorControlerScript : MonoBehaviour
             
             return;
         }
+
+        int IgnoreLayerEleven = 1<< 11;
         
         //prepare Object Switch
         if (selectedObject != null)
@@ -211,7 +213,7 @@ public class CreatorControlerScript : MonoBehaviour
         }
 
         //check if new Object Hit
-        if (Physics.Raycast(ray, out hit, 1000))
+        if (Physics.Raycast(ray, out hit, 1000,~IgnoreLayerEleven))
         {
             //if the hit Object is the same as the last one, unselect Item
             if (selectedObject == GetRoot(hit.transform.gameObject))
