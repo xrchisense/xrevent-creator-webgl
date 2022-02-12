@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.UI;
 using Xrchitecture.Creator.Common.Data;
 using Vector3 = UnityEngine.Vector3;
 
@@ -147,9 +148,9 @@ public class CreatorLevelManager : MonoBehaviour
 #endif
     }
 
-    public void SetGridVisibilty(bool gridVisible)
+    public void SetGridVisibilty(string gridVisible)
     {
-        creatorControlerScript.grid.SetActive(gridVisible);
+        creatorControlerScript.grid.SetActive(bool.Parse(gridVisible));
     }
 
     //SPAWNING AND DELETING OBJECTS:
