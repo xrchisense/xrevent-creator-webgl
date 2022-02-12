@@ -18,13 +18,18 @@ namespace Xrchitecture.Creator.Common.Data
             transform.SetPositionAndRotation(itemContainer.Position, itemContainer.Rotation);
             transform.localScale = itemContainer.Scale;
             
-            if (itemContainer.ItemCustomArgs != null)
+            if (GetComponentInChildren(typeof(ItemCustomArgAdd)))
             {
-                _aCustomItemBehaviour = GetComponentInChildren<ACustomItemBehaviour>();
-                
-                _aCustomItemBehaviour.Initialize(itemContainer.ItemCustomArgs);
-                _aCustomItemBehaviour.OnCustomParameterChanged += HandleCustomParameterChanged;
+                ItemCustomArgAdd t = GetComponentInChildren<ItemCustomArgAdd>();
+                itemContainer.ItemCustomArgs = t.GETCustomArgs();
+                Destroy(t);
             }
+
+            if (itemContainer.ItemCustomArgs == null) return;
+            
+            _aCustomItemBehaviour = GetComponentInChildren<ACustomItemBehaviour>();
+            _aCustomItemBehaviour.Initialize(itemContainer.ItemCustomArgs);
+            _aCustomItemBehaviour.OnCustomParameterChanged += HandleCustomParameterChanged;
         }
 
         

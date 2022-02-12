@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3419961574602097014
+--- !u!1 &417704345203515757
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,11 +8,12 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7983643764676688386}
-  - component: {fileID: 8079442761280467558}
-  - component: {fileID: 5444010600334422357}
-  - component: {fileID: 3307783535409837633}
-  - component: {fileID: 3820450452174144366}
+  - component: {fileID: 6609681073149832951}
+  - component: {fileID: 4753842433994895002}
+  - component: {fileID: 3831844078032118247}
+  - component: {fileID: 1760146992381113524}
+  - component: {fileID: 8621572030463863775}
+  - component: {fileID: 1438462389629993256}
   m_Layer: 0
   m_Name: VideoWall
   m_TagString: Untagged
@@ -20,13 +21,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7983643764676688386
+--- !u!4 &6609681073149832951
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3419961574602097014}
+  m_GameObject: {fileID: 417704345203515757}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 3.4, z: 0}
   m_LocalScale: {x: 1.2, y: 1, z: 0.675}
@@ -34,21 +35,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!33 &8079442761280467558
+--- !u!33 &4753842433994895002
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3419961574602097014}
+  m_GameObject: {fileID: 417704345203515757}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &5444010600334422357
+--- !u!23 &3831844078032118247
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3419961574602097014}
+  m_GameObject: {fileID: 417704345203515757}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -83,13 +84,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3307783535409837633
+--- !u!64 &1760146992381113524
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3419961574602097014}
+  m_GameObject: {fileID: 417704345203515757}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -97,17 +98,35 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &3820450452174144366
+--- !u!114 &8621572030463863775
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3419961574602097014}
+  m_GameObject: {fileID: 417704345203515757}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2be908bc190e15f46a8886d9430cba29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: []
-  value: []
+  keys:
+  - url
+  - volume
+  values:
+  - http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8
+  - 1
+--- !u!114 &1438462389629993256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417704345203515757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eef3a94a48dc3724dbdf85643fa0a8d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  url: 
+  volume: 0

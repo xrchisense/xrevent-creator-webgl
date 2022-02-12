@@ -1,6 +1,7 @@
-using System;
+/*using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using UnityEngine;
 using UnityEditor;
 
@@ -10,44 +11,47 @@ namespace Xrchitecture.Creator.Common.Data
     [CustomEditor(typeof(ItemCustomArgAdd))]
     public class ItemCustomArgAddUI : Editor
     {
-        private int i = 1;
+        private int i;
         private List<string> valueList = new List<string>();
         private string newKey = "null";
+        
+        
 
         public override void OnInspectorGUI()
         {
+            
+            
             GUILayout.Label("start");
             ItemCustomArgAdd myTarget = (ItemCustomArgAdd) target;
-            /*i = int.Parse(GUILayout.TextField(i.ToString()));*/
-            /*for (int j = 0; j < i; j++)
+            if (myTarget.CustomArgs == null)
             {
-                try
+                myTarget.CustomArgs = new List<ItemCustomArgs>()
                 {
-                    string test = myTarget.CustomArgsList[i].Argument;
-                }
-                catch (Exception e)
-                {
-                    myTarget.CustomArgsList.Add(new ItemCustomArgs("",""));
-                }
-            }*/
-            Debug.Log(myTarget.CustomArgsList.Count);
-            i = myTarget.CustomArgsList.Count;
+                    new ItemCustomArgs("cute", "naice")
+                };
+                /*SetSerializedArray(serializedObject,() => myTarget.CustomArgsList,new List<ItemCustomArgs>().ToArray());#1#
+            }
+            i = myTarget.CustomArgs.Count;
+            
+            Debug.Log(myTarget.CustomArgs.Count);
+            i = myTarget.CustomArgs.Count;
             for (int j = 0; j < i; j++)
             {
-                valueList.Add(myTarget.CustomArgsList[j].Value);
+                valueList.Add(myTarget.CustomArgs[j].Value);
                 GUILayout.BeginHorizontal();
                 GUILayout.Label("Key:",GUILayout.ExpandWidth(false));
-                GUILayout.Label(myTarget.CustomArgsList[j].Argument);
+                GUILayout.Label(myTarget.CustomArgs[j].Argument);
                 GUILayout.Label("value:",GUILayout.ExpandWidth(false));
-                GUILayout.Label(myTarget.CustomArgsList[j].Value);
+                GUILayout.Label(myTarget.CustomArgs[j].Value);
                 valueList[j] = GUILayout.TextField(valueList[j]);
                 if (GUILayout.Button("update Argument"))
                 {
-                    myTarget.CustomArgsList[j].Value = valueList[j];
+                    myTarget.CustomArgs[j].Value = valueList[j];
+                    /*SetSerializedArray<ItemCustomArgs>(serializedObject,() => myTarget.CustomArgsList,valueList.ToArray());#1#
                 }
                 if (GUILayout.Button("delete Argument"))
                 {
-                    myTarget.CustomArgsList.RemoveAt(j);
+                    myTarget.CustomArgs.RemoveAt(j);
                     valueList.RemoveAt(j);
                 }
                 GUILayout.EndHorizontal();
@@ -56,13 +60,52 @@ namespace Xrchitecture.Creator.Common.Data
             newKey = GUILayout.TextField(newKey);
             if (GUILayout.Button("add Argument0"))
             {
-                myTarget.CustomArgsList.Add(new ItemCustomArgs(newKey,"null"));
+                myTarget.CustomArgs.Add(new ItemCustomArgs(newKey,"null"));
                 valueList.Add("null");
             }
             GUILayout.EndHorizontal();
             GUILayout.Label("end");
             
+            
+        }
+        
+        
+        public static void SetSerializedArray<T>(SerializedObject serializedObject, Expression<Func<T>> memberAccess, Array newArray) {
+            string fieldName = ((MemberExpression)memberAccess.Body).Member.Name;
+            SerializedProperty property = serializedObject.FindProperty(fieldName);
+ 
+            property.arraySize = newArray.Length;
+ 
+            for (int i = 0; i < newArray.Length; i++) {
+                SerializedProperty element = property.GetArrayElementAtIndex(i);
+ 
+                switch (element.propertyType) {
+                    case SerializedPropertyType.Integer:
+                        element.intValue = (int)newArray.GetValue(i);
+                        break;
+                    case SerializedPropertyType.Boolean:
+                        element.boolValue = (bool)newArray.GetValue(i);
+                        break;
+                    case SerializedPropertyType.Float:
+                        element.floatValue = (float)newArray.GetValue(i);
+                        break;
+                    case SerializedPropertyType.String:
+                        element.stringValue = (string)newArray.GetValue(i);
+                        break;
+                    case SerializedPropertyType.Color:
+                        element.colorValue = (Color)newArray.GetValue(i);
+                        break;
+                    case SerializedPropertyType.ObjectReference:
+                        element.objectReferenceValue = (UnityEngine.Object)newArray.GetValue(i);
+                        break;
+                    default:
+                        Debug.LogError("SetSerializedArray unhandled array type " + element.propertyType);
+                        break;
+                }
+            }
+ 
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }
-#endif
+#endif*/

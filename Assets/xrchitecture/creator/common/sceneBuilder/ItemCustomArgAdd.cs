@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,13 +6,26 @@ namespace Xrchitecture.Creator.Common.Data
 {
     
     //this needs to be added to an prefab and will be scanned for when item is spawned
-    [System.Serializable]
+    
     internal class ItemCustomArgAdd : MonoBehaviour
     {
-        [SerializeField]
-        public List<ItemCustomArgs> CustomArgsList = new List<ItemCustomArgs>()
+        /*public List<ItemCustomArgs> CustomArgs;*/
+
+        public List<string> keys;
+        public List<string> values;
+
+        
+        public List<ItemCustomArgs> GETCustomArgs()
         {
-            new ItemCustomArgs("null","null"),
-        };
+            int i = 0;
+            List<ItemCustomArgs> customArgs = new List<ItemCustomArgs>();
+            foreach (var customKey in keys)
+            {
+                customArgs.Add(new ItemCustomArgs(customKey,values[i]));
+                i++;
+            }
+
+            return customArgs;
+        }
     }
 }
