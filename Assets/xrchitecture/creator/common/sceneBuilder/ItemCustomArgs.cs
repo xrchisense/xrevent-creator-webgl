@@ -6,10 +6,10 @@ namespace Xrchitecture.Creator.Common.Data
     internal class ItemCustomArgs : IComparable<ItemCustomArgs>
     {
         [JsonProperty("argument")]
-        public string Argument { get; private set; }
+        public string Argument { get; set; }
 
         [JsonProperty("value")]
-        public string Value { get; private set; }
+        public string Value { get; set; }
 
 
         [JsonConstructor]

@@ -8,14 +8,10 @@ namespace Xrchitecture.Creator.Common.Data
     [System.Serializable]
     internal class ItemCustomArgAdd : MonoBehaviour
     {
+        [SerializeField]
         public List<ItemCustomArgs> CustomArgsList = new List<ItemCustomArgs>()
         {
-            new ItemCustomArgs("test","test"),
-            new ItemCustomArgs("test2","test2")
+            new ItemCustomArgs("null","null"),
         };
-        public List<string> key;
-        public List<string> value;
-        
-        
     }
 }
