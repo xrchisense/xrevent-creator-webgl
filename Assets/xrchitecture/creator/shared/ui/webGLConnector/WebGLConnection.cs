@@ -11,6 +11,9 @@ public class WebGLConnection : MonoBehaviour
     // 
     [DllImport("__Internal")]
     private static extern void ItemInfo(string itemName, int itemID, float[] dataarray,int arrayLength);
+    
+    [DllImport("__Internal")]
+    private static extern void ItemInfoCustomArgs(string customArgList);
 
     [DllImport("__Internal")]
     private static extern void ShowPopup(string titelString,string bodyTextString,string button1Text,string button2Text,string button3Text,bool showX);
@@ -30,6 +33,15 @@ public class WebGLConnection : MonoBehaviour
 #if UNITY_WEBGL == true && UNITY_EDITOR == false
         ItemInfo (itemName, itemID, datalist, datalist.Length);
         Debug.Log("Untiy did send ItemInfo");
+        return;
+#endif
+    }
+
+    public void CustomArgsToWebGL(string customArgsString)
+    {
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+        ItemInfoCustomArgs (customArgsString);
+        Debug.Log("Untiy did send CustomArgsToWebGL");
         return;
 #endif
     }

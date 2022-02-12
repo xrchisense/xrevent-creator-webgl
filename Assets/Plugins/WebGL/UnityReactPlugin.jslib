@@ -13,6 +13,12 @@ mergeInto(LibraryManager.library, {
       itemdata
     );
   },
+  ItemInfoCustomArgs: function (customArgList) {
+    window.dispatchReactUnityEvent(
+      "ItemInfoCustomArgs",
+      Pointer_stringify(customArgList)
+    );
+  },
   ShowPopup: function (TitelString,BodyTextString,Button1Text,Button2Text,Button3Text,showX) {
     window.dispatchReactUnityEvent(
       "ShowPopup",
@@ -42,4 +48,5 @@ mergeInto(LibraryManager.library, {
       percent
     );
   },
+  
 });

@@ -215,23 +215,23 @@ public class CreatorLevelManager : MonoBehaviour
         GameObject selectedObject = creatorControlerScript.selectedObject;
         if (selectedObject == null)
         {
-        #if UNITY_WEBGL == true
+            #if UNITY_WEBGL == true
             WebGLConnection wgl1 = GetComponent<WebGLConnection>();
             wgl1.ItemInfoToWebGL("",0,new float[]{0});
-        #endif
-        #if UNITY_STANDALONE == true
-        PcUiController ui = GetComponent<PcUiController>();
-        //ui.setSelectedObject(null);
-        #endif
+            #endif
+            #if UNITY_STANDALONE == true
+            PcUiController ui = GetComponent<PcUiController>();
+            //ui.setSelectedObject(null);
+            #endif
             return;
-        }   
+        }
         //Create List off all float parameters
         var position = selectedObject.transform.position;
         var rotation = selectedObject.transform.rotation; 
         var localScale = selectedObject.transform.localScale;
         
         float[] dataList = {position[0],position[1],position[2],rotation.eulerAngles[0],rotation.eulerAngles[1],rotation.eulerAngles[2],localScale[0],localScale[1],localScale[2]};
-
+        
         #if UNITY_WEBGL == true
         WebGLConnection wgl = GetComponent<WebGLConnection>();
         wgl.ItemInfoToWebGL(selectedObject.name,999,dataList);
@@ -240,6 +240,18 @@ public class CreatorLevelManager : MonoBehaviour
         PcUiController ui = GetComponent<PcUiController>();
         //ui.setSelectedObject(selectedObject);
         #endif
+        
+        //CustomArgs
+        if (selectedObject.GetComponent<CreatorItem>().ItemContainer.ItemCustomArgs == null) return;
+
+        string customArgString = "";
+        List<ItemCustomArgs> iCAList = selectedObject.GetComponent<CreatorItem>().ItemContainer.ItemCustomArgs;
+        foreach (var iCA in iCAList)
+        {
+            customArgString = customArgString + iCA.Argument + "," + iCA.Value + ";";
+        }
+        Debug.Log(customArgString);
+        wgl.CustomArgsToWebGL(customArgString);
     }
 
     public void MoveSelectedObjectX(float location)
