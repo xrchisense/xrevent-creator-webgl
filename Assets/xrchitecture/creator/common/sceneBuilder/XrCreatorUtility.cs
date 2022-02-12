@@ -33,7 +33,7 @@ namespace Xrchitecture.Creator.Common.Data
                 }
                 catch (Exception e)
                 {
-                    HelperBehaviour.Instance.LevelManager.ShowPopUp("Error Loading Model:" + itemContainer.ResourceName,e.ToString(),"continue",x => {CreatorSessionManager.TrackLoadingStatus(1);});
+                    HelperBehaviour.Instance.LevelManager.ShowPopUp("Error Loading Model:" + itemContainer.ResourceName,e.ToString(),"continue",x => {});
                     Debug.Log("Error caught outside of Loader! This should never happen.");
                     CreatorSessionManager.TrackLoadingStatus(1);
                 }
@@ -83,24 +83,12 @@ namespace Xrchitecture.Creator.Common.Data
             
             CreatorItem creatorItem = itemRoot.AddComponent<CreatorItem>();
             //goes through every Child and looks for meshes to put Collider on
-            if (itemContainer.ItemType == "room")
-            {
-                foreach (MeshRenderer mesh in item.GetComponentsInChildren<MeshRenderer>())
-                {
-                    if (!mesh.TryGetComponent<Collider>(out var component))
-                    {
-                        mesh.gameObject.AddComponent<MeshCollider>();
-                        mesh.gameObject.layer = 11;
-                    }
-                }
-                creatorItem.Initialize(itemContainer);
-                return;
-            }
-
             foreach (MeshRenderer mesh in item.GetComponentsInChildren<MeshRenderer>()) {
                   if (!mesh.TryGetComponent<Collider>(out var component))
                   {
                         mesh.gameObject.AddComponent<MeshCollider>();
+                        if (itemContainer.ItemType == "room") {mesh.gameObject.layer = 11;}
+                        
                   }
                   else
                   {
@@ -108,6 +96,7 @@ namespace Xrchitecture.Creator.Common.Data
                       //component.bounds.Contains(mesh.bounds.extents);
                   }
             }
+            
             creatorItem.Initialize(itemContainer);
         }
 
