@@ -11,8 +11,11 @@ using Vector3 = UnityEngine.Vector3;
 [RequireComponent(typeof(HelperBehaviour))]
 public class CreatorLevelManager : MonoBehaviour
 {
+    [SerializeField] public GameObject loadingScreen;
+    private LoadingBar loadingBar;
+    
     [SerializeField] public List<GameObject> prefabList;
-    public List<Material> SkyBoxList;
+    [SerializeField] public List<Material> SkyBoxList;
     public bool clickInsideUnityView = true;
     private List<ItemContainer> defaultItemsList;
     
@@ -25,6 +28,9 @@ public class CreatorLevelManager : MonoBehaviour
     //for safety Reasons; this Object should always be at the Origin
     void Awake()
     {
+        loadingScreen.gameObject.SetActive(true);
+        loadingBar = loadingScreen.gameObject.GetComponentInChildren(typeof(LoadingBar)) as LoadingBar;
+
         this.transform.position = new Vector3(0f, 0f, 0f);
         TestConfigHelper.PrefabList = prefabList;
         
@@ -75,6 +81,12 @@ public class CreatorLevelManager : MonoBehaviour
 #if UNITY_WEBGL == true
         WebGLConnection wgl = GetComponent<WebGLConnection>();
         wgl.ReportLoadingStatusToWebGL(percent);
+
+        loadingBar.current = percent;
+        if(percent >= 100)
+        {
+            loadingScreen.SetActive(false);
+        }
 #endif
 #if UNITY_STANDALONE == true
         PcUiController ui = GetComponent<PcUiController>();

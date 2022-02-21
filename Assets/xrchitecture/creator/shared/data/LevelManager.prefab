@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6272924460494824826}
   - component: {fileID: 7963209532593732236}
   - component: {fileID: 6272924460494824825}
+  - component: {fileID: 8222753834624549786}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -51,6 +52,21 @@ MonoBehaviour:
   - {fileID: 3582781635024510197, guid: 9387b3d4dfe27f4468f9c7bcd9014f1d, type: 3}
   - {fileID: 3749363688414227048, guid: 767bd99df40b3534097e7d2d8aaa0dea, type: 3}
   - {fileID: 2371041299337085016, guid: 03d77bcb16a3a244f9fbcceb8c4984e3, type: 3}
+  - {fileID: 417704345203515757, guid: 32f49490b5f87674dabeb9392c001b3a, type: 3}
+  - {fileID: 2332487083137924837, guid: 88979929c31f1c2409c1cb2f45e3e1af, type: 3}
+  - {fileID: 2332487083137924837, guid: 336a38fb620bfb54baaeac4b59b9fb15, type: 3}
+  SkyBoxList:
+  - {fileID: 2100000, guid: c56e28e54cac24b04ae3dd957d214534, type: 2}
+  - {fileID: 2100000, guid: aa78c8d403a8547fe86d1f74239e6b03, type: 2}
+  - {fileID: 2100000, guid: 9af23ba5fa5364ff598888460e0e2759, type: 2}
+  - {fileID: 2100000, guid: 2d796ced94d61438fbab81b194038162, type: 2}
+  - {fileID: 2100000, guid: b4f152e0498484391a9f0d5a1facf03b, type: 2}
+  - {fileID: 2100000, guid: 7416536dbe0334cfd888dd1beb75a9fb, type: 2}
+  - {fileID: 2100000, guid: 8b7dd0809c7c6498789fa32a61eaa6cb, type: 2}
+  - {fileID: 2100000, guid: c494c335823f54b52b2e87e1b7a63a23, type: 2}
+  - {fileID: 2100000, guid: f2b5f3f20933f434e850db1b710542fd, type: 2}
+  - {fileID: 2100000, guid: 656058fe318eb48558d21d66d1a79a2b, type: 2}
+  clickInsideUnityView: 1
   defaultGameObjectsList:
   - {fileID: 2371041299337085016, guid: 03d77bcb16a3a244f9fbcceb8c4984e3, type: 3}
   defaultGameObjectsPositions:
@@ -78,5 +94,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 92263a8938877e747a7747f559f04b81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8222753834624549786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6272924460494824831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181e660fca20fcf48a82be0ecb527254, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

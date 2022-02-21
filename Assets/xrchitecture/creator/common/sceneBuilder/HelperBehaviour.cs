@@ -8,6 +8,7 @@ public class HelperBehaviour : MonoBehaviour
 {
     public float currentJsonVersion => TestConfigHelper.CurrentJsonVersion;
     
+    // ToDo: Maybe we can change this to an Interface later. 
     public CreatorLevelManager LevelManager => GetComponent<CreatorLevelManager>();
 
     public static HelperBehaviour Instance
@@ -24,6 +25,7 @@ public class HelperBehaviour : MonoBehaviour
         }
     }
 
+    // This function should be moved to the LevelManager 
     public void OnFinishLoad()
     {
         
