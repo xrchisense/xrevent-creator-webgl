@@ -12,7 +12,7 @@ using Vector3 = UnityEngine.Vector3;
 public class CreatorLevelManager : MonoBehaviour
 {
     [SerializeField] public GameObject loadingScreen;
-    private LoadingBar loadingBar;
+    private LoadingBar loadingBar; 
     
     [SerializeField] public List<GameObject> prefabList;
     [SerializeField] public List<Material> SkyBoxList;
@@ -28,8 +28,7 @@ public class CreatorLevelManager : MonoBehaviour
     //for safety Reasons; this Object should always be at the Origin
     void Awake()
     {
-        loadingScreen.gameObject.SetActive(true);
-        loadingBar = loadingScreen.gameObject.GetComponentInChildren(typeof(LoadingBar)) as LoadingBar;
+        
 
         this.transform.position = new Vector3(0f, 0f, 0f);
         TestConfigHelper.PrefabList = prefabList;
@@ -79,10 +78,18 @@ public class CreatorLevelManager : MonoBehaviour
     {
         Debug.Log("Loading at: " + percent + "%");
 #if UNITY_WEBGL == true
+
         WebGLConnection wgl = GetComponent<WebGLConnection>();
         wgl.ReportLoadingStatusToWebGL(percent);
 
+        if (percent == 0)
+        {
+            loadingScreen.gameObject.SetActive(true);
+            loadingBar = loadingScreen.gameObject.GetComponentInChildren(typeof(LoadingBar)) as LoadingBar;
+        }
+
         loadingBar.current = percent;
+
         if(percent >= 100)
         {
             loadingScreen.SetActive(false);

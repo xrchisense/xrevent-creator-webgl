@@ -468,8 +468,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e8cacb6cf2ef404b9af7390547d9f38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  current: 1
-  maximum: 100
+  current: 3
+  maximum: 90
   bar: {fileID: 1150738546}
 --- !u!1001 &500203255
 PrefabInstance:
@@ -916,7 +916,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.01
+  m_FillAmount: 0.033333335
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
