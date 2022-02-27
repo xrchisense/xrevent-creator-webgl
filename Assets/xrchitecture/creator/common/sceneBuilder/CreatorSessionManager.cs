@@ -34,12 +34,12 @@ namespace Xrchitecture.Creator.Common.Data
         {
             //add default Items to ItemContainerList
             List<ItemContainer> defaultItemList = defaultItems;
-            if (defaultItems == null)
-            {
+            //if (defaultItems == null)
+            //{
                 defaultItemList = new List<ItemContainer>();
                 //defaultItemList.Add(new ItemContainer(){ItemType = "pre-defined",ResourceName = "Plane"});
                 defaultItemList.Add(new ItemContainer(){ItemType = "pre-defined",ResourceName = "Directional Light", Position = new Vector3(0,3,0), Scale = new Vector3(1,1,1)});
-            }
+            //}
             
             //Create Default Event
             XrEventContainer xrc = new XrEventContainer()
