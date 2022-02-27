@@ -10,7 +10,8 @@ public class HelperBehaviour : MonoBehaviour
     
     // ToDo: Maybe we can change this to an Interface later. 
     public CreatorLevelManager LevelManager => GetComponent<CreatorLevelManager>();
-
+    public CreatorControlerScript InputManager => FindObjectOfType<CreatorControlerScript>();
+    
     public static HelperBehaviour Instance
     {
         

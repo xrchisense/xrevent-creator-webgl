@@ -1,4 +1,5 @@
 using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -244,6 +245,31 @@ public class CreatorControlerScript : MonoBehaviour
         //if nothing is clicked/hit, unselect Item
         UnselectItem();
         
+    }
+    
+    public void SelectItem(GameObject gO)
+    {
+        if (selectedObject != null)
+        {
+            Destroy(selectedObject.GetComponent<Outline>());
+            gizmo.SetActive(false);
+        }
+        //select new Object
+        gizmo.SetActive(true);
+        selectedObject = GetRoot(gO);
+        //Add outline
+        if (!selectedObject.TryGetComponent(out Outline ll))
+        {
+            var outline = selectedObject.AddComponent<Outline>();
+            outline.OutlineMode = Outline.Mode.OutlineAll;
+            outline.OutlineColor = Color.yellow;
+            outline.OutlineWidth = 9f;
+                
+        }
+        UpdateGizmoPosition();
+            
+        //send to WebGL
+        levelManager.ReportObjectInfo();
     }
     
     

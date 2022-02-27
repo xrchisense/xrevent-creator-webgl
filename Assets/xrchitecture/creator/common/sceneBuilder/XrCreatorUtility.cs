@@ -51,7 +51,11 @@ namespace Xrchitecture.Creator.Common.Data
                 ItemType = itemType,
                 Scale = new Vector3(1,1,1)
             };
-            CreateItem(newItemContainer , createdObject => OnItemCreated(createdObject, newItemContainer, currentRoomGameObject.transform,true));
+            CreateItem(newItemContainer , createdObject =>
+            {
+                OnItemCreated(createdObject, newItemContainer, currentRoomGameObject.transform, true);
+                HelperBehaviour.Instance.InputManager.SelectItem(createdObject);
+            });
             onSuccess(newItemContainer);
         }
         
