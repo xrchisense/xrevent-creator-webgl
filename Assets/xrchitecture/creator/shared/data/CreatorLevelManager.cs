@@ -180,8 +180,13 @@ public class CreatorLevelManager : MonoBehaviour
     }
     public void SpawnRoom(string type)
     {
+        DeleteRoom();
         CreatorSessionManager.SpawnItemInCurrentRoom(type, "room");
         Debug.Log($"Spawning {type}!");
+    }
+    public void DeleteRoom()
+    {
+        CreatorSessionManager.DestroyVenueModel();
     }
 
 

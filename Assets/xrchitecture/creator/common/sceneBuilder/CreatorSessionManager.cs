@@ -11,6 +11,7 @@ namespace Xrchitecture.Creator.Common.Data
     {
         private static XrEventContainer _currentEvent;
         private static GameObject _currentRoomGameObject;
+        private static GameObject _currentVenueGameObject;
 
         private static int _objectsLoaded;
         public static int ObjectsToLoad;
@@ -121,6 +122,11 @@ namespace Xrchitecture.Creator.Common.Data
         {
             _currentEvent.Rooms[0].Skybox = value;
         }
+
+        public static void SetVenueGameObject(GameObject vM)
+        {
+            _currentVenueGameObject = vM;
+        }
         
         //Editing The Room:
         public static void SpawnItemInCurrentRoom(string itemToAdd, string itemType)
@@ -132,6 +138,12 @@ namespace Xrchitecture.Creator.Common.Data
         {
             _currentEvent.Rooms[0].Items.Remove(itemToRemove.ItemContainer);
             GameObject.Destroy(itemToRemove.gameObject);
+        }
+
+        public static void DestroyVenueModel()
+        {
+            if (_currentVenueGameObject != null) RemoveItemFromCurrentRoom(_currentVenueGameObject.GetComponent<CreatorItem>());
+            _currentVenueGameObject = null;
         }
         
 

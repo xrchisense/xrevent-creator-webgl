@@ -1139,6 +1139,10 @@ PrefabInstance:
       propertyPath: defaultGameObjectsList.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6272924460494824826, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
+      propertyPath: defaultGameObjectsPositions.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6272924460494824831, guid: 4a0756c9dfc11a0429d455def36907f3, type: 3}
       propertyPath: m_Name
       value: LevelManager

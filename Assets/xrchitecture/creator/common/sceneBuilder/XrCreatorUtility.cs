@@ -72,6 +72,7 @@ namespace Xrchitecture.Creator.Common.Data
                 CreatePredefinedGameObject(itemContainerToCreate, onSuccess);
             }else if (itemContainerToCreate.ItemType == "room")
             {
+                
                 CreateRoomGameObject(itemContainerToCreate, onSuccess);
             }
             
@@ -100,7 +101,8 @@ namespace Xrchitecture.Creator.Common.Data
                       //component.bounds.Contains(mesh.bounds.extents);
                   }
             }
-            
+
+            if (itemContainer.ItemType == "room") {CreatorSessionManager.SetVenueGameObject(itemRoot);}
             creatorItem.Initialize(itemContainer);
         }
 
