@@ -24,6 +24,7 @@ public class persistenceManager : MonoBehaviour
     public void createGUID()
     {
         Guid myGUID = Guid.NewGuid();
+        TestConfigHelper.ProjectId = myGUID.ToString();
         PlayerPrefs.SetString("roomID", myGUID.ToString());
     }
     
