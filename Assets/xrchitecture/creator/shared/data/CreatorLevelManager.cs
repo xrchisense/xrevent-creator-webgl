@@ -68,10 +68,7 @@ public class CreatorLevelManager : MonoBehaviour
         WebGLConnection wgl = GetComponent<WebGLConnection>();
         wgl.ReportRoomIdUnity(pm.getGUID());
 #endif
-#if UNITY_STANDALONE == true
-        PcUiController ui = GetComponent<PcUiController>();
-        ui.DisplayGuid(pm.getGUID());
-#endif
+
     }
 
     public void ReportLoadingStatus(int percent)
@@ -95,10 +92,7 @@ public class CreatorLevelManager : MonoBehaviour
             loadingScreen.SetActive(false);
         }
 #endif
-#if UNITY_STANDALONE == true
-        PcUiController ui = GetComponent<PcUiController>();
-       // ui.DisplayGuid(pm.getGUID());
-#endif
+
     }
 
     
@@ -244,10 +238,7 @@ public class CreatorLevelManager : MonoBehaviour
             WebGLConnection wgl1 = GetComponent<WebGLConnection>();
             wgl1.ItemInfoToWebGL("",0,new float[]{0});
             #endif
-            #if UNITY_STANDALONE == true
-            PcUiController ui = GetComponent<PcUiController>();
-            //ui.setSelectedObject(null);
-            #endif
+            
             return;
         }
         //Create List off all float parameters
@@ -261,10 +252,7 @@ public class CreatorLevelManager : MonoBehaviour
         WebGLConnection wgl = GetComponent<WebGLConnection>();
         wgl.ItemInfoToWebGL(selectedObject.name,999,dataList);
         #endif
-        #if UNITY_STANDALONE == true
-        PcUiController ui = GetComponent<PcUiController>();
-        //ui.setSelectedObject(selectedObject);
-        #endif
+        
         
         //CustomArgs
         if (selectedObject.GetComponent<CreatorItem>().ItemContainer.ItemCustomArgs == null) return;
@@ -276,7 +264,7 @@ public class CreatorLevelManager : MonoBehaviour
             customArgString = customArgString + iCA.Argument + "," + iCA.Value + ";";
         }
         Debug.Log(customArgString);
-        wgl.CustomArgsToWebGL(customArgString);
+        //wgl.CustomArgsToWebGL(customArgString);
     }
 
     public void ChangeCustomArg(string value)
@@ -450,10 +438,7 @@ public class CreatorLevelManager : MonoBehaviour
 #endif
 
 
-#if UNITY_STANDALONE == true
-        PcUiController ui = GetComponent<PcUiController>();
-        //ui.setSelectedObject(null);
-#endif
+
     }
 
     public void setSkybox(string name)
