@@ -1,3 +1,8 @@
+## Introduction
+Currently, many virtual reality (VR) applications are built on top of the Unity game engine. However, loading 3D assets at runtime, especially over the Internet, remains a challenge. Unlike dedicated WebGL-based environments on web browsers, Unity does not support streaming of common interchange data formats. Rather, streaming assets at runtime is supported through AssetBundles. This effectively defines an opaque, proprietary format to deliver the assets in. The time it takes to produce these asset
+bundle files means in practice they must be precomputed. 
+In the event industry and theatre, frequent design changes and incemental work in an interdisciplinary team remains a challenge. Especially when producing a hybrid event with real and virtual parts. The XRevent Creator is an web based editor system for building 3D environments that can saved to a web server an used to dynamically populating a Unity environment at runtime. Our approach works without any compile-time knowledge of the assets. The incremental loading strategy works with standard web spaces to keep costs low and works for Win, Mac, WebGL and Oculus (Android).
+
 ## Installation (Developer Toolchain)
 
 ### Dependencies
